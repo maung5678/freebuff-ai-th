@@ -1,0 +1,139 @@
+{
+  "meta": {
+    "locale": "th",
+    "name": "ไทย (ชุดเสริม)",
+    "runtime": 1,
+    "note": "ไฟล์เสริม: patcher จะ merge ต่อจาก th.json — เพิ่มคำใหม่ที่นี่ได้เลยโดยไม่ต้องแตะ th.json"
+  },
+  "patterns": [
+    {
+      "from": "request failed ({n:num})",
+      "to": "คำขอไม่สำเร็จ ({n})"
+    },
+    {
+      "from": "Request failed ({n:num})",
+      "to": "คำขอไม่สำเร็จ ({n})"
+    },
+    {
+      "from": "request failed",
+      "to": "คำขอไม่สำเร็จ"
+    },
+    {
+      "from": "network error",
+      "to": "เครือข่ายขัดข้อง"
+    },
+    {
+      "from": "Connection lost ({n:num})",
+      "to": "การเชื่อมต่อขาด ({n})"
+    },
+    {
+      "from": "Connected to {name}",
+      "to": "เชื่อมต่อกับ {name}"
+    },
+    {
+      "from": "{n:num} of {total:num} files",
+      "to": "{n} จาก {total} ไฟล์"
+    },
+    {
+      "from": "{n:num} pending",
+      "to": "รออยู่ {n} รายการ"
+    },
+    {
+      "from": "{n:num} new",
+      "to": "ใหม่ {n} รายการ"
+    }
+  ],
+  "strings": {
+    "Automatic fetches the latest remote default. A local branch keeps its unpushed commits.": "โหมดอัตโนมัติจะดึงค่าเริ่มต้นล่าสุดจากรีโมต ส่วนสาขาในเครื่องจะเก็บคอมมิตที่ยังไม่พุชไว้",
+    "Edit prompt": "แก้ไขพรอมป์ต์",
+    "Save customized copy for": "บันทึกสำเนาที่ปรับแต่งสำหรับ",
+    "A fresh pool every day": "พูลใหม่ทุกวัน",
+    "Agents write shell commands in bash, which Windows doesn’t ship. Git for Windows includes it and takes about a minute to install.": "เอเจนต์เขียนคำสั่งเชลล์ด้วย bash ซึ่ง Windows ไม่ได้มีมาให้ Git for Windows มี bash รวมอยู่ และใช้เวลาติดตั้งราวหนึ่งนาที",
+    "An agent opens a standalone HTML page or starts this project’s dev server from the thread workspace, then shows it here.": "เอเจนต์จะเปิดหน้า HTML เดี่ยว หรือเริ่มเดฟเซิร์ฟเวอร์ของโปรเจกต์นี้จากพื้นที่ทำงานของเธรด แล้วแสดงผลที่นี่",
+    ". Available to every agent on this computer.": "ใช้ได้กับทุกเอเจนต์บนเครื่องนี้",
+    "Bring an OpenRouter key, or connect another OpenAI-compatible service.": "นำคีย์ OpenRouter มาใช้ หรือเชื่อมต่อบริการอื่นที่รองรับ OpenAI-compatible",
+    "Changes are saved immediately.": "การเปลี่ยนแปลงถูกบันทึกทันที",
+    "Click an element · Esc to cancel": "คลิกที่องค์ประกอบ · กด Esc เพื่อยกเลิก",
+    "Close API providers": "ปิดหน้าผู้ให้บริการ API",
+    "Close delete confirmation": "ปิดการยืนยันการลบ",
+    "Close export": "ปิดหน้าส่งออก",
+    "Close feedback": "ปิดหน้าส่งความคิดเห็น",
+    "Close image preview": "ปิดตัวอย่างรูปภาพ",
+    "Connect a provider to use your own API key. Available across projects on this computer.": "เชื่อมต่อผู้ให้บริการเพื่อใช้คีย์ API ของคุณเอง ใช้ได้กับทุกโปรเจกต์บนเครื่องนี้",
+    "Connect GitHub to qualify ↗": "เชื่อมต่อ GitHub เพื่อมีสิทธิ์ ↗",
+    "Connect to review access and choose which tools Freebuff may use.": "เชื่อมต่อเพื่อตรวจสอบสิทธิ์การเข้าถึงและเลือกเครื่องมือที่ Freebuff ใช้ได้",
+    "Copy the exact ID from your provider. Coding support is untested.": "คัดลอก ID ให้ตรงเป๊ะจากผู้ให้บริการของคุณ การรองรับการเขียนโค้ดยังไม่ได้ทดสอบ",
+    "Cumulative provider-reported usage in the current thread transcript.": "การใช้งานสะสมที่ผู้ให้บริการรายงาน ในบทสนทนาของเธรดปัจจุบัน",
+    "Current branch in this shared folder — pick another to switch": "สาขาปัจจุบันในโฟลเดอร์ที่ใช้ร่วมกันนี้ — เลือกสาขาอื่นเพื่อสลับ",
+    "Download Git for Windows": "ดาวน์โหลด Git for Windows",
+    "Each qualified referral adds one more 1-hour premium session to your day": "การแนะนำที่ผ่านเกณฑ์แต่ละครั้งจะเพิ่มเซสชันพรีเมียม 1 ชั่วโมงให้คุณในแต่ละวัน",
+    "Each qualified referral pays Freebucks, claimed on the Earn page.": "การแนะนำที่ผ่านเกณฑ์แต่ละครั้งให้ Freebucks ซึ่งรับได้ที่หน้าชวนเพื่อน",
+    "Editing an earlier message — sending will replace it, remove all later messages and rewind the agent’s subsequent file changes.": "กำลังแก้ไขข้อความก่อนหน้า — การส่งจะแทนที่ข้อความนั้น ลบข้อความหลังจากนั้นทั้งหมด และย้อนการเปลี่ยนไฟล์ที่เอเจนต์ทำหลังจากนั้น",
+    "Enter a bash command or leave the field empty.": "ใส่คำสั่ง bash หรือเว้นช่องนี้ว่างไว้",
+    "Environment variable names are shown; their values are never displayed or logged.": "จะแสดงเฉพาะชื่อตัวแปรสภาพแวดล้อม ค่าของตัวแปรจะไม่ถูกแสดงหรือบันทึกเลย",
+    "Existing tasks keep their old connection revision. Use the replacement in a new task.": "งานที่มีอยู่จะใช้การเชื่อมต่อเวอร์ชันเดิมต่อไป ให้ใช้คีย์ใหม่ในงานใหม่",
+    "Follow the": "ทำตาม",
+    "Follow the details in the thread transcript.": "ทำตามรายละเอียดในบทสนทนาของเธรด",
+    "Freebuff needs Git Bash": "Freebuff ต้องใช้ Git Bash",
+    "Includes your app version and operating system.": "รวมเวอร์ชันแอพและระบบปฏิบัติการของคุณ",
+    "in-memory defaults (file absent)": "ค่าเริ่มต้นในหน่วยความจำ (ไม่มีไฟล์)",
+    "It will restart after your active work finishes.": "จะรีสตาร์ทหลังจากงานที่กำลังทำอยู่เสร็จสิ้น",
+    "Mirror this computer's open threads to the Freebuff iOS app, and let the phone send messages and approve elevated commands.": "สะท้อนเธรดที่เปิดอยู่บนเครื่องนี้ไปยังแอพ Freebuff บน iOS และให้มือถือส่งข้อความกับอนุมัติคำสั่งที่ต้องใช้สิทธิ์ได้",
+    "Model requests go directly to your provider and use its billing. BYOK tasks are ad-free.": "คำขอโมเดลจะส่งตรงไปยังผู้ให้บริการของคุณและคิดค่าบริการผ่านผู้ให้บริการ งานแบบ BYOK ไม่มีโฆษณา",
+    "More actions": "การทำงานเพิ่มเติม",
+    "Move Freebuff to Applications": "ย้าย Freebuff ไปที่ Applications",
+    "Name (only needed if your JSON does not include one)": "ชื่อ (จำเป็นเฉพาะเมื่อ JSON ของคุณไม่มีชื่ออยู่แล้ว)",
+    "No connector matches “": "ไม่มีคอนเน็กเตอร์ที่ตรงกับ “",
+    "No matching branches": "ไม่พบสาขาที่ตรงกัน",
+    "No more weekly or monthly session caps": "ไม่มีเพดานเซสชันรายสัปดาห์หรือรายเดือนอีกต่อไป",
+    ". Nothing runs until you review and approve it.": "จะไม่มีการทำงานใด ๆ จนกว่าคุณจะตรวจสอบและอนุมัติ",
+    "Preset only. Your model’s coding support still needs testing.": "ใช้ได้เฉพาะค่าที่ตั้งไว้ล่วงหน้าเท่านั้น การรองรับการเขียนโค้ดของโมเดลคุณยังต้องทดสอบ",
+    "Reading the thread’s workspace…": "กำลังอ่านพื้นที่ทำงานของเธรด…",
+    "Ready, disabled, and unapproved connectors are listed under Your connectors.": "คอนเน็กเตอร์ที่พร้อมใช้ ปิดใช้งาน และยังไม่อนุมัติ จะแสดงอยู่ใต้หัวข้อคอนเน็กเตอร์ของคุณ",
+    "Ready when needed": "พร้อมเมื่อต้องใช้",
+    "Refer friends → earn Freebucks": "ชวนเพื่อน → รับ Freebucks",
+    "Refer friends for an extra premium session": "ชวนเพื่อนเพื่อรับเซสชันพรีเมียมเพิ่ม",
+    "Refer friends for more free sessions": "ชวนเพื่อนเพื่อรับเซสชันฟรีเพิ่ม",
+    "Resolve with agent": "ให้เอเจนต์แก้ไข",
+    "Resume it, or send a message to continue.": "ทำต่อ หรือส่งข้อความเพื่อดำเนินการต่อ",
+    "Run it and show me its tools": "รันแล้วแสดงเครื่องมือของมัน",
+    "Runs in its own labeled thread, in an isolated workspace.": "ทำงานในเธรดที่มีป้ายของตัวเอง ในพื้นที่ทำงานแยกเฉพาะ",
+    "Run this bash command once in each new Isolated workspace, after its first message and before the agent starts. Local threads do not run it.": "รันคำสั่ง bash นี้หนึ่งครั้งในทุกพื้นที่ทำงานแบบแยกเฉพาะ หลังข้อความแรกและก่อนที่เอเจนต์จะเริ่มทำงาน เธรดแบบโลคอลจะไม่รันคำสั่งนี้",
+    "Safe only": "เฉพาะที่ปลอดภัย",
+    "Save copy": "บันทึกสำเนา",
+    "Saved in your OS credential store. Never in project files.": "บันทึกไว้ในที่เก็บข้อมูลรับรองของระบบปฏิบัติการ ไม่ลงในไฟล์โปรเจกต์",
+    "Saved thread snapshot · read-only": "สแนปช็อตเธรดที่บันทึกไว้ · อ่านอย่างเดียว",
+    "Search branches": "ค้นหาสาขา",
+    "Set a mission to keep working toward automatically once the queue finishes": "ตั้งภารกิจเพื่อทำงานต่อโดยอัตโนมัติเมื่อคิวทำงานเสร็จ",
+    "Shared by Desktop and CLI on this computer.": "ใช้ร่วมกันระหว่างเดสก์ท็อปและ CLI บนเครื่องนี้",
+    "Some thread usage is missing": "ข้อมูลการใช้งานของเธรดบางส่วนขาดหายไป",
+    "Spend it how you like": "ใช้จ่ายได้ตามใจคุณ",
+    "Starting branch": "สาขาเริ่มต้น",
+    "Switch": "สลับ",
+    "? Tasks using it will stop before their next model request.": "งานที่ใช้คีย์นี้จะหยุดก่อนส่งคำขอไปยังโมเดลครั้งถัดไป",
+    "The dev server died.": "เดฟเซิร์ฟเวอร์หยุดทำงาน",
+    "These totals include only requests reported before an interruption.": "ยอดรวมนี้รวมเฉพาะคำขอที่รายงานก่อนเกิดการขัดจังหวะ",
+    "THIS COMPUTER": "เครื่องนี้",
+    "Try another name or description.": "ลองใช้ชื่อหรือคำอธิบายอื่น",
+    "Unlimited messages and tool calls until it ends. Already paid for — switching models ends it and buys a new one.": "ข้อความและการเรียกเครื่องมือแบบไม่จำกัดจนกว่าเซสชันจะจบ จ่ายไปแล้ว — การสลับโมเดลจะจบเซสชันนี้และซื้อเซสชันใหม่",
+    "Use HTTPS, or HTTP for a server on this computer.": "ใช้ HTTPS หรือ HTTP สำหรับเซิร์ฟเวอร์บนเครื่องนี้",
+    "Use limits supported by your model. These are budgets, not detected capabilities.": "ใช้ขีดจำกัดที่โมเดลของคุณรองรับ ค่าเหล่านี้เป็นงบประมาณ ไม่ใช่ความสามารถที่ตรวจวัดได้",
+    "What finishing looks like, and what happens to the finished work.": "ลักษณะของงานที่เสร็จ และสิ่งที่จะเกิดขึ้นกับงานที่เสร็จแล้ว",
+    "Working toward this mission automatically once the queue finishes. Anything you queue takes over.": "ทำงานตามภารกิจนี้โดยอัตโนมัติเมื่อคิวเสร็จ อะไรก็ตามที่คุณเข้าคิวจะเข้ามาแทน",
+    "your free sessions": "เซสชันฟรีของคุณ",
+    "your plan sessions": "เซสชันตามแพ็กเกจของคุณ",
+    "Requested": "ร้องขอแล้ว",
+    "Duration": "ระยะเวลา",
+    "Filters": "ตัวกรอง",
+    "Filter": "กรอง",
+    "Reset": "รีเซ็ต",
+    "Apply changes": "ใช้การเปลี่ยนแปลง",
+    "Discard": "ไม่บันทึก",
+    "Saved": "บันทึกแล้ว",
+    "Offline": "ออฟไลน์",
+    "Online": "ออนไลน์",
+    "Reconnecting": "กำลังเชื่อมต่อใหม่",
+    "Required": "จำเป็น",
+    "Invalid": "ไม่ถูกต้อง"
+  }
+}

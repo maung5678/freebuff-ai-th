@@ -1,0 +1,456 @@
+{
+  "meta": {
+    "note": "ชุดที่ 8 — ข้อความใหม่ของแอป v0.0.114 (สลับผู้ให้บริการ/โมเดล, พื้นที่ทำงานแยก, เซสชันและสปอนเซอร์, ระดับการคิด, aria-label)",
+    "updatedAt": "2026-09-16",
+    "generatedBy": "dev/build-app6.cjs"
+  },
+  "strings": {
+    "(your home folder)": "(โฟลเดอร์บ้านของคุณ)",
+    "? Tasks using it will stop before their next model request. Select another provider or a Freebuff model to continue the same conversation.": "? งานที่ใช้คีย์นี้จะหยุดก่อนถึงคำขอโมเดลครั้งถัดไป เลือกผู้ให้บริการรายอื่นหรือโมเดลของ Freebuff เพื่อทำงานต่อในบทสนทนาเดิม",
+    "Add this message to the queue; keep the queue paused": "เพิ่มข้อความนี้เข้าคิว และคงคิวให้หยุดไว้",
+    "Add to queue": "เพิ่มเข้าคิว",
+    "Add to queue (Enter)": "เพิ่มเข้าคิว (Enter)",
+    "Administrator approval required": "ต้องได้รับการอนุมัติจากผู้ดูแลระบบ",
+    "Administrator request": "คำขอสิทธิ์ผู้ดูแลระบบ",
+    "Agent mode": "โหมดเอเจนต์",
+    "Agent to-do list": "รายการงานของเอเจนต์",
+    "All up to date": "เป็นเวอร์ชันล่าสุดทั้งหมด",
+    "App tools": "เครื่องมือของแอป",
+    "Attaching files needs the desktop app": "การแนบไฟล์ต้องใช้แอปเดสก์ท็อป",
+    "Attaching images needs the desktop app": "การแนบรูปภาพต้องใช้แอปเดสก์ท็อป",
+    "Auto stopped": "หยุดอัตโนมัติ",
+    "Automatic (remote default)": "อัตโนมัติ (ค่าเริ่มต้นจากเซิร์ฟเวอร์)",
+    "Bare minimum deliberation": "คิดน้อยที่สุด",
+    "Bounty promo": "โปรโมชันภารกิจ",
+    "Changed during agent work": "เปลี่ยนแปลงระหว่างที่เอเจนต์ทำงาน",
+    "Check your daily reset countdown.": "ดูเวลานับถอยหลังการรีเซ็ตรายวัน",
+    "Close project settings": "ปิดการตั้งค่าโปรเจกต์",
+    "Close sponsor break": "ปิดช่วงสปอนเซอร์",
+    "Close tab when queue finishes": "ปิดแท็บเมื่อคิวเสร็จ",
+    "Coding agent and model": "เอเจนต์เขียนโค้ดและโมเดล",
+    "Command completed with no output.": "คำสั่งทำงานเสร็จโดยไม่มีผลลัพธ์",
+    "Command failed.": "คำสั่งล้มเหลว",
+    "Complete a bounty to unlock": "ทำภารกิจให้เสร็จเพื่อปลดล็อก",
+    "Complete the user's request fully. When the work is correct, lean, and verified, commit it locally and stop. Never push, open a pull request, or merge — leave the branch for the user to look at.": "ทำงานตามที่ผู้ใช้ขอให้เสร็จ เมื่องานถูกต้อง กระชับ และผ่านการตรวจสอบแล้ว ให้คอมมิตไว้ในเครื่องแล้วหยุด ห้าม push เปิด pull request หรือ merge เด็ดขาด — ปล่อยให้ผู้ใช้ตรวจดูเอง",
+    "Complete the user's request fully. When the work is correct, lean, and verified, commit it, open a pull request, drive its checks to green, and merge it.": "ทำงานตามที่ผู้ใช้ขอให้เสร็จ เมื่องานถูกต้อง กระชับ และผ่านการตรวจสอบแล้ว ให้คอมมิต เปิด pull request ทำให้การตรวจทั้งหมดผ่าน แล้ว merge",
+    "Connection problem": "การเชื่อมต่อมีปัญหา",
+    "Continue interrupted turn": "ทำงานที่ถูกขัดจังหวะต่อ",
+    "Continue the interrupted request from where you left off.": "ทำงานที่ถูกขัดจังหวะต่อจากจุดที่ค้างไว้",
+    "Continue the interrupted turn": "ทำงานที่ถูกขัดจังหวะต่อ",
+    "Continue the interrupted turn, then run queued messages": "ทำงานที่ถูกขัดจังหวะต่อ แล้วรันข้อความในคิว",
+    "Continuing…": "กำลังทำงานต่อ…",
+    "Conversation": "บทสนทนา",
+    "Conversation outside the viewport — focus to read": "บทสนทนาที่อยู่นอกจอ — โฟกัสเพื่ออ่าน",
+    "Conversation pages": "หน้าของบทสนทนา",
+    "Copy message": "คัดลอกข้อความ",
+    "Copy plan": "คัดลอกแผน",
+    "Copy plan as Markdown": "คัดลอกแผนเป็น Markdown",
+    "Could not open Freebuff’s data folder.": "เปิดโฟลเดอร์ข้อมูลของ Freebuff ไม่ได้",
+    "Couldn’t copy to clipboard": "คัดลอกไปยังคลิปบอร์ดไม่สำเร็จ",
+    "Crafted — correct, clean, and proven": "ประณีต — ถูกต้อง สะอาด และพิสูจน์แล้ว",
+    "Credential verified. Coding support is still untested.": "ยืนยันข้อมูลรับรองแล้ว แต่ยังไม่ได้ทดสอบการช่วยเขียนโค้ด",
+    "Custom endpoint": "ปลายทางที่กำหนดเอง",
+    "Daily limit": "จำกัดรายวัน",
+    "Deepest available, slowest": "คิดลึกที่สุดเท่าที่มี ช้าที่สุด",
+    "Development build": "บิลด์สำหรับนักพัฒนา",
+    "Discard all pending comments": "ทิ้งความคิดเห็นที่ค้างอยู่ทั้งหมด",
+    "Discard this stashed message": "ทิ้งข้อความที่พักไว้",
+    "Dismiss sponsored message": "ปิดข้อความสปอนเซอร์",
+    "Each lasts up to 1 hour.": "แต่ละครั้งใช้ได้นานไม่เกิน 1 ชั่วโมง",
+    "Each start opens up to 1 hour; ending early still uses one start.": "การเริ่มแต่ละครั้งเปิดได้นานไม่เกิน 1 ชั่วโมง หยุดก่อนกำหนดก็ยังนับเป็นการใช้หนึ่งครั้ง",
+    "Earned sessions": "เซสชันที่ได้มา",
+    "Edit before sending": "แก้ไขก่อนส่ง",
+    "Edit notebook": "แก้ไขสมุดบันทึก",
+    "Edit your message — Enter resends from here": "แก้ข้อความของคุณ — กด Enter เพื่อส่งใหม่จากจุดนี้",
+    "Enabled sync and diagnostics keep their existing behavior. Mobile Mirror can sync task transcripts. Auto-run and hosted research tools are unavailable for BYOK.": "การซิงค์และการวินิจฉัยที่เปิดอยู่จะทำงานเหมือนเดิม Mobile Mirror ซิงค์บทสนทนาของงานได้ ส่วน auto-run และเครื่องมือค้นคว้าแบบโฮสต์ใช้ไม่ได้เมื่อใช้คีย์ API ของคุณเอง (BYOK)",
+    "Endpoint reachable. Authentication and coding support still need an inference test.": "เชื่อมต่อปลายทางได้ แต่การยืนยันตัวตนและการช่วยเขียนโค้ดยังต้องทดสอบด้วยการเรียกโมเดลจริง",
+    "Ends your current session.": "จบเซสชันปัจจุบันของคุณ",
+    "Engage with a post, level up, and get more daily sessions": "มีส่วนร่วมกับโพสต์ เลื่อนระดับ และรับเซสชันรายวันเพิ่ม",
+    "Everything it has": "ใช้ความสามารถทั้งหมดเท่าที่มี",
+    "Example prompt": "ตัวอย่างคำสั่ง",
+    "Exhaustive — the most careful version of exactly what was asked": "ละเอียดถี่ถ้วน — ระมัดระวังที่สุดกับสิ่งที่ขอไว้พอดี",
+    "Existing tasks keep their old connection revision until you select the replacement in the model picker.": "งานที่มีอยู่จะใช้การเชื่อมต่อเดิมต่อไป จนกว่าคุณจะเลือกการเชื่อมต่อใหม่ในตัวเลือกโมเดล",
+    "Extra high": "สูงมาก",
+    "Fastest replies, least deliberation": "ตอบเร็วที่สุด คิดน้อยที่สุด",
+    "Feedback for the next plan revision": "ความคิดเห็นสำหรับการแก้แผนครั้งถัดไป",
+    "Fetch": "ดึงข้อมูล",
+    "Files changed in this turn": "ไฟล์ที่เปลี่ยนในรอบนี้",
+    "Find files": "ค้นหาไฟล์",
+    "Finish setup": "ตั้งค่าให้เสร็จ",
+    "First-tab discount in use": "กำลังใช้ส่วนลดแท็บแรก",
+    "Focused — what was asked, checked through the real surface": "โฟกัส — ทำตามที่ขอและตรวจผ่านหน้าจอจริง",
+    "Fork chat and current workspace files into a new isolated thread": "แยกบทสนทนาและไฟล์ในพื้นที่ทำงานปัจจุบันไปเป็นเธรดแยกใหม่",
+    "Fork chat into a new isolated thread; copies current workspace files, including changes from later turns": "แยกบทสนทนาไปเป็นเธรดแยกใหม่ พร้อมคัดลอกไฟล์ในพื้นที่ทำงานปัจจุบัน รวมการเปลี่ยนแปลงจากรอบถัดไป",
+    "Fork chat into a new non-isolated thread; no files copied; uses the main project checkout": "แยกบทสนทนาไปเป็นเธรดใหม่แบบไม่แยก โดยไม่คัดลอกไฟล์ และใช้เช็คเอาต์หลักของโปรเจกต์",
+    "Fork from here": "แยกเธรดจากจุดนี้",
+    "Forking…": "กำลังแยกเธรด…",
+    "Free sessions": "เซสชันฟรี",
+    "Free usage is paid for by ads, and ad rates on this connection are a small fraction of what a session costs to run. The smaller daily allowance is what keeps these sessions available at all. It follows where your connection appears to come from, so a VPN or a company network can trigger it too.": "การใช้งานฟรีมีโฆษณาเป็นผู้จ่าย อัตราค่าโฆษณาของการเชื่อมต่อนี้เป็นเพียงเสี้ยวเล็ก ๆ ของค่าใช้จ่ายต่อเซสชัน โควตารายวันที่น้อยกว่าคือสิ่งที่ทำให้ยังมีเซสชันเหล่านี้ให้ใช้ได้ โดยจะพิจารณาจากตำแหน่งที่การเชื่อมต่อของคุณดูเหมือนมาจาก จึงเกิดจาก VPN หรือเครือข่ายบริษัทได้เช่นกัน",
+    "Freebucks returned.": "คืน Freebucks แล้ว",
+    "Freebuff asked a question and is waiting for your answer": "Freebuff ถามคำถามและกำลังรอคำตอบของคุณ",
+    "Freebuff finished responding": "Freebuff ตอบเสร็จแล้ว",
+    "Freebuff has a question": "Freebuff มีคำถาม",
+    "Freebuff is at capacity — retrying…": "Freebuff เต็มความจุ — กำลังลองใหม่…",
+    "Freebuff menu": "เมนู Freebuff",
+    "Freebuff needs your approval to run an administrator command": "Freebuff ต้องการการอนุมัติจากคุณเพื่อรันคำสั่งผู้ดูแลระบบ",
+    "Freebuff sign-in needed": "ต้องลงชื่อเข้าใช้ Freebuff",
+    "Freebuff update": "อัปเดต Freebuff",
+    "Get more sessions": "รับเซสชันเพิ่ม",
+    "Got it": "เข้าใจแล้ว",
+    "Hooks": "ฮุก",
+    "Hosted session slots are in use": "ช่องเซสชันแบบโฮสต์ถูกใช้อยู่",
+    "In use · paid": "กำลังใช้ · ชำระเงินแล้ว",
+    "Isolated: works in its own Git worktree": "แยก: ทำงานใน Git worktree ของตัวเอง",
+    "Key replaced. Select this updated connection in the model picker to continue your task.": "เปลี่ยนคีย์แล้ว เลือกการเชื่อมต่อที่อัปเดตนี้ในตัวเลือกโมเดลเพื่อทำงานต่อ",
+    "List": "รายการ",
+    "Mark handled": "ทำเครื่องหมายว่าจัดการแล้ว",
+    "Maximize window": "ขยายหน้าต่าง",
+    "Maximum deliberation": "คิดสูงสุด",
+    "May use data for AI training": "อาจใช้ข้อมูลเพื่อฝึก AI",
+    "Merge conflict": "ความขัดแย้งในการรวมโค้ด",
+    "Message copied": "คัดลอกข้อความแล้ว",
+    "Minimize window": "ย่อหน้าต่าง",
+    "Mission is deciding what is next": "Mission กำลังตัดสินใจว่าจะทำอะไรต่อ",
+    "Monthly limit": "จำกัดรายเดือน",
+    "More deliberation, slower": "คิดมากขึ้น ตอบช้าลง",
+    "Needs a newer Codex CLI": "ต้องใช้ Codex CLI รุ่นใหม่กว่า",
+    "Needs repo root": "ต้องอยู่ที่รากของรีโป",
+    "Not isolated: works directly in this project": "ไม่แยก: ทำงานในโปรเจกต์นี้โดยตรง",
+    "Nothing has been contacted yet. Adding this connector lets Freebuff talk to this address, and it may ask you to sign in. Its tool list cannot be read without connecting, so you are asked again afterwards about what it may do.": "ยังไม่มีการติดต่ออะไรเลย การเพิ่มคอนเน็กเตอร์นี้จะให้ Freebuff สื่อสารกับที่อยู่นี้ และอาจขอให้คุณลงชื่อเข้าใช้ รายการเครื่องมือของมันอ่านไม่ได้ถ้ายังไม่เชื่อมต่อ จึงจะถามคุณอีกครั้งภายหลังว่าอนุญาตให้ทำอะไร",
+    "Nothing has started yet. Adding this connector runs a program on your computer with the same permissions as you. Its tool list cannot be read without starting it, so you are asked again afterwards about what it may do.": "ยังไม่มีอะไรเริ่มทำงาน การเพิ่มคอนเน็กเตอร์นี้จะรันโปรแกรมบนเครื่องของคุณด้วยสิทธิ์เดียวกับคุณ รายการเครื่องมือของมันอ่านไม่ได้ถ้าไม่เริ่มทำงาน จึงจะถามคุณอีกครั้งภายหลังว่าอนุญาตให้ทำอะไร",
+    "Open tabs": "แท็บที่เปิดอยู่",
+    "Open the stash": "เปิดรายการที่พักไว้",
+    "Opening your saved workspace took too long.": "เปิดพื้นที่ทำงานที่บันทึกไว้ใช้เวลานานเกินไป",
+    "Pasting files needs the desktop app": "การวางไฟล์ต้องใช้แอปเดสก์ท็อป",
+    "Pending code comments": "ความคิดเห็นในโค้ดที่ค้างอยู่",
+    "Picked up after a restart": "ทำงานต่อหลังรีสตาร์ท",
+    "Plan approval": "อนุมัติแผน",
+    "Plan copied": "คัดลอกแผนแล้ว",
+    "Plan mode — describe what the agent should design": "โหมดแผน — อธิบายสิ่งที่เอเจนต์ควรออกแบบ",
+    "Plan review": "ตรวจทานแผน",
+    "Premium session time remaining": "เวลาของเซสชันพรีเมียมที่เหลือ",
+    "Preview element context for next prompt": "บริบทขององค์ประกอบพรีวิวสำหรับคำสั่งถัดไป",
+    "Project threads": "เธรดของโปรเจกต์",
+    "Prompt history": "ประวัติคำสั่ง",
+    "Questions": "คำถาม",
+    "Questions from the agent": "คำถามจากเอเจนต์",
+    "Rate limited and shared by all users: queues when busy, then answers on DeepSeek V4.1 Flash.": "จำกัดอัตราและใช้ร่วมกันทุกคน: จะเข้าคิวเมื่อคนแน่น แล้วตอบด้วย DeepSeek V4.1 Flash",
+    "Read": "อ่าน",
+    "Read URL": "อ่าน URL",
+    "Read docs": "อ่านเอกสาร",
+    "Read tree": "อ่านโครงสร้างไฟล์",
+    "Referrals qualify once a GitHub account (4+ months old) is connected": "การแนะนำจะนับเมื่อเชื่อมบัญชี GitHub ที่มีอายุ 4 เดือนขึ้นไป",
+    "Referrals, bounties and Trust — everything that pays Freebucks": "การแนะนำ ภารกิจ และ Trust — ทุกอย่างที่จ่ายเป็น Freebucks",
+    "Rename thread": "เปลี่ยนชื่อเธรด",
+    "Requests go to": "คำขอจะส่งไปที่",
+    "Requires git": "ต้องมี git",
+    "Resize thread list": "ปรับขนาดรายการเธรด",
+    "Responding…": "กำลังตอบ…",
+    "Response stopped": "หยุดการตอบแล้ว",
+    "Restore window": "คืนขนาดหน้าต่าง",
+    "Resume queue": "ทำงานในคิวต่อ",
+    "Resume your purchased hour": "ใช้ชั่วโมงที่ซื้อไว้ต่อ",
+    "Resume · no charge": "ทำงานต่อ · ไม่คิดค่าใช้จ่าย",
+    "Return to latest messages": "กลับไปข้อความล่าสุด",
+    "Revert message": "ย้อนข้อความ",
+    "Reward session unlocked": "ปลดล็อกเซสชันรางวัลแล้ว",
+    "Run": "รัน",
+    "Run skill": "รันสกิล",
+    "Run the Freebuff skill": "รันสกิลของ Freebuff",
+    "Run this thread in a separate Git worktree so its changes don’t affect your current folder.": "รันเธรดนี้ใน Git worktree แยก เพื่อให้การแก้ไขไม่กระทบโฟลเดอร์ปัจจุบันของคุณ",
+    "Running...": "กำลังทำงาน…",
+    "Scroll to latest": "เลื่อนไปล่าสุด",
+    "Scroll to new messages": "เลื่อนไปข้อความใหม่",
+    "Search providers…": "ค้นหาผู้ให้บริการ…",
+    "Search web": "ค้นเว็บ",
+    "See plans": "ดูแพ็กเกจ",
+    "Select a provider in the model picker of a new or existing Freebuff task. Once a task uses your API key, start a new task to return to Freebuff models.": "เลือกผู้ให้บริการในตัวเลือกโมเดลของงาน Freebuff ใหม่หรืองานที่มีอยู่ เมื่องานใดใช้คีย์ API ของคุณแล้ว ให้เริ่มงานใหม่เพื่อกลับมาใช้โมเดลของ Freebuff",
+    "Send (Enter)": "ส่ง (Enter)",
+    "Send and resume queue (Enter)": "ส่งและทำงานในคิวต่อ (Enter)",
+    "Send answers": "ส่งคำตอบ",
+    "Send message": "ส่งข้อความ",
+    "Send message and resume queue": "ส่งข้อความและทำงานในคิวต่อ",
+    "Send now to go first, or resume the queue.": "ส่งเลยเพื่อไปก่อน หรือกลับไปทำงานในคิวต่อ",
+    "Send now, then run queued messages (Enter)": "ส่งเลย แล้วรันข้อความในคิว (Enter)",
+    "Sending…": "กำลังส่ง…",
+    "Session ready — sending request…": "เซสชันพร้อม — กำลังส่งคำขอ…",
+    "Sessions are now bought with Freebucks — a daily allowance you spend on any model.": "ตอนนี้ซื้อเซสชันด้วย Freebucks ได้ — เป็นเบี้ยเลี้ยงรายวันที่ใช้กับโมเดลใดก็ได้",
+    "Settings saved": "บันทึกการตั้งค่าแล้ว",
+    "Shared workspace": "พื้นที่ทำงานร่วม",
+    "Show Freebuff data": "แสดงข้อมูล Freebuff",
+    "Show the full prompt": "แสดงคำสั่งทั้งหมด",
+    "Showing Freebuff data needs the desktop app.": "การแสดงข้อมูล Freebuff ต้องใช้แอปเดสก์ท็อป",
+    "Shown because you just finished a task. Freebuff shows at most one sponsor break a day, and fewer regular ads while you work.": "แสดงเพราะคุณเพิ่งทำงานเสร็จ Freebuff จะแสดงช่วงสปอนเซอร์ไม่เกินวันละครั้ง และลดโฆษณาปกติขณะคุณทำงาน",
+    "Signed in": "ลงชื่อเข้าใช้แล้ว",
+    "Signed out": "ออกจากระบบแล้ว",
+    "Skill": "สกิล",
+    "Smart & fast": "ฉลาดและเร็ว",
+    "Spaces": "พื้นที่",
+    "Sponsored break": "ช่วงสปอนเซอร์",
+    "Sponsored tasks cannot start because the workspace sandbox is not working on this machine. No paid task has started.": "งานที่ได้รับการสนับสนุนเริ่มไม่ได้เพราะแซนด์บ็อกซ์ของพื้นที่ทำงานใช้ไม่ได้บนเครื่องนี้ ยังไม่มีงานแบบชำระเงินเริ่มทำงาน",
+    "Sponsored tasks can’t run on Windows yet: Freebuff has no way to keep an advertiser’s commands inside the workspace on this operating system.": "งานที่ได้รับการสนับสนุนยังรันบน Windows ไม่ได้: Freebuff ไม่มีวิธีจำกัดคำสั่งของผู้โฆษณาให้อยู่ในพื้นที่ทำงานบนระบบปฏิบัติการนี้",
+    "Sponsored tasks need the Freebuff desktop app, which is what asks you to approve the task before it runs. Open this project in the app to accept.": "งานที่ได้รับการสนับสนุนต้องใช้แอปเดสก์ท็อป Freebuff ซึ่งเป็นตัวขอให้คุณอนุมัติงานก่อนรัน เปิดโปรเจกต์นี้ในแอปเพื่อตอบรับ",
+    "Sprint — what was asked, working, with essential proof": "สปรินต์ — ทำตามที่ขอ ให้ใช้งานได้ พร้อมหลักฐานที่จำเป็น",
+    "Step 1 of 2 · Install the Claude Code CLI — the Claude Desktop app does not include it": "ขั้นที่ 1 จาก 2 · ติดตั้ง Claude Code CLI — แอป Claude Desktop ไม่ได้รวมมาให้",
+    "Step 2 of 2 · Sign in to Codex with ChatGPT or an API key": "ขั้นที่ 2 จาก 2 · ลงชื่อเข้าใช้ Codex ด้วย ChatGPT หรือคีย์ API",
+    "Step 2 of 2 · Sign in with a Claude Pro, Max, Team, or Enterprise plan": "ขั้นที่ 2 จาก 2 · ลงชื่อเข้าใช้ด้วยแพ็กเกจ Claude Pro, Max, Team หรือ Enterprise",
+    "Stop the running turn": "หยุดรอบที่กำลังทำงาน",
+    "Stopping the running turn": "กำลังหยุดรอบที่ทำงานอยู่",
+    "Subagent": "ซับเอเจนต์",
+    "Suggest": "แนะนำ",
+    "Suggested next steps": "ขั้นถัดไปที่แนะนำ",
+    "Switch providers or Freebuff models here while keeping this conversation. Finish or stop the current turn and clear queued messages first.": "สลับผู้ให้บริการหรือโมเดล Freebuff ที่นี่ได้โดยไม่เสียบทสนทนานี้ — ต้องทำงานรอบปัจจุบันให้จบหรือหยุดก่อน และล้างข้อความในคิวก่อน",
+    "Tab closed and reopened": "แท็บถูกปิดและเปิดใหม่",
+    "That model’s tab limit is reached — this tab kept the default.": "แท็บของโมเดลนั้นเต็มแล้ว — แท็บนี้จึงใช้ค่าเริ่มต้น",
+    "That turn failed, so the rest of the queue is paused.": "รอบนั้นล้มเหลว ส่วนที่เหลือของคิวจึงถูกหยุดไว้",
+    "The agent sent nothing back": "เอเจนต์ไม่ได้ตอบอะไรกลับมา",
+    "The daily refill is due. This is the last confirmed balance; an updated balance will appear shortly.": "ถึงเวลารีเฟิลรายวันแล้ว นี่คือยอดคงเหลือที่ยืนยันได้ล่าสุด ยอดใหม่จะแสดงในอีกไม่ช้า",
+    "The other tab still has it — try again in a moment.": "แท็บอื่นยังใช้อยู่ — ลองอีกครั้งในอีกสักครู่",
+    "The plan is ready for your review": "แผนพร้อมให้คุณตรวจทานแล้ว",
+    "The queue is paused.": "คิวถูกหยุดไว้",
+    "This command will have full administrator access. Freebuff will invoke your operating system’s native authentication prompt only after you approve it here.": "คำสั่งนี้จะได้รับสิทธิ์ผู้ดูแลระบบเต็มรูปแบบ Freebuff จะเรียกหน้าต่างยืนยันตัวตนของระบบปฏิบัติการของคุณหลังจากคุณอนุมัติที่นี่เท่านั้น",
+    "This computer:": "เครื่องนี้:",
+    "This copy is running from a disk image or temporary location, so it cannot replace itself. Download the installer, move Freebuff to Applications, and open it there.": "สำเนานี้ทำงานจากอิมเมจดิสก์หรือตำแหน่งชั่วคราว จึงแทนที่ตัวเองไม่ได้ ให้ดาวน์โหลดตัวติดตั้ง ย้าย Freebuff ไปที่ Applications แล้วเปิดจากที่นั่น",
+    "This file changed while the agent was working, but the change can’t be attributed to the agent, so rewinding leaves it alone.": "ไฟล์นี้เปลี่ยนไประหว่างที่เอเจนต์ทำงาน แต่ระบุไม่ได้ว่าเอเจนต์เป็นคนแก้ จึงไม่ถูกย้อนกลับ",
+    "This folder isn’t a git repository, so isolated workspaces aren’t available. Threads run directly in the folder.": "โฟลเดอร์นี้ไม่ใช่รีโป git จึงใช้พื้นที่ทำงานแบบแยกไม่ได้ เธรดจะรันในโฟลเดอร์นี้โดยตรง",
+    "This permanently deletes the thread and its saved worktree state.": "การทำเช่นนี้จะลบเธรดและสถานะ worktree ที่บันทึกไว้อย่างถาวร",
+    "This purchased hour is in use in another tab": "ชั่วโมงที่ซื้อไว้กำลังถูกใช้ในแท็บอื่น",
+    "This tab is stopped.": "แท็บนี้ถูกหยุดไว้",
+    "This task uses your selected provider. Start a new task to use Freebuff models or switch providers.": "งานนี้ใช้ผู้ให้บริการที่คุณเลือก เริ่มงานใหม่หากต้องการใช้โมเดล Freebuff หรือสลับผู้ให้บริการ",
+    "This thread runs directly in the shared project folder.": "เธรดนี้รันในโฟลเดอร์โปรเจกต์ที่ใช้ร่วมกันโดยตรง",
+    "This thread runs in a separate Git worktree. Its changes won’t affect your current folder until you apply them.": "เธรดนี้รันใน Git worktree แยก การแก้ไขจะไม่กระทบโฟลเดอร์ปัจจุบันของคุณจนกว่าจะนำไปใช้",
+    "Thorough — proven and pruned on every dimension": "รอบคอบ — พิสูจน์และตัดสิ่งไม่จำเป็นในทุกด้าน",
+    "Thread copied as Markdown": "คัดลอกเธรดเป็น Markdown แล้ว",
+    "Thread exported as Markdown": "ส่งออกเธรดเป็น Markdown แล้ว",
+    "Thread mentions tip": "เคล็ดลับการอ้างถึงเธรด",
+    "Threads you close land here.": "เธรดที่คุณปิดจะมาอยู่ที่นี่",
+    "Time since your latest prompt": "เวลาตั้งแต่คำสั่งล่าสุดของคุณ",
+    "To pick up a draggable item, press the space bar.\n    While dragging, use the arrow keys to move the item.\n    Press space again to drop the item in its new position, or press escape to cancel.": "หากต้องการหยิบรายการที่ลากได้ ให้กดแป้นเว้นวรรค\n    ระหว่างลาก ใช้ปุ่มลูกศรเพื่อเลื่อนรายการ\n    กดแป้นเว้นวรรคอีกครั้งเพื่อวางในตำแหน่งใหม่ หรือกด Escape เพื่อยกเลิก",
+    "Token usage": "การใช้โทเคน",
+    "Turn failed": "รอบการทำงานล้มเหลว",
+    "Type a message — added to the queue": "พิมพ์ข้อความ — จะถูกเพิ่มเข้าคิว",
+    "Type a message — sending resumes the queue": "พิมพ์ข้อความ — การส่งจะทำให้คิวทำงานต่อ",
+    "Type a message — sent before the queue": "พิมพ์ข้อความ — จะถูกส่งก่อนข้อความในคิว",
+    "Update interrupted": "การอัปเดตถูกขัดจังหวะ",
+    "Updating balance…": "กำลังอัปเดตยอดคงเหลือ…",
+    "Usage incomplete": "ข้อมูลการใช้งานไม่ครบ",
+    "Use an isolated workspace": "ใช้พื้นที่ทำงานแยก",
+    "Use that tab, or choose “Use it here” when sending a message to move it here.": "ใช้แท็บนั้น หรือเลือก “ใช้ที่นี่” ตอนส่งข้อความเพื่อย้ายมาแท็บนี้",
+    "Use the approach from": "ใช้แนวทางจาก",
+    "Wait for this thread to finish": "รอให้เธรดนี้ทำงานเสร็จก่อน",
+    "Waiting for a Freebuff session…": "กำลังรอเซสชัน Freebuff…",
+    "Waiting for the model…": "กำลังรอโมเดล…",
+    "Waiting for your answer": "รอคำตอบของคุณ",
+    "Waiting on a background command…": "กำลังรอคำสั่งที่ทำงานเบื้องหลัง…",
+    "Weekly limit": "จำกัดรายสัปดาห์",
+    "Working…": "กำลังทำงาน…",
+    "Write": "เขียน",
+    "Write doc": "เขียนเอกสาร",
+    "You can continue": "ทำงานต่อได้",
+    "You can switch this task to your API provider. After switching, start a new task to use Freebuff models again.": "คุณสลับงานนี้ไปใช้ผู้ให้บริการ API ของคุณได้ หลังสลับแล้วต้องเริ่มงานใหม่จึงจะใช้โมเดล Freebuff ได้อีกครั้ง",
+    "Your daily Freebucks refill at midnight in your reset timezone. Your first refill may arrive earlier; timezone changes can delay a later refill. Your balance shows the next refill time.": "Freebucks รายวันจะเติมตอนเที่ยงคืนตามเขตเวลารีเซ็ตของคุณ การเติมครั้งแรกอาจมาเร็วกว่า และการเปลี่ยนเขตเวลาอาจทำให้การเติมครั้งถัดไปล่าช้า ยอดคงเหลือของคุณจะแสดงเวลาเติมครั้งถัดไป",
+    "Your first-tab discount is in use. Parallel sessions pay the regular price. The discount becomes available when that session ends.": "ส่วนลดแท็บแรกของคุณกำลังถูกใช้ เซสชันที่เปิดพร้อมกันคิดราคาปกติ ส่วนลดจะกลับมาใช้ได้เมื่อเซสชันนั้นจบ",
+    "Your free session ended": "เซสชันฟรีของคุณจบลงแล้ว",
+    "a detached HEAD": "HEAD แบบหลุด (detached HEAD)",
+    "auto-ended after inactivity ·": "จบอัตโนมัติเพราะไม่มีการใช้งาน ·",
+    "earned Freebucks can be claimed when starting a session.": "Freebucks ที่ได้มาสามารถรับได้ตอนเริ่มเซสชัน",
+    "left": "เหลือ",
+    "setup guide to check supported clients, account requirements, and get your MCP configuration. Then add it here to review access and choose tools.": "คู่มือตั้งค่าเพื่อตรวจไคลเอนต์ที่รองรับ ข้อกำหนดของบัญชี และดูการตั้งค่า MCP ของคุณ จากนั้นเพิ่มที่นี่เพื่อตรวจสิทธิ์การเข้าถึงและเลือกเครื่องมือ",
+    "success": "สำเร็จ",
+    "this period's sessions are used": "เซสชันของรอบนี้ถูกใช้หมดแล้ว",
+    "today's plan sessions are used": "เซสชันของแพ็กเกจวันนี้ถูกใช้หมดแล้ว",
+    "today's premium sessions are used": "เซสชันพรีเมียมของวันนี้ถูกใช้หมดแล้ว",
+    "— sent with your message": "— จะส่งพร้อมข้อความของคุณ",
+    "↵ mention · ⇥ open folder": "↵ อ้างถึง · ⇥ เปิดโฟลเดอร์"
+  },
+  "patterns": [
+    {
+      "from": "Merge PR · Effort {n:num}",
+      "to": "รวม PR · ความพยายาม {n}"
+    },
+    {
+      "from": "{name} · Effort {n:num}",
+      "to": "{name} · ความพยายาม {n}"
+    },
+    {
+      "from": "Actions for {n}",
+      "to": "การทำงานกับ {n}"
+    },
+    {
+      "from": "Branch this thread started from: {n}",
+      "to": "สาขาที่เธรดนี้เริ่มต้น: {n}"
+    },
+    {
+      "from": "Choose application for {n}",
+      "to": "เลือกแอปสําหรับ {n}"
+    },
+    {
+      "from": "Close tab ({n}W)",
+      "to": "ปิดแท็บ ({n}W)"
+    },
+    {
+      "from": "Close {n}",
+      "to": "ปิด {n}"
+    },
+    {
+      "from": "Details for {n}",
+      "to": "รายละเอียดของ {n}"
+    },
+    {
+      "from": "Dismiss notification: {n}",
+      "to": "ปิดการแจ้งเตือน: {n}"
+    },
+    {
+      "from": "Downloading Freebuff {n}",
+      "to": "กำลังดาวน์โหลด Freebuff {n}"
+    },
+    {
+      "from": "Edit \"{n}\" before sending",
+      "to": "แก้ข้อความ “{n}” ก่อนส่ง"
+    },
+    {
+      "from": "Forget {n}",
+      "to": "ลืม {n}"
+    },
+    {
+      "from": "Mission stopped: {n}",
+      "to": "ภารกิจหยุด: {n}"
+    },
+    {
+      "from": "Move {n} to a new window",
+      "to": "ย้าย {n} ไปหน้าต่างใหม่"
+    },
+    {
+      "from": "New API key for {n}",
+      "to": "คีย์ API ใหม่สำหรับ {n}"
+    },
+    {
+      "from": "New thread ({n}T)",
+      "to": "เธรดใหม่ ({n}T)"
+    },
+    {
+      "from": "Open {n} in {n2}",
+      "to": "เปิด {n} ใน {n2}"
+    },
+    {
+      "from": "Open {n} in",
+      "to": "เปิด {n} ใน"
+    },
+    {
+      "from": "Project: {n}",
+      "to": "โปรเจกต์: {n}"
+    },
+    {
+      "from": "Reasoning effort for {n}",
+      "to": "ระดับการคิดของ {n}"
+    },
+    {
+      "from": "Remove comment on {n}",
+      "to": "ลบความคิดเห็นบน {n}"
+    },
+    {
+      "from": "Remove preview element {n}",
+      "to": "ลบองค์ประกอบพริวิว {n}"
+    },
+    {
+      "from": "Remove terminal context from {n}",
+      "to": "ลบบริบทเทอร์มินัลจาก {n}"
+    },
+    {
+      "from": "Remove {n}",
+      "to": "ลบ {n}"
+    },
+    {
+      "from": "Reset preview zoom, currently {n}%",
+      "to": "รีเซ็ตซูมพริวิว (ขณะนี้ {n}%)"
+    },
+    {
+      "from": "Search {n}",
+      "to": "ค้นหา {n}"
+    },
+    {
+      "from": "Threads in {n}",
+      "to": "เธรดใน {n}"
+    },
+    {
+      "from": "Update from {n} to {n2}",
+      "to": "อัปเดตจาก {n} เป็น {n2}"
+    },
+    {
+      "from": "What changed in Freebuff {n}",
+      "to": "มีอะไรเปลี่ยนไปใน Freebuff {n}"
+    },
+    {
+      "from": "Working on: {n}",
+      "to": "กำลังทำ: {n}"
+    },
+    {
+      "from": "Workspace and settings for {n}",
+      "to": "พื้นที่ทำงานและการตั้งค่าของ {n}"
+    },
+    {
+      "from": "Your own answer to: {n}",
+      "to": "คำตอบของคุณเองสำหรับ: {n}"
+    },
+    {
+      "from": "{n} balance",
+      "to": "ยอดคงเหลือ {n}"
+    },
+    {
+      "from": "{n} changed files",
+      "to": "เปลี่ยนไป {n} ไฟล์"
+    },
+    {
+      "from": "{n} is unavailable",
+      "to": "{n} ใช้งานไม่ได้"
+    },
+    {
+      "from": "{n} messages",
+      "to": "{n} ข้อความ"
+    },
+    {
+      "from": "{n} pending comment{n2} on this file",
+      "to": "มีความคิดเห็นค้างอยู่ {n} รายการในไฟล์นี้"
+    },
+    {
+      "from": "{n} plan usage",
+      "to": "การใช้งานแพ็กเกจ {n}"
+    },
+    {
+      "from": "{n} queued prompt{n2}",
+      "to": "มีข้อความรอในคิว {n} รายการ"
+    },
+    {
+      "from": "{n} {n2} bought this hour of {n3}, charged when it started. {n4} left to spend.",
+      "to": "ซื้อชั่วโมงนี้ด้วย {n} {n2} สำหรับ {n3} คิดค่าบริการตอนเริ่ม เหลือใช้ {n4}"
+    },
+    {
+      "from": "{n} — open in browser",
+      "to": "{n} — เปิดในเบราว์เซอร์"
+    },
+    {
+      "from": "{n}. Show token usage details",
+      "to": "{n}. แสดงรายละเอียดการใช้โทเคน"
+    },
+    {
+      "from": "{n}’s sponsored task. You can watch it; you cannot send to it.",
+      "to": "งานที่ได้รับการสนับสนุนของ {n} คุณดูได้ แต่ส่งข้อความไปไม่ได้"
+    },
+    {
+      "from": "{n}, {n2} thread{n3}",
+      "to": "{n}, {n2} เธรด"
+    },
+    {
+      "from": "Get {n}x usage for {n2}",
+      "to": "ใช้งานได้ {n} เท่าในราคา {n2}"
+    },
+    {
+      "from": "This session ends automatically after {n} minutes of inactivity, freeing its slot for another tab. Eligible unused Freebucks are refunded to your wallet at 90%, rounded down, after actual usage is finalized. Send a message before the countdown ends to reset it. Your conversation stays saved.",
+      "to": "เซสชันนี้จะจบอัตโนมัติเมื่อไม่มีการใช้งาน {n} นาที เพื่อคืนช่องให้แท็บอื่น Freebucks ที่ยังไม่ได้ใช้และเข้าเกณฑ์จะคืนเข้ากระเป๋าเงินของคุณในอัตรา 90% ปัดเศษลง หลังสรุปการใช้งานจริง ส่งข้อความก่อนนับถอยหลังจะจบเพื่อรีเซ็ต บทสนทนาของคุณยังถูกบันทึกไว้"
+    }
+  ],
+  "phrases": {
+    "Switch to DeepSeek V4 Flash to keep going.": "สลับไปใช้ DeepSeek V4 Flash เพื่อทำงานต่อ",
+    "Show token usage details": "แสดงรายละเอียดการใช้โทเคน"
+  }
+}

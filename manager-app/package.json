@@ -1,0 +1,28 @@
+{
+  "name": "freebuff-manager",
+  "version": "0.2.0",
+  "description": "Modern manager for Freebuff Desktop, Thai language pack and isolated clones",
+  "main": "src/main.cjs",
+  "author": "Freebuff AI TH",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win nsis portable"
+  },
+  "devDependencies": {
+    "electron": "40.10.2",
+    "electron-builder": "latest"
+  },
+  "build": {
+    "appId": "th.freebuff.manager",
+    "productName": "Freebuff Manager",
+    "directories": { "output": "dist" },
+    "files": ["src/**/*", "package.json"],
+    "extraResources": [
+      { "from": "../fbth", "to": "fbth", "filter": ["**/*", "!dict/candidates*.json", "!dict/gap*.json", "!dict/TODO.md"] },
+      { "from": "../clone-engine", "to": "clone-engine", "filter": ["**/*"] }
+    ],
+    "win": { "target": ["nsis", "portable"] },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true, "createDesktopShortcut": true, "createStartMenuShortcut": true }
+  }
+}

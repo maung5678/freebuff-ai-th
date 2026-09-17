@@ -1,0 +1,9 @@
+node_modules/
+manager-app/dist/
+build/
+dev/.selftest/
+dev/tmp-*/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db

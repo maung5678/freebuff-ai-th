@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "note": "รายการที่ไม่แปลโดยเจตนา — ทำให้ตัวเลข 'ยังไม่แปล' สะท้อนงานที่เหลือจริง ๆ (ใช้โดย gap-report.js / check-dict.js)",
+    "updatedAt": "2026-09-16 (รอบ 5: แอป v0.0.114 — เพิ่มกฎสำหรับข้อความไลบรารี/CSS/คำสั่ง/ประกาศ screen-reader)"
+  },
+  "reasons": {
+    "language": "ชื่อภาษาโปรแกรมสำหรับเลือกไฮไลต์ไวยากรณ์ (ผู้ใช้คุ้นกับชื่ออังกฤษ)",
+    "brand": "ชื่อผลิตภัณฑ์/บริษัท (คงไว้ตามต้นฉบับ)",
+    "editor-internal": "ข้อความภายในของตัวแก้ไขโค้ด (CodeMirror) ที่ผู้ใช้ทั่วไปไม่เห็น",
+    "schema-internal": "ข้อความตรวจสคีมาจากไลบรารีภายใน",
+    "runtime-internal": "ข้อความภายในของไลบรารี/รันไทม์ที่ไม่ขึ้นหน้าจอ",
+    "techname": "ชื่อคีย์/คลาส/ชื่อทางเทคนิค",
+    "analytics-internal": "ข้อความภายในของไลบรารี feature flag / วิเคราะห์การใช้งาน (ไม่ขึ้นหน้าจอให้ผู้ใช้)",
+    "theme": "ชื่อธีมของตัวแก้ไขโค้ด (คงชื่อเดิมไว้ให้ตรงกับที่อื่น)",
+    "style": "โค้ด CSS/selector/JS ที่หลุดมาจากสแกนดิบของ bundle (ไม่ใช่ข้อความบนหน้าจอ)",
+    "user-content": "ข้อความที่มาจากเนื้อหาของผู้ใช้ (ชื่อเธรด/แฮนเดิล) ไม่ใช่ข้อความของโปรแกรม",
+    "library-internal": "ข้อความภายในของไลบรารี (ตัวแยกวิเคราะห์/ตัวแก้ไข/ฟอนต์) ที่ไม่ขึ้นหน้าจอผู้ใช้",
+    "css-value": "ค่าของ CSS/แอนิเมชันที่หลุดมาจากสแกนดิบของ bundle (ไม่ใช่ข้อความบนหน้าจอ)",
+    "shell-command": "คำสั่งสำหรับคัดลอกไปรันเอง — ต้องคงรูปเดิม ห้ามแปล",
+    "screenreader-internal": "ประกาศของไลบรารีลากวางสำหรับโปรแกรมอ่านหน้าจอ (ประกอบข้อความเองตอนรัน จึงแปลทั้งก้อนไม่ได้)",
+    "file-template": "เทมเพลตไฟล์ที่แอพให้คัดลอกไปแก้เอง (ต้องคงรูปเดิมไว้ให้เครื่องมืออ่านได้)"
+  },
+  "patterns": [
+    { "reason": "techname", "re": "^(?:[a-z0-9]+[-_]){1,}[a-z0-9-]*$" },
+    { "reason": "techname", "re": "^[a-z][a-zA-Z0-9]*$" },
+    { "reason": "techname", "re": "^(?:Arrow|Escape|Enter|Tab|Home|End|Page|Backspace|Delete|Shift|Control|Alt)[A-Za-z]*$" },
+    { "reason": "techname", "re": "^(?:GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)$" },
+    { "reason": "techname", "re": "^[a-z0-9]+(?:[ -][a-z0-9]+)+$" },
+    { "reason": "techname", "re": "[{}<>$|~^`]" },
+    { "reason": "techname", "re": "\\.(?:js|ts|cjs|mjs|json|md|css|html|svg|png)$" },
+    { "reason": "techname", "re": "^(?:https?|file|data):" },
+
+    { "reason": "editor-internal", "re": "(?:EditorView|EditorState|ChangeSet|ChangeDesc|Decoration|decoration|decorations|Disposable|disposable|Facet|facet|compartment|gutter|viewport|hunk|FileDiff|parseDiff|iterateOverDiff|applyPartialRender|computeEstimatedDiffHeights|useFileDiffInstance|getLineNodes|MatchDecorator|LanguageDescription|Oniguruma|subroutine|quantifier|Quantifier|character class|Character class|backref|backreference|regexp|RegExp|posBefore|deserialize|node type|Node type|token type|checkpoint|fold state|foldState|active buffer|Active buffer|terminal|Terminal|repetition|Node expected|String expected|Numeric key expected|Index out of range|Token end out of bounds|Selection points|Expected (?:a )?(?:string|character|substring|node)|Atomic group|DEFINE groups|Unable to find children|Ran out of text content|Reading the editor layout|Selection needs at least one range|A document must have at least one line|A selection needs|first byte|single byte|only one byte|only two bytes|must be in range|must be a single byte|can only have zero-length|cannot be used inside|VirtualizedFileDiff|Unexpected options|Cannot (?:register|dispose|provide|shift|use|add|store|enable|recycle|move)|Can't (?:compute|move|add|store)|This method should only|is not allowed|Invalid (?:JSON|body|range|child|character|recursionLimit|reversed)|Invalid child|Field is not present|improper continuation|Lazy compilation|Required font metrics|The URL must be|This API only|Expected find and replace|Expected function|Expected node with body|Either 'decorate'|Block decorations|Decorations that replace|Mark decorations|Line decoration|Widget decorations|Duplicate use of|The regular expression given|Must pass either|Nested absence function|Numeric key|Unexpected match|Unexpected named|Unexpected non-recursive|this host has no secure storage|report|Not present)" },
+
+    { "reason": "schema-internal", "re": "^(?:must |should |boolean schema|property name must|values lesser|You must set the allowProposedApi|No object generated)" },
+
+    { "reason": "runtime-internal", "re": "(?:thread not found|thread workspace not available|thread is closed|item is not queued|no project|path required|invalid path|invalid report|invalid execution mode|unknown request|unknown skill|No auth provider|app is shutting down|impersonation|Mismatched change set lengths|Failed to process (?:error|successful) response|Could not resolve|Cannot be used|effort is not supported|not queued|bun install|Preview registration was cancelled|parseDiffFrom|newFileName must|oldFileName must|newlineIsToken may|A positive revision is required|creative url|@IServiceName|@IServiceName-decorator|dun fuuuuked up|of loop|Move|Review)" },
+
+    { "reason": "brand", "re": "^(?:Airtable|Algolia|Appwrite|Auth0|Better Auth|Braintrust|Brevo|Buildkite|Calendly|Canva|Cerebras|CircleCI|Clarity|Clerk|ClickUp|Cloudflare|Cloudinary|Coda|CodeQL|Contentful|Convex|Coolify|Databricks|Datadog|DatoCMS|DigitalOcean|Directus|Discord|Dodo Payments|Dropbox|Elasticsearch|ElevenLabs|Exa|Figma|Firecrawl|Fireworks AI|GitHub|GitLab|Gmail|Google BigQuery|Google Calendar|Google Drive|Google Gemini|Google Maps|Groq|Help Scout|Honeybadger|HubSpot|Hugging Face|Intercom|Jira \\(Atlassian Rovo\\)|Lemon Squeezy|Linear|LiveKit|Mailchimp|Mailgun|Mapbox|Microsoft 365|Mixpanel|MongoDB|Neon|Netlify|New Relic|Notion|Novita route — evaluation only|Ollama Cloud|OpenAI|OpenRouter|Paddle|PagerDuty|PayPal|Perplexity|PlanetScale|Plausible|Playwright|Polar|PostHog|Prisma|Prismic|Qdrant|Razorpay|Redis|Replicate|Resend|Rollbar|Sanity|Sentry|Shopify|SingleStore|Slack|Snowflake|Snyk|Square|Storyblok|Stripe|Sumo Logic|Supabase|Tavily|Timescale|Together AI|Trello|Turso|Typeform|Upstash|Vercel|Weights & Biases|Zapier|Zendesk|Via CrofAI|Fable 5\\.1|Sonnet 5|Opus 4\\.8|Opus 5|DeepSeek|Mistral|Emoji|Images|Desktop|Caching|Peak pricing)$" },
+
+    { "reason": "language", "re": "^(?:Ada|ActionScript|Angular HTML|Angular TypeScript|Apache Conf|Apex|AppleScript|Ara|AsciiDoc|Assembly|ASP\\.NET Razor|Astro|Ballerina|Batch File|Beancount|Berry|BibTeX|Bicep|BIRD2 Configuration|Blade|Cadence|Cairo|Clojure|Closure Templates|CMake|CoffeeScript|Common Lisp|Coq|Crystal|Cypher|Dart|Diff|Dockerfile|Dream Maker|Edge|Elixir|Elm|Emacs Lisp|Erlang|Fennel|Fish|Fluent|Fortran \\(Fixed Form\\)|Fortran \\(Free Form\\)|GDResource|GDScript|GDShader|Genie|Gettext PO|Gherkin|Git Commit Message|Git Rebase Message|Gleam|Glimmer JS|Glimmer TS|Gnuplot|Go|GraphQL|Groovy|Hack|Handlebars|HashiCorp HCL|Haskell|Haxe|Hjson|HTML \\(Derivative\\)|Hurl|Hy|Imba|Java|JavaScript|Jinja|Jison|JSON5|JSON Lines|JSON with Comments|Jsonnet|Julia|Just|Kotlin|Kusto|LaTeX|Lean 4|Less|Liquid|LLVM IR|Logo|Lua|Luau|Makefile|Markdown|Marko|Mermaid|MIPS Assembly|Mojo|MoonBit|Narrat Language|Nextflow|Nextflow Groovy|Nginx|Nim|Nix|Objective-C|Objective-C\\+\\+|OCaml|Odin|OpenSCAD|Pascal|Perl|Pkl|PostCSS|PowerQuery|PowerShell|Prolog|Protocol Buffer 3|Pug|Puppet|PureScript|Python|QML Directory|Qt Style Sheets|Racket|Raku|RegExp|Rel|Render|RISC-V|ROS Interface|Ruby|Ruby Haml|Rust|Sass|Scala|Scheme|ShaderLab|Shell|Shell Session|Smalltalk|Solidity|Splunk Query Language|SSH Config|Stata|Stylus|SurrealQL|Svelte|Swift|Systemd Units|SystemVerilog|TalonScript|Task|TaskList|TaskMarker|Tasl|Tcl|Templ|Terraform|TeX|Timescale|Turtle|Twig|TypeScript|TypeScript with Tags|TypeSpec|Typst|Vala|Verilog|Vim Script|Visual Basic|Vue|Vue HTML|Vue Vine|Vyper|WebAssembly|WebAssembly Interface Types|Wenyan|Wikitext|Windows Registry Script|Wolfram|ZenScript|Zig|StrikethroughMark|SubscriptMark|SuperscriptMark|TableCell|TableDelimiter|TableHeader|Diff|\\(Current Change\\)|\\(Incoming Change\\)|Log file|New space|Move|Review)$" },
+    { "reason": "brand", "re": "^\\d+ Freebucks$" },
+    { "reason": "brand", "re": "^(?:Asana|Freebuff|OpenAI-compatible|GLM [\\d.]+ [A-Za-z]+|Fable [\\d.]+|Sonnet [\\d.]+|Opus [\\d.]+)$" },
+    { "reason": "language", "re": "^Bash$" },
+    { "reason": "techname", "re": "^(?:Autolink|BigInt|NaN|Promise|LoadingFirstPage|Core schema meta-schema)$" },
+    { "reason": "techname", "re": "^[A-Za-z_]+(?:Error|Exception)$" },
+    { "reason": "techname", "re": "^(?:rotate|translate|scale|matrix)\\(|^#[0-9a-fA-F]{3,8}$" },
+    { "reason": "user-content", "re": "^@" },
+
+    { "reason": "runtime-internal", "re": "^(?:Applying change set to a document with the wrong length|Can not derive from a modified tag|Can only recycle when the buffer is full|Cannot serialize asynchronous model options\\.|Container expected|Could not dispose an addon that has not been loaded|Ctx cannot be null|First argument must be a string|Must be a Buffer|Subroutine uses a group number that's not defined|Unexpected path|write data discarded, use flow control to avoid losing data|Attempted to dispose unknown listener)$" },
+
+    { "reason": "analytics-internal", "re": "^(?:[Cc]an'?t (?:determine if feature flag is enabled or not with given properties|match cohort without a given cohort property value)|Feature flags not available for dependency evaluation|First-party view acknowledgement|Flag has (?:experience continuity enabled|unknown group type index))$" },
+
+    { "reason": "theme", "re": "^(?:GitHub|Gruvbox|Catppuccin|Material Theme|Night Owl|Solarized|Monokai|Dracula Theme|Everforest|Kanagawa|Tokyo Night|Nord|One Dark|Ayu)(?: .*)?$" },
+
+    { "reason": "editor-internal", "re": "^(?:(?:[A-Z][a-z]*[A-Z][A-Za-z]*|[A-Z][a-z]+)(?: |$)){2,}$" },
+
+    { "reason": "runtime-internal", "re": "^(?:Unknown (?:CSI|DCS|ESC|EXECUTE|OSC) code:|Unknown SGR attribute|Serial port requested|Switching back to normal keypad|(?:Un)?[Bb]inding to mouse events)" },
+
+    { "reason": "runtime-internal", "re": "^(?:Objects are not valid as a React child|Minified React error|The argument must be a React element|for the full message or use the non-minified dev environment|Path must be a string\\. Received|React has blocked a javascript: URL)" },
+
+    { "reason": "techname", "re": "monospace$" },
+
+    { "reason": "runtime-internal", "re": "^(?:Must invoke loadWasm first\\.|Encountered errors while disposing of store|End of comment missing|Error generating stack:|Calling '(?:cancelAndSet|setIfNotSet)'|Incomplete escape|Invalid grammar state|Invalid indent unit:|Invalid or unspecified flag|Measure loop restarted|Opening link blocked as opener|Shiki instance has been disposed|TimeoutLatch callback error:|Unable to resolve platform\\.|Viewport failed to stabilize|Too much output to announce|Not enough room left in the message|Unrecognized modifier name:|(?:ANSI|Plain) language does not have grammar state)" },
+
+    { "reason": "style", "re": "(?:!important|^\\s*[+]|=>|;case|\\+\\+|===|[{}]|^[.&:#\\[]|, \\.[a-z-]|#[0-9a-fA-F]{3,8}\\b|\\b\\d+(?:\\.\\d+)?(?:px|em|rem|vh|vw)\\b)" },
+
+    { "reason": "editor-internal", "re": "^(?:(?:for|while|if|elif|else|do|switch|try|except|catch|finally|return|raise|break|continue|default|case|defer|with|pass|assert|await|yield|match|in|not|and|or|is|del|of|as|void|typeof|delete|instanceof|satisfies|type|enum|interface|implements|namespace|module|declare|from|def|class|global|nonlocal|lambda|get|set|async|static|abstract|private|readonly|override|debugger|new|keyof|unique|infer|asserts|let|const|var|function|public|protected|export|import|extends)(?: |$))+$" },
+
+    { "reason": "theme", "re": "^(?:Aurora X|Rosé Pine(?: Dawn| Moon)?|Synthwave '84|Andromeeda|Horizon|Houston|LaserWave|Plastic|Poimandres|Vesper)$" },
+
+    { "reason": "techname", "re": "^[A-Z][A-Za-z0-9]*$" },
+
+    { "reason": "style", "re": "^(?:cm-|diff --git|similarity index|; |, |\\(display-mode|top: |right: |left: |bottom: |cursor: |visibility: |auto \\d|steps\\()" },
+
+    { "reason": "runtime-internal", "re": "(?:Race condition\\?|UNKNOWN (?:touch|stack)|throw new (?:Error|RangeError)|;return |in c\\?c|processFile: invalid rawLine|parsePatchContent:|Unclosed comment group|Unmatched \"|end of an UNKNOWN|move of an UNKNOWN)" },
+
+    { "reason": "techname", "re": "^(?:Ctrl|Alt|Shift|Cmd|Meta|Mod|Dead)(?:[-+][A-Za-z0-9\\[\\]]*)*$" },
+
+    { "reason": "techname", "re": "^[A-Za-z0-9,%&'#!+\\[\\]\\-]{8,}$" },
+
+    { "reason": "techname", "re": "^[A-Za-z]+Op!$" },
+
+    { "reason": "brand", "re": "^(?:Quit )?Freebuff \\d+\\??$" },
+
+    { "reason": "editor-internal", "re": "^(?:abstract|global|Privacy|readonly|override)(?: (?:abstract|global|Privacy|readonly|override))*$" },
+
+    { "reason": "runtime-internal", "re": "(?:sending|parsing) (?:data|binary) \\(codes\\)|(?:Un)?[Bb]inding (?:to|from) mouse events" },
+
+    { "reason": "style", "re": "^(?:\\)|\\):|\\. If you meant|node \\(|ForwardRef\\(|in c\\?|\\(prefers-color-scheme|right 90%|Paste the$|What may$|\"ext\" argument must be a string$)" },
+
+    { "reason": "library-internal", "re": "^\\(started with \"[^\"]*\"\\)$|^\\(prefers-reduced-motion: reduce\\)$|^\\(via (?:force-reduce|recover-insert)\\)$|^AtKeyword import charset namespace keyframes media supports font-feature-values$|^Can't replace root node$|^ChildOp SiblingOp, LogicOp$|^CodeMirror plugin crashed$|^Config merge conflict for field$|^DiffHunksRenderer\\.processDiffResult$|^(?:Folded|Unfolded) lines$|^(?:Lowercase|Titlecase|Uppercase)_Letter$|^(?:Index|Unsupported child node):$|^Invalid (?:inner parse ranges given|path|value for isolate):$|^No (?:parse at|tile at position)$|^PseudoOp #$|^Unclosed group$|^Unsupported flag \"P\"$|^from to selector scope MatchFlag$|^tok-[a-zA-Z]+ tok-[a-zA-Z]+$|^(?:Finish with|Stuck with token)$" },
+
+    { "reason": "css-value", "re": "^a\\[href\\], button:not\\(\\[disabled\\]\\)$|^background-color 0\\.13s ease, color 0\\.13s ease, border-radius 0\\.16s ease$|^cubic-bezier\\(0\\.2, 0, 0, 1\\)$|^(?:background|color|border|padding|margin|font|display|flex|grid|position|transition|transform|opacity|z-index|width|height|top|left|right|bottom|cursor|overflow|gap|line-height|text-align|user-select)(?:-[a-z]+)?: ?[^;]*;$" },
+
+    { "reason": "shell-command", "re": "^install (?:git --yes|--id Git\\.Git --exact --source winget)$|^(?:winget|git|bun|npm|pnpm|npx|node|powershell|cmd) (?:install|add|run|exec|-)[\\w\\s.\\-=/\\\"]{0,120}$" },
+
+    { "reason": "screenreader-internal", "re": "^(?:Draggable item|Picked up draggable item|Dragging was cancelled\\. Draggable item|is no longer over a droppable area\\.|was dropped\\.)$" },
+
+    { "reason": "theme", "re": "^Pierre (?:Dark|Light) Protanopia & Deuteranopia$" },
+
+    { "reason": "brand", "re": "^(?:Freebuff )?(?:Claude|Codex|DeepSeek|GLM|Gemini|GPT|Grok|Kimi|MiMo|MiniMax|Muse|Nemotron|Qwen|Solar|Llama|OpenRouter|OpenAI)[\\w.\\-/() ]{0,40}$" },
+
+    { "reason": "file-template", "re": "^---\\nname: my-skill" },
+
+    { "reason": "library-internal", "re": "^Cannot omit file headers on a multi-file patch\\." },
+
+    { "reason": "techname", "re": "^(?:(?:mouse(?:down|up)|touch(?:cancel|end|start)|auxclick|dblclick|pointer(?:cancel|down|up)|drag(?:end|start)|drop|composition(?:end|start)|key(?:down|press|up)|input|textInput|copy|cut|paste|click|change|contextmenu|reset) ?)+$" }
+
+  ]
+}

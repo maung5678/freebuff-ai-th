@@ -1,0 +1,657 @@
+{
+  "meta": {
+    "note": "ชุดที่ 4 — ปิดช่องว่างจาก gap-report: ข้อความ validation/error ของแอพ และ pattern ที่มีตัวแปร (ยังไม่แปล) ทั้งหมด",
+    "updatedAt": "2026-09-14"
+  },
+  "strings": {
+    "Array does not match prefixItems schema": "อาร์เรย์ไม่ตรงกับสคีมา prefixItems",
+    "Array items must be unique": "รายการในอาร์เรย์ต้องไม่ซ้ำกัน",
+    "Array must contain required items matching the schema": "อาร์เรย์ต้องมีรายการที่ตรงกับสคีมาครบถ้วน",
+    "Cannot specify both systemPrompt and inheritParentSystemPrompt. When inheritParentSystemPrompt is true, systemPrompt must be empty.": "ระบุทั้ง systemPrompt และ inheritParentSystemPrompt พร้อมกันไม่ได้ เมื่อ inheritParentSystemPrompt เป็น true ต้องเว้น systemPrompt ว่างไว้",
+    "Command cancelled: the run was aborted by the user.": "ยกเลิกคำสั่งแล้ว: ผู้ใช้ยกเลิกการทำงานนี้",
+    "Command interrupted: the run was aborted by the user and the process was killed before it completed.": "คำสั่งถูกขัดจังหวะ: ผู้ใช้ยกเลิกและโพรเซสถูกปิดก่อนทำงานเสร็จ",
+    "Command should not contain spaces. Use args array for arguments.": "คำสั่งไม่ควรมีช่องว่าง ให้ใส่อาร์กิวเมนต์ในฟิลด์ args",
+    "Date operations cannot be performed on boolean values": "ไม่สามารถดำเนินการเกี่ยวกับวันที่กับค่าบูลีนได้",
+    "Download": "ดาวน์โหลด",
+    "Each question must have at least 2 options": "แต่ละคำถามต้องมีตัวเลือกอย่างน้อย 2 ข้อ",
+    "Element schema is required for array output.": "ต้องระบุสคีมาของสมาชิกเมื่อใช้เอาต์พุตแบบอาร์เรย์",
+    "Entry is not a valid MCP server": "รายการนี้ไม่ใช่เซิร์ฟเวอร์ MCP ที่ถูกต้อง",
+    "Enum values are not supported for array output.": "ไม่รองรับค่า enum เมื่อใช้เอาต์พุตแบบอาร์เรย์",
+    "Enum values are not supported for no-schema output.": "ไม่รองรับค่า enum เมื่อไม่ใช้สคีมา",
+    "Enum values are not supported for object output.": "ไม่รองรับค่า enum เมื่อใช้เอาต์พุตแบบออบเจกต์",
+    "Enum values are required for enum output.": "ต้องระบุค่า enum เมื่อใช้เอาต์พุตแบบ enum",
+    "Enum values must be strings.": "ค่า enum ต้องเป็นสตริง",
+    "Expected 'function.name' to be a string.": "คาดว่า 'function.name' ต้องเป็นสตริง",
+    "Failed to parse video SSE event": "แปลงเหตุการณ์ SSE ของวิดีโอไม่สำเร็จ",
+    "Freebuff did not return a valid sponsored task preview.": "Freebuff ไม่ได้ส่งตัวอย่างงานสปอนเซอร์ที่ถูกต้องกลับมา",
+    "Install": "ติดตั้ง",
+    "Integers must be within the safe integer range.": "จำนวนเต็มต้องอยู่ในช่วงจำนวนเต็มที่ปลอดภัย",
+    "Internal error: prompt response type not handled": "ข้อผิดพลาดภายใน: ไม่รองรับประเภทการตอบกลับของพรอมป์ต์",
+    "Invalid agent entry": "รายการเอเจนต์ไม่ถูกต้อง",
+    "Invalid output type.": "ประเภทเอาต์พุตไม่ถูกต้อง",
+    "JSON response format schema is only supported with structuredOutputs": "สคีมาของรูปแบบการตอบกลับ JSON ใช้ได้เฉพาะเมื่อเปิด structuredOutputs",
+    "MCP rules do not support patterns in parentheses": "กฎ MCP ไม่รองรับแพตเทิร์นที่อยู่ในวงเล็บ",
+    "Merge locally": "เมิร์จในเครื่อง",
+    "Merge pull request": "เมิร์จ pull request",
+    "Message must contain at least one part": "ข้อความต้องมีอย่างน้อยหนึ่งส่วน",
+    "Missing required properties": "ขาดพร็อพเพอร์ตีที่จำเป็น",
+    "Mission couldn't queue the step it chose.": "มิชชันเข้าคิวขั้นตอนที่เลือกไว้ไม่สำเร็จ",
+    "No matching discriminator": "ไม่พบตัวแยกประเภทที่ตรงกัน",
+    "No provider changes supplied": "ไม่ได้ส่งการเปลี่ยนแปลงของผู้ให้บริการมา",
+    "No speech audio generated.": "ไม่ได้สร้างไฟล์เสียงพูด",
+    "No transcript generated.": "ไม่ได้สร้างข้อความถอดเสียง",
+    "No translation generated.": "ไม่ได้สร้างคำแปล",
+    "Object constraints validation failed": "ตรวจข้อจำกัดของออบเจกต์ไม่ผ่าน",
+    "Prefix cannot be empty before :*": "คำนำหน้าต้องไม่ว่างก่อน :*",
+    "Private Key": "คีย์ส่วนตัว",
+    "Quote": "อ้างข้อความ",
+    "SSE response body is empty": "เนื้อหาการตอบกลับ SSE ว่างเปล่า",
+    "SSE stream ended without a data event": "สตรีม SSE จบลงโดยไม่มีเหตุการณ์ data",
+    "Schema conversion failed": "แปลงสคีมาไม่สำเร็จ",
+    "Schema description is not supported for enum output.": "ไม่รองรับคำอธิบายสคีมาเมื่อใช้เอาต์พุตแบบ enum",
+    "Schema description is not supported for no-schema output.": "ไม่รองรับคำอธิบายสคีมาเมื่อไม่ใช้สคีมา",
+    "Schema is not supported for enum output.": "ไม่รองรับสคีมาเมื่อใช้เอาต์พุตแบบ enum",
+    "Schema is not supported for no-schema output.": "ไม่รองรับสคีมาเมื่อไม่ใช้สคีมา",
+    "Schema is required for object output.": "ต้องระบุสคีมาเมื่อใช้เอาต์พุตแบบออบเจกต์",
+    "Schema name is not supported for enum output.": "ไม่รองรับชื่อสคีมาเมื่อใช้เอาต์พุตแบบ enum",
+    "Schema name is not supported for no-schema output.": "ไม่รองรับชื่อสคีมาเมื่อไม่ใช้สคีมา",
+    "Schema unavailable": "สคีมาใช้ไม่ได้",
+    "Server name has leading or trailing whitespace and will never match (names are compared verbatim)": "ชื่อเซิร์ฟเวอร์มีช่องว่างหัวหรือท้าย และจะไม่มีทางตรงกัน (ชื่อถูกเทียบแบบตรงตัว)",
+    "Server name must not be whitespace-only": "ชื่อเซิร์ฟเวอร์ต้องไม่ใช่ช่องว่างล้วน",
+    "Server url is not a valid URL": "URL ของเซิร์ฟเวอร์ไม่ใช่ URL ที่ถูกต้อง",
+    "Stay in plan mode; type feedback below to steer the revision.": "อยู่ในโหมดวางแผนต่อ พิมพ์ข้อเสนอแนะด้านล่างเพื่อกำหนดทิศทางของการแก้ไข",
+    "Switch this thread to build mode and queue an implementation turn.": "สลับเธรดนี้เป็นโหมดสร้าง แล้วเข้าคิวรอบลงมือทำ",
+    "System messages are not allowed in the prompt or messages fields. Use the instructions option instead.": "ไม่อนุญาตข้อความระบบในฟิลด์ prompt หรือ messages ให้ใช้ตัวเลือก instructions แทน",
+    "The :* pattern must be at the end": "แพตเทิร์น :* ต้องอยู่ท้ายสุด",
+    "The credentials block was salvaged from the invalid sandbox value and stays enforced; every other sandbox field was ignored.": "บล็อก credentials ถูกกู้คืนจากค่า sandbox ที่ไม่ถูกต้องและยังถูกบังคับใช้อยู่ ส่วนฟิลด์ sandbox อื่นทั้งหมดถูกมองข้าม",
+    "The messages do not match the ModelMessage[] schema.": "ข้อความไม่ตรงกับสคีมา ModelMessage[]",
+    "The value of a property (": "ค่าของพร็อพเพอร์ตี (",
+    "This session has no inference source pin; start a new BYOK task.": "เซสชันนี้ไม่ได้ผูกแหล่งประมวลผลไว้ เริ่มงาน BYOK ใหม่",
+    "Tool call cancelled: the run was aborted by the user.": "ยกเลิกการเรียกเครื่องมือแล้ว: ผู้ใช้ยกเลิกการทำงานนี้",
+    "Trying to update state with a transaction that doesn't start from the previous state.": "กำลังอัปเดตสถานะด้วยทรานแซกชันที่ไม่ได้เริ่มจากสถานะก่อนหน้า",
+    "URL cannot use javascript:, data:, or vbscript: scheme": "URL ใช้สคีมา javascript:, data: หรือ vbscript: ไม่ได้",
+    "URL must be parseable": "URL ต้องแปลงค่าได้",
+    "URL must have a hostname": "URL ต้องมีชื่อโฮสต์",
+    "Unknown error: Failed to process the propose_str_replace.": "ข้อผิดพลาดที่ไม่รู้จัก: ประมวลผล propose_str_replace ไม่สำเร็จ",
+    "Unknown error: Failed to process the str_replace block.": "ข้อผิดพลาดที่ไม่รู้จัก: ประมวลผลบล็อก str_replace ไม่สำเร็จ",
+    "Use the current conversation directly instead of reading it as another thread.": "ใช้บทสนทนาปัจจุบันโดยตรง แทนที่จะอ่านมันเป็นอีกเธรดหนึ่ง",
+    "Value must equal the const value": "ค่าต้องเท่ากับค่า const ที่กำหนด",
+    "Value must match exactly one of the oneOf schemas": "ค่าต้องตรงกับสคีมาใดสคีมาหนึ่งใน oneOf เท่านั้น",
+    "Value must match one of the enum values": "ค่าต้องตรงกับค่าใดค่าหนึ่งใน enum",
+    "Value must not match the 'not' schema": "ค่าต้องไม่ตรงกับสคีมาใน 'not'",
+    "Vectors must have the same length": "เวกเตอร์ต้องมีความยาวเท่ากัน",
+    "Video generation was cancelled.": "ยกเลิกการสร้างวิดีโอแล้ว",
+    "allowedTools must be an array of tool names": "allowedTools ต้องเป็นอาร์เรย์ของชื่อเครื่องมือ",
+    "command must be printable ASCII (letters, digits, punctuation, single spaces) with no runs of 4 or more spaces": "คำสั่งต้องเป็นอักขระ ASCII ที่พิมพ์ได้ (ตัวอักษร ตัวเลข เครื่องหมายวรรคตอน และช่องว่างเดี่ยว) โดยห้ามมีช่องว่างติดกันตั้งแต่ 4 ตัวขึ้นไป",
+    "command must not be longer than the install consent UI can display": "คำสั่งต้องไม่ยาวเกินกว่าที่หน้าต่างยินยอมติดตั้งจะแสดงได้",
+    "diffComments must be an array": "diffComments ต้องเป็นอาร์เรย์",
+    "expected exactly one of neverAdvertiserId or optedOut": "ต้องมีอย่างใดอย่างหนึ่งเท่านั้น ระหว่าง neverAdvertiserId หรือ optedOut",
+    "explorerCollapsed must be a boolean": "explorerCollapsed ต้องเป็นค่าบูลีน",
+    "explorerTabs must map thread ids to explorer tabs": "explorerTabs ต้องจับคู่ไอดีเธรดกับแท็บ explorer",
+    "extensionToLanguage must have at least one mapping": "extensionToLanguage ต้องมีการจับคู่อย่างน้อยหนึ่งรายการ",
+    "freebucksIntroSeen must be a boolean": "freebucksIntroSeen ต้องเป็นค่าบูลีน",
+    "frequencyPenalty must be a number": "frequencyPenalty ต้องเป็นตัวเลข",
+    "headersHelper must be printable ASCII (letters, digits, punctuation, single spaces) with no runs of 4 or more spaces": "headersHelper ต้องเป็นอักขระ ASCII ที่พิมพ์ได้ (ตัวอักษร ตัวเลข เครื่องหมายวรรคตอน และช่องว่างเดี่ยว) โดยห้ามมีช่องว่างติดกันตั้งแต่ 4 ตัวขึ้นไป",
+    "headersHelper must not be longer than the install consent UI can display": "headersHelper ต้องไม่ยาวเกินกว่าที่หน้าต่างยินยอมติดตั้งจะแสดงได้",
+    "impUrl required": "ต้องระบุ impUrl",
+    "injectAgentsMd must be a boolean": "injectAgentsMd ต้องเป็นค่าบูลีน",
+    "inputReferences were ignored because frameImages were provided; frameImages and inputReferences cannot be combined.": "inputReferences ถูกมองข้ามเพราะมี frameImages ส่งมา ใช้ frameImages รวมกับ inputReferences ไม่ได้",
+    "instructions must be a string, SystemModelMessage, or array of SystemModelMessage": "instructions ต้องเป็นสตริง, SystemModelMessage หรืออาร์เรย์ของ SystemModelMessage",
+    "interpreter must be 'pwsh' on windows ('sh' is not supported there)": "interpreter ต้องเป็น 'pwsh' บน Windows (ไม่รองรับ 'sh' บน Windows)",
+    "invalid BYOK connection binding": "การผูกการเชื่อมต่อ BYOK ไม่ถูกต้อง",
+    "invalid walletSpendLimit": "walletSpendLimit ไม่ถูกต้อง",
+    "malformed JSON body": "เนื้อหา JSON ผิดรูปแบบ",
+    "maxOutputTokens must be an integer": "maxOutputTokens ต้องเป็นจำนวนเต็ม",
+    "maxRetries must be an integer": "maxRetries ต้องเป็นจำนวนเต็ม",
+    "maxSubParamsLength must not be greater than 256": "maxSubParamsLength ต้องไม่เกิน 256",
+    "mobileMirror must be a boolean": "mobileMirror ต้องเป็นค่าบูลีน",
+    "no recognized UI preferences": "ไม่พบการตั้งค่าอินเทอร์เฟซที่รู้จัก",
+    "outputSchema requires outputMode to be explicitly set to 'structured_output'.": "outputSchema ต้องตั้ง outputMode เป็น 'structured_output' อย่างชัดเจน",
+    "path must end in .exe or .ps1 on Windows": "พาธต้องลงท้ายด้วย .exe หรือ .ps1 บน Windows",
+    "preferredEditor must be vscode, cursor or zed": "preferredEditor ต้องเป็น vscode, cursor หรือ zed",
+    "presencePenalty must be a number": "presencePenalty ต้องเป็นตัวเลข",
+    "prompt.image was ignored because a first_frame frameImage was provided; the first_frame frameImage takes precedence as the start image.": "prompt.image ถูกมองข้ามเพราะมี frameImage แบบ first_frame ส่งมา frameImage แบบ first_frame จะถูกใช้เป็นภาพเริ่มต้นแทน",
+    "request IDs must not be empty": "รหัสคำขอต้องไม่ว่าง",
+    "response must be an object that contains a choice value.": "การตอบกลับต้องเป็นออบเจกต์ที่มีค่า choice อยู่",
+    "savedMissions is malformed": "savedMissions ผิดรูปแบบ",
+    "script must not contain NUL bytes": "สคริปต์ต้องไม่มีไบต์ NUL",
+    "startupScript must be a string or null": "startupScript ต้องเป็นสตริงหรือ null",
+    "theme must be dark, light or system": "theme ต้องเป็น dark, light หรือ system",
+    "threadMentionTipSeen must be a boolean": "threadMentionTipSeen ต้องเป็นค่าบูลีน",
+    "throughRevision must be a non-negative integer": "throughRevision ต้องเป็นจำนวนเต็มที่ไม่ติดลบ",
+    "topK must be a number": "topK ต้องเป็นตัวเลข",
+    "topP must be a number": "topP ต้องเป็นตัวเลข",
+    "webContentsId must be an integer or null": "webContentsId ต้องเป็นจำนวนเต็มหรือ null",
+    "⇥ open": "⇥ เปิด"
+  },
+  "patterns": [
+    {
+      "from": "\n\n⚠️ Interrupted — {n} while this reply was streaming.",
+      "to": "\n\n⚠️ ถูกขัดจังหวะ — {n} ขณะที่คำตอบนี้กำลังสตรีมอยู่"
+    },
+    {
+      "from": "\"availableModels\" contained a non-string entry ({n}); the entry was ignored.",
+      "to": "\"availableModels\" มีรายการที่ไม่ใช่สตริง ({n}) รายการนั้นถูกมองข้าม"
+    },
+    {
+      "from": "\"crossSessionInbound\" {n}. {n2}",
+      "to": "\"crossSessionInbound\" {n} · {n2}"
+    },
+    {
+      "from": "\"hooks\" must be an object mapping event names to matcher arrays; received a single matcher — {n}.",
+      "to": "\"hooks\" ต้องเป็นออบเจกต์ที่จับคู่ชื่อเหตุการณ์กับอาร์เรย์ของแมตเชอร์ แต่ได้รับแมตเชอร์เดี่ยว — {n}"
+    },
+    {
+      "from": "\"hooks\" must be an object mapping event names to matcher arrays; received {n} — {n2}.",
+      "to": "\"hooks\" ต้องเป็นออบเจกต์ที่จับคู่ชื่อเหตุการณ์กับอาร์เรย์ของแมตเชอร์ แต่ได้รับ {n} — {n2}"
+    },
+    {
+      "from": "\"hooks\" must be an object mapping event names to matcher arrays; received {n}. This field was ignored.",
+      "to": "\"hooks\" ต้องเป็นออบเจกต์ที่จับคู่ชื่อเหตุการณ์กับอาร์เรย์ของแมตเชอร์ แต่ได้รับ {n} ฟิลด์นี้ถูกมองข้าม"
+    },
+    {
+      "from": "\"modelPricing\" must be an object; received {n}. It was ignored.",
+      "to": "\"modelPricing\" ต้องเป็นออบเจกต์ แต่ได้รับ {n} จึงถูกมองข้าม"
+    },
+    {
+      "from": "\"overrides\" must be an object mapping model ID to rates; received {n}. It was ignored.",
+      "to": "\"overrides\" ต้องเป็นออบเจกต์ที่จับคู่ไอดีโมเดลกับอัตราค่าใช้จ่าย แต่ได้รับ {n} จึงถูกมองข้าม"
+    },
+    {
+      "from": "\"replaceBuiltInOptions\" must be true or false; received {n}. This entry was ignored (the rows are added to the built-in lineup).",
+      "to": "\"replaceBuiltInOptions\" ต้องเป็น true หรือ false แต่ได้รับ {n} รายการนี้ถูกมองข้าม (แถวเหล่านี้จะถูกเพิ่มในชุดที่มีมาให้อยู่แล้ว)"
+    },
+    {
+      "from": "\"{n}\" appears in more than one awsPairs slot (within or across pairs) — each variable can fill exactly one slot.",
+      "to": "\"{n}\" ปรากฏในช่อง awsPairs มากกว่าหนึ่งช่อง (ในคู่เดียวกันหรือต่างคู่) — ตัวแปรแต่ละตัวใช้ได้เพียงช่องเดียว"
+    },
+    {
+      "from": "\"{n}\" is a tool, not an agent. Call it directly as a tool instead of wrapping it in spawn_agents.",
+      "to": "\"{n}\" เป็นเครื่องมือ ไม่ใช่เอเจนต์ ให้เรียกเป็นเครื่องมือโดยตรง ไม่ต้องห่อด้วย spawn_agents"
+    },
+    {
+      "from": "\"{n}\" is an alias for \"{n2}\" and this file sets both; the \"{n3}\" value was ignored. Use only \"{n4}\".",
+      "to": "\"{n}\" เป็นชื่อพ้องของ \"{n2}\" และไฟล์นี้ตั้งค่าทั้งคู่ ค่า \"{n3}\" ถูกมองข้าม ให้ใช้เพียง \"{n4}\""
+    },
+    {
+      "from": "\"{n}\" is not a usable pid.",
+      "to": "\"{n}\" ไม่ใช่ pid ที่ใช้งานได้"
+    },
+    {
+      "from": "\"{n}\" is not a valid URL.",
+      "to": "\"{n}\" ไม่ใช่ URL ที่ถูกต้อง"
+    },
+    {
+      "from": "\"{n}\" must be an array; a lone entry object was accepted as a one-element list. Wrap it in [ ] to silence this warning.",
+      "to": "\"{n}\" ต้องเป็นอาร์เรย์ ระบบรับออบเจกต์รายการเดี่ยวเป็นลิสต์หนึ่งสมาชิกให้แล้ว ให้ใส่ [ ] ครอบเพื่อไม่ให้ขึ้นคำเตือนนี้อีก"
+    },
+    {
+      "from": "\"{n}\" must be an array; received {n2}. This field was ignored.",
+      "to": "\"{n}\" ต้องเป็นอาร์เรย์ แต่ได้รับ {n2} ฟิลด์นี้ถูกมองข้าม"
+    },
+    {
+      "from": "\"{n}\" must be an object mapping marketplace names to declarations; received {n2}. This field was ignored.",
+      "to": "\"{n}\" ต้องเป็นออบเจกต์ที่จับคู่ชื่อมาร์เก็ตเพลสกับคำประกาศ แต่ได้รับ {n2} ฟิลด์นี้ถูกมองข้าม"
+    },
+    {
+      "from": "\"{n}\" — that turn failed, so the rest of the queue is paused.",
+      "to": "\"{n}\" — รอบนั้นล้มเหลว คิวที่เหลือจึงถูกหยุดไว้ชั่วคราว"
+    },
+    {
+      "from": "Agent \"{n}\" could not be loaded",
+      "to": "โหลดเอเจนต์ \"{n}\" ไม่สำเร็จ"
+    },
+    {
+      "from": "Agent \"{n}\" does not exist",
+      "to": "ไม่มีเอเจนต์ \"{n}\" อยู่"
+    },
+    {
+      "from": "Cannot go {n} — no such history entry.",
+      "to": "ไป {n} ไม่ได้ — ไม่มีประวัติรายการนั้น"
+    },
+    {
+      "from": "Cannot type into \"{n}\": {n2}",
+      "to": "พิมพ์ลงใน \"{n}\" ไม่ได้: {n2}"
+    },
+    {
+      "from": "Cannot type into \"{n}\": {n2}. Re-snapshot and pick an editable element.",
+      "to": "พิมพ์ลงใน \"{n}\" ไม่ได้: {n2} ให้สแนปช็อตใหม่แล้วเลือกองค์ประกอบที่แก้ไขได้"
+    },
+    {
+      "from": "Chunking must be \"word\", \"line\", a RegExp, an Intl.Segmenter, or a ChunkDetector function. Received: {n}",
+      "to": "การแบ่งชิ้นต้องเป็น \"word\", \"line\", RegExp, Intl.Segmenter หรือฟังก์ชัน ChunkDetector แต่ได้รับ: {n}"
+    },
+    {
+      "from": "Claude Code {n} is ready.",
+      "to": "Claude Code {n} พร้อมใช้งานแล้ว"
+    },
+    {
+      "from": "Could not undo file changes from the removed messages: {n}",
+      "to": "ย้อนการเปลี่ยนแปลงไฟล์จากข้อความที่ถูกลบไม่สำเร็จ: {n}"
+    },
+    {
+      "from": "Download of {n} exceeded maximum size of {n2} bytes (Content-Length: {n3}).",
+      "to": "การดาวน์โหลด {n} เกินขนาดสูงสุด {n2} ไบต์ (Content-Length: {n3})"
+    },
+    {
+      "from": "Download of {n} exceeded maximum size of {n2} bytes.",
+      "to": "การดาวน์โหลด {n} เกินขนาดสูงสุด {n2} ไบต์"
+    },
+    {
+      "from": "Error: {n}",
+      "to": "ข้อผิดพลาด: {n}"
+    },
+    {
+      "from": "Error: {n}{n2}",
+      "to": "ข้อผิดพลาด: {n}{n2}"
+    },
+    {
+      "from": "Evaluation threw: {n}",
+      "to": "การประเมินเกิดข้อผิดพลาด: {n}"
+    },
+    {
+      "from": "Failed after {n} attempts with non-retryable error: '{n2}'",
+      "to": "ล้มเหลวหลังลอง {n} ครั้ง ด้วยข้อผิดพลาดที่ลองใหม่ไม่ได้: '{n2}'"
+    },
+    {
+      "from": "Failed to connect to validation API: {n}",
+      "to": "เชื่อมต่อ API ตรวจสอบไม่สำเร็จ: {n}"
+    },
+    {
+      "from": "Freebuff does not implement {n}; this thread runs with approvals disabled.",
+      "to": "Freebuff ยังไม่รองรับ {n} เธรดนี้จึงทำงานโดยปิดการขออนุมัติ"
+    },
+    {
+      "from": "HTML preview file not found or unreadable: {n}",
+      "to": "ไม่พบไฟล์ตัวอย่าง HTML หรืออ่านไม่ได้: {n}"
+    },
+    {
+      "from": "Hook event \"{n}\" must be an array of matchers; received {n2} — {n3}.",
+      "to": "เหตุการณ์ฮุก \"{n}\" ต้องเป็นอาร์เรย์ของแมตเชอร์ แต่ได้รับ {n2} — {n3}"
+    },
+    {
+      "from": "Hook event \"{n}\" must be an array of matchers; received {n2}. This entry was ignored.",
+      "to": "เหตุการณ์ฮุก \"{n}\" ต้องเป็นอาร์เรย์ของแมตเชอร์ แต่ได้รับ {n2} รายการนี้ถูกมองข้าม"
+    },
+    {
+      "from": "Hostname {n} resolved to disallowed IP address {n2}",
+      "to": "ชื่อโฮสต์ {n} แปลค่าเป็นที่อยู่ IP ที่ไม่อนุญาต {n2}"
+    },
+    {
+      "from": "Input not instance of {n}",
+      "to": "อินพุตไม่ใช่ชนิด {n}"
+    },
+    {
+      "from": "Internal error: {n}",
+      "to": "ข้อผิดพลาดภายใน: {n}"
+    },
+    {
+      "from": "Invalid argument for parameter {n}: {n2}",
+      "to": "อาร์กิวเมนต์ของพารามิเตอร์ {n} ไม่ถูกต้อง: {n2}"
+    },
+    {
+      "from": "Invalid data URL format in content {n}",
+      "to": "รูปแบบ data URL ในคอนเทนต์ {n} ไม่ถูกต้อง"
+    },
+    {
+      "from": "Invalid entry was degraded to mode \"deny\": {n}. The credential stays blocked (not masked) until the entry is fixed.{n2}",
+      "to": "รายการที่ไม่ถูกต้องถูกลดระดับเป็นโหมด \"deny\": {n} ข้อมูลรับรองจะยังถูกบล็อก (ไม่ได้ถูกปิดบัง) จนกว่าจะแก้รายการนี้{n2}"
+    },
+    {
+      "from": "Invalid entry was ignored: {n}",
+      "to": "รายการที่ไม่ถูกต้องถูกมองข้าม: {n}"
+    },
+    {
+      "from": "Invalid entry was ignored: {n}. No policy helper runs on {n2} from this entry.",
+      "to": "รายการที่ไม่ถูกต้องถูกมองข้าม: {n} ไม่มีตัวช่วยนโยบายใดทำงานกับ {n2} จากรายการนี้"
+    },
+    {
+      "from": "Invalid entry was ignored: {n}. This credential is NOT protected until the entry is fixed.",
+      "to": "รายการที่ไม่ถูกต้องถูกมองข้าม: {n} ข้อมูลรับรองนี้ยังไม่ถูกป้องกันจนกว่าจะแก้รายการนี้ให้ถูกต้อง"
+    },
+    {
+      "from": "Invalid error response format: {n}",
+      "to": "รูปแบบการตอบกลับข้อผิดพลาดไม่ถูกต้อง: {n}"
+    },
+    {
+      "from": "Invalid marketplace entry was ignored: {n}",
+      "to": "รายการมาร์เก็ตเพลสที่ไม่ถูกต้องถูกมองข้าม: {n}"
+    },
+    {
+      "from": "Invalid pair was ignored: {n}. SigV4 re-signing stays unconfigured for this pair until it is fixed.",
+      "to": "คู่ที่ไม่ถูกต้องถูกมองข้าม: {n} การลงนาม SigV4 ซ้ำจะยังไม่ถูกตั้งค่าให้คู่นี้จนกว่าจะแก้ไข"
+    },
+    {
+      "from": "Invalid {n} id for registry: {n2} (must be in the format \"providerId{n3}modelId\")",
+      "to": "ไอดี {n} สำหรับ registry ไม่ถูกต้อง: {n2} (ต้องอยู่ในรูปแบบ \"providerId{n3}modelId\")"
+    },
+    {
+      "from": "JSON parsing failed: Text: {n}.\nError message: {n2}",
+      "to": "แปลง JSON ไม่สำเร็จ: ข้อความ: {n}\nข้อความข้อผิดพลาด: {n2}"
+    },
+    {
+      "from": "Marketplace name \"{n}\" is reserved for {n2}",
+      "to": "ชื่อมาร์เก็ตเพลส \"{n}\" สงวนไว้สำหรับ {n2}"
+    },
+    {
+      "from": "Method not found: {n}",
+      "to": "ไม่พบเมธอด: {n}"
+    },
+    {
+      "from": "Missing credential binding for {n}",
+      "to": "ไม่มีการผูกข้อมูลรับรองสำหรับ {n}"
+    },
+    {
+      "from": "Mission could not save the step it chose: {n}",
+      "to": "มิชชันบันทึกขั้นตอนที่เลือกไว้ไม่สำเร็จ: {n}"
+    },
+    {
+      "from": "Mission dropped {n}.",
+      "to": "มิชชันทิ้ง {n}"
+    },
+    {
+      "from": "Must be a multiple of {n}",
+      "to": "ต้องเป็นจำนวนเท่าของ {n}"
+    },
+    {
+      "from": "Navigation issued but no load event observed within {n}s — the page may still be loading.",
+      "to": "สั่งนำทางแล้วแต่ไม่พบเหตุการณ์โหลดภายใน {n} วินาที — หน้าอาจยังโหลดอยู่"
+    },
+    {
+      "from": "No data schema found for data part {n}",
+      "to": "ไม่พบสคีมาข้อมูลสำหรับส่วนข้อมูล {n}"
+    },
+    {
+      "from": "No process with pid {n} is running. Start the dev server detached, verify it stays up, then register.",
+      "to": "ไม่มีโพรเซส pid {n} ทำงานอยู่ ให้เริ่มเดฟเซิร์ฟเวอร์แบบ detached ตรวจว่าไม่ดับ แล้วจึงลงทะเบียน"
+    },
+    {
+      "from": "No tool invocation found for approval ID \"{n}\".",
+      "to": "ไม่พบการเรียกเครื่องมือสำหรับไอดีอนุมัติ \"{n}\""
+    },
+    {
+      "from": "No tool invocation found for tool call ID \"{n}\".",
+      "to": "ไม่พบการเรียกเครื่องมือสำหรับไอดีการเรียกเครื่องมือ \"{n}\""
+    },
+    {
+      "from": "No tool schema found for tool part {n}",
+      "to": "ไม่พบสคีมาของเครื่องมือสำหรับส่วนเครื่องมือ {n}"
+    },
+    {
+      "from": "Non-string value in {n} array was removed",
+      "to": "ค่าที่ไม่ใช่สตริงในอาร์เรย์ {n} ถูกนำออก"
+    },
+    {
+      "from": "Not a valid role: {n}",
+      "to": "ไม่ใช่บทบาทที่ถูกต้อง: {n}"
+    },
+    {
+      "from": "Object must have at least {n} properties",
+      "to": "ออบเจกต์ต้องมีพร็อพเพอร์ตีอย่างน้อย {n} รายการ"
+    },
+    {
+      "from": "Object must have at most {n} properties",
+      "to": "ออบเจกต์ต้องมีพร็อพเพอร์ตีไม่เกิน {n} รายการ"
+    },
+    {
+      "from": "Preview action failed: {n}",
+      "to": "การกระทำกับตัวอย่างล้มเหลว: {n}"
+    },
+    {
+      "from": "Preview action timed out or was aborted after {n}s.",
+      "to": "การกระทำกับตัวอย่างหมดเวลาหรือถูกยกเลิกหลัง {n} วินาที"
+    },
+    {
+      "from": "Preview bridge error ({n}): {n2}",
+      "to": "ข้อผิดพลาดบริดจ์ของตัวอย่าง ({n}): {n2}"
+    },
+    {
+      "from": "Received reasoning-end for missing reasoning part with ID \"{n}\". Ensure a \"reasoning-start\" chunk is sent before any \"reasoning-end\" chunks.",
+      "to": "ได้รับ reasoning-end สำหรับส่วนการคิดวิเคราะห์ที่ไม่มีอยู่ ไอดี \"{n}\" ต้องส่งชังก์ \"reasoning-start\" ก่อนชังก์ \"reasoning-end\" เสมอ"
+    },
+    {
+      "from": "Received text-delta for missing text part with ID \"{n}\". Ensure a \"text-start\" chunk is sent before any \"text-delta\" chunks.",
+      "to": "ได้รับ text-delta สำหรับส่วนข้อความที่ไม่มีอยู่ ไอดี \"{n}\" ต้องส่งชังก์ \"text-start\" ก่อนชังก์ \"text-delta\" เสมอ"
+    },
+    {
+      "from": "Received text-end for missing text part with ID \"{n}\". Ensure a \"text-start\" chunk is sent before any \"text-end\" chunks.",
+      "to": "ได้รับ text-end สำหรับส่วนข้อความที่ไม่มีอยู่ ไอดี \"{n}\" ต้องส่งชังก์ \"text-start\" ก่อนชังก์ \"text-end\" เสมอ"
+    },
+    {
+      "from": "Received tool-input-delta for missing tool call with ID \"{n}\". Ensure a \"tool-input-start\" chunk is sent before any \"tool-input-delta\" chunks.",
+      "to": "ได้รับ tool-input-delta สำหรับการเรียกเครื่องมือที่ไม่มีอยู่ ไอดี \"{n}\" ต้องส่งชังก์ \"tool-input-start\" ก่อนชังก์ \"tool-input-delta\" เสมอ"
+    },
+    {
+      "from": "Redirect from {n} could not be validated and was blocked",
+      "to": "ตรวจสอบการเปลี่ยนเส้นทางจาก {n} ไม่ได้ จึงถูกบล็อก"
+    },
+    {
+      "from": "Settings-sourced marketplace name must match its {n} key (got key \"{n2}\" but source.name \"{n3}\")",
+      "to": "ชื่อมาร์เก็ตเพลสที่มาจาก settings ต้องตรงกับคีย์ {n} (ได้คีย์ \"{n2}\" แต่ source.name เป็น \"{n3}\")"
+    },
+    {
+      "from": "Signed in to {n}",
+      "to": "ลงชื่อเข้าใช้ {n} แล้ว"
+    },
+    {
+      "from": "Stale or unknown uid \"{n}\" — the page has changed since that snapshot. Call preview_snapshot again and use a fresh uid.",
+      "to": "uid \"{n}\" ล้าสมัยหรือไม่รู้จัก — หน้าเปลี่ยนไปแล้วหลังสแนปช็อตนั้น ให้เรียก preview_snapshot ใหม่แล้วใช้ uid ใหม่"
+    },
+    {
+      "from": "String must be at least {n} characters long",
+      "to": "สตริงต้องยาวอย่างน้อย {n} ตัวอักษร"
+    },
+    {
+      "from": "String must be at most {n} characters long",
+      "to": "สตริงต้องยาวไม่เกิน {n} ตัวอักษร"
+    },
+    {
+      "from": "The click started a navigation that had not finished loading after {n}s. Anything you read now may still be the previous page.",
+      "to": "การคลิกเริ่มการนำทางที่ยังโหลดไม่เสร็จภายใน {n} วินาที สิ่งที่อ่านได้ตอนนี้อาจยังเป็นหน้าเดิม"
+    },
+    {
+      "from": "The separator \"{n}\" must not be part of the alphabet \"{n2}\".",
+      "to": "ตัวคั่น \"{n}\" ต้องไม่อยู่ในชุดตัวอักษร \"{n2}\""
+    },
+    {
+      "from": "The {n} model \"{n2}\" does not support batch processing.",
+      "to": "โมเดล {n} \"{n2}\" ไม่รองรับการประมวลผลแบบเป็นชุด"
+    },
+    {
+      "from": "The {n} model \"{n2}\" does not support streaming transcription.",
+      "to": "โมเดล {n} \"{n2}\" ไม่รองรับการถอดเสียงแบบสตรีม"
+    },
+    {
+      "from": "Too many redirects (max {n})",
+      "to": "เปลี่ยนเส้นทางมากเกินไป (สูงสุด {n})"
+    },
+    {
+      "from": "Too many values for a single embedding call. The {n} model \"{n2}\" can only embed up to {n3} values per call, but {n4} values were provided.",
+      "to": "ค่าเยอะเกินไปสำหรับการสร้างเวกเตอร์หนึ่งครั้ง โมเดล {n} \"{n2}\" สร้างเวกเตอร์ได้ไม่เกิน {n3} ค่าต่อครั้ง แต่ได้รับมา {n4} ค่า"
+    },
+    {
+      "from": "Tool approval response references unknown approvalId: \"{n}\". No matching tool-approval-request found in message history.",
+      "to": "การตอบอนุมัติเครื่องมืออ้างถึง approvalId ที่ไม่รู้จัก: \"{n}\" ไม่พบ tool-approval-request ที่ตรงกันในประวัติข้อความ"
+    },
+    {
+      "from": "Tool approval signature verification failed for approval \"{n}\" (tool call \"{n2}\"): {n3}",
+      "to": "ตรวจลายเซ็นการอนุมัติเครื่องมือไม่ผ่านสำหรับการอนุมัติ \"{n}\" (การเรียกเครื่องมือ \"{n2}\"): {n3}"
+    },
+    {
+      "from": "Tool call \"{n}\" not found for approval request \"{n2}\".",
+      "to": "ไม่พบการเรียกเครื่องมือ \"{n}\" สำหรับคำขออนุมัติ \"{n2}\""
+    },
+    {
+      "from": "Tool result{n} missing for tool call{n2} {n3}.",
+      "to": "ไม่พบผลลัพธ์ของเครื่องมือ{n} สำหรับการเรียกเครื่องมือ{n2} {n3}"
+    },
+    {
+      "from": "Turn failed: {n}",
+      "to": "รอบการทำงานล้มเหลว: {n}"
+    },
+    {
+      "from": "Type validation failed: Value: {n}.\nError message: {n2}",
+      "to": "ตรวจชนิดข้อมูลไม่ผ่าน: ค่า: {n}\nข้อความข้อผิดพลาด: {n2}"
+    },
+    {
+      "from": "URL scheme must be http, https, or data, got {n}",
+      "to": "สคีมาของ URL ต้องเป็น http, https หรือ data แต่ได้ {n}"
+    },
+    {
+      "from": "URL with IP address {n} is not allowed",
+      "to": "ไม่อนุญาต URL ที่ใช้ที่อยู่ IP {n}"
+    },
+    {
+      "from": "URL with IPv6 address {n} is not allowed",
+      "to": "ไม่อนุญาต URL ที่ใช้ที่อยู่ IPv6 {n}"
+    },
+    {
+      "from": "URL with hostname {n} is not allowed",
+      "to": "ไม่อนุญาต URL ที่ใช้ชื่อโฮสต์ {n}"
+    },
+    {
+      "from": "Unauthenticated. Configure AI_GATEWAY_API_KEY or use a provider module. Learn more: {n}",
+      "to": "ยังไม่ได้ยืนยันตัวตน ให้ตั้งค่า AI_GATEWAY_API_KEY หรือใช้โมดูลผู้ให้บริการ ดูเพิ่มเติม: {n}"
+    },
+    {
+      "from": "Unknown hook event \"{n}\" was ignored. Valid events: {n2}",
+      "to": "เหตุการณ์ฮุกที่ไม่รู้จัก \"{n}\" ถูกมองข้าม เหตุการณ์ที่ใช้ได้: {n2}"
+    },
+    {
+      "from": "Unknown tool: {n}",
+      "to": "ไม่รู้จักเครื่องมือ: {n}"
+    },
+    {
+      "from": "Unsupported model version {n} for provider \"{n2}\" and model \"{n3}\". AI SDK 5 only supports models that implement specification version \"v2\".",
+      "to": "ไม่รองรับโมเดลเวอร์ชัน {n} สำหรับผู้ให้บริการ \"{n2}\" และโมเดล \"{n3}\" AI SDK 5 รองรับเฉพาะโมเดลที่ใช้สเปกเวอร์ชัน \"v2\""
+    },
+    {
+      "from": "Unsupported role: {n}",
+      "to": "ไม่รองรับบทบาท: {n}"
+    },
+    {
+      "from": "Value \"{n}\" can't be safely passed as a path parameter",
+      "to": "ค่า \"{n}\" ส่งเป็นพารามิเตอร์พาธได้ไม่ปลอดภัย"
+    },
+    {
+      "from": "Value of type {n} is not a valid path parameter",
+      "to": "ค่าชนิด {n} ไม่ใช่พารามิเตอร์พาธที่ถูกต้อง"
+    },
+    {
+      "from": "Wildcard tool name \"{n}\" is not supported in allow rules",
+      "to": "ไม่รองรับชื่อเครื่องมือแบบไวลด์การ์ด \"{n}\" ในกฎ allow"
+    },
+    {
+      "from": "[truncated: {n} bytes of output, kept {n2}]",
+      "to": "[ตัดให้สั้น: เอาต์พุต {n} ไบต์ เก็บไว้ {n2}]"
+    },
+    {
+      "from": "callers for tool \"{n}\" must be an array.",
+      "to": "callers ของเครื่องมือ \"{n}\" ต้องเป็นอาร์เรย์"
+    },
+    {
+      "from": "extract is not a valid regular expression: {n}",
+      "to": "extract ไม่ใช่เรกุลาร์เอ็กซ์เพรสชันที่ถูกต้อง: {n}"
+    },
+    {
+      "from": "invalid {n} provider options",
+      "to": "ตัวเลือกผู้ให้บริการ {n} ไม่ถูกต้อง"
+    },
+    {
+      "from": "model {n}:{n2} is not compatible with batch {n3}:{n4}",
+      "to": "โมเดล {n}:{n2} ใช้ร่วมกับแบตช์ {n3}:{n4} ไม่ได้"
+    },
+    {
+      "from": "must not contain \"{n}\" — the default payload is applied as managed settings and cannot configure further policy helpers",
+      "to": "ต้องไม่มี \"{n}\" — เพย์โหลดเริ่มต้นถูกใช้เป็นการตั้งค่าแบบจัดการ จึงตั้งตัวช่วยนโยบายเพิ่มเติมไม่ได้"
+    },
+    {
+      "from": "no answer within {n}s",
+      "to": "ไม่มีการตอบกลับภายใน {n} วินาที"
+    },
+    {
+      "from": "prompt must be at most {n} characters",
+      "to": "พรอมป์ต์ต้องยาวไม่เกิน {n} ตัวอักษร"
+    },
+    {
+      "from": "reasoning part {n} not found",
+      "to": "ไม่พบส่วนการคิดวิเคราะห์ {n}"
+    },
+    {
+      "from": "request IDs must be unique; duplicate ID \"{n}\"",
+      "to": "รหัสคำขอต้องไม่ซ้ำกัน พบรหัสซ้ำ \"{n}\""
+    },
+    {
+      "from": "text part {n} not found",
+      "to": "ไม่พบส่วนข้อความ {n}"
+    },
+    {
+      "from": "tool \"{n}\" contains an invalid caller.",
+      "to": "เครื่องมือ \"{n}\" มี caller ที่ไม่ถูกต้อง"
+    },
+    {
+      "from": "unknown action {n}",
+      "to": "ไม่รู้จักการกระทำ {n}"
+    },
+    {
+      "from": "unknown tool \"{n}\".",
+      "to": "ไม่รู้จักเครื่องมือ \"{n}\""
+    },
+    {
+      "from": "{n}\n\nOriginal tool call input:\n{n2}",
+      "to": "{n}\n\nอินพุตของการเรียกเครื่องมือต้นฉบับ:\n{n2}"
+    },
+    {
+      "from": "{n}\n\n[Content truncated]",
+      "to": "{n}\n\n[เนื้อหาถูกตัดให้สั้นลง]"
+    },
+    {
+      "from": "{n} Stay in plan mode.",
+      "to": "{n} อยู่ในโหมดวางแผนต่อ"
+    },
+    {
+      "from": "{n} day streak",
+      "to": "ต่อเนื่อง {n} วัน"
+    },
+    {
+      "from": "{n} did not answer an HTTP request. Make sure the server is up and responding before registering (check its log).",
+      "to": "{n} ไม่ตอบสนองคำขอ HTTP ตรวจให้แน่ใจว่าเซิร์ฟเวอร์ทำงานและตอบสนองได้ก่อนลงทะเบียน (ดู log ของมัน)"
+    },
+    {
+      "from": "{n} is no longer waiting for this sign-in. Try connecting it again.",
+      "to": "{n} ไม่ได้รอการลงชื่อเข้าใช้นี้แล้ว ลองเชื่อมต่อใหม่อีกครั้ง"
+    },
+    {
+      "from": "{n} must be a number",
+      "to": "{n} ต้องเป็นตัวเลข"
+    },
+    {
+      "from": "{n} names the same env var ('{n2}') as {n3} — each pair member must be a distinct variable.",
+      "to": "{n} ใช้ตัวแปร env ตัวเดียวกัน ('{n2}') กับ {n3} — สมาชิกแต่ละตัวในคู่ต้องเป็นตัวแปรคนละตัว"
+    },
+    {
+      "from": "{n} rejected the sign-in: {n2}",
+      "to": "{n} ปฏิเสธการลงชื่อเข้าใช้: {n2}"
+    },
+    {
+      "from": "{n}. \"{n2}\" was degraded to an explicit deny; this SigV4 request shape stays denied until it is fixed.",
+      "to": "{n} · \"{n2}\" ถูกลดระดับเป็นการปฏิเสธอย่างชัดเจน รูปแบบคำขอ SigV4 นี้จะยังถูกปฏิเสธจนกว่าจะแก้ไข"
+    },
+    {
+      "from": "{n}. \"{n2}\" was ignored; these credential entries are NOT protected until it is fixed.",
+      "to": "{n} · \"{n2}\" ถูกมองข้าม รายการข้อมูลรับรองเหล่านี้ยังไม่ถูกป้องกันจนกว่าจะแก้ไข"
+    },
+    {
+      "from": "{n}. This field was ignored.",
+      "to": "{n} · ฟิลด์นี้ถูกมองข้าม"
+    },
+    {
+      "from": "{n}. This row was ignored; the other rows still apply.",
+      "to": "{n} · แถวนี้ถูกมองข้าม แถวอื่นยังมีผลอยู่"
+    },
+    {
+      "from": "{n}: Value: {n2}.\nError message: {n3}",
+      "to": "{n}: ค่า: {n2}\nข้อความข้อผิดพลาด: {n3}"
+    }
+  ]
+}

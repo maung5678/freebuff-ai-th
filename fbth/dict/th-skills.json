@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "note": "ข้อความของ \"สกิล\" ที่อยู่ใน orchestrator.js (ทูลทิปชิปในแท็บสกิล + ข้อความ error ของระบบสกิล) — สแกนซ้ำได้ด้วย node fbth/tools/extract-orchestrator-strings.js",
+    "source": "orchestrator.js (BUILTIN_SKILLS / BUILTIN_SKILL_DESCRIPTIONS)"
+  },
+  "strings": {
+    "Adversarially review with fresh eyes the change you have made so far in this worktree. Consider alternative designs for the changes so far. Trace the actual code paths and look for the way it breaks: off-by-one and…": "ตรวจทานการแก้ไขที่ทำไปในเวิร์กทรีนี้ด้วยสายตาใหม่แบบหาจุดพัง พิจารณาการออกแบบทางเลือกสำหรับสิ่งที่แก้ไปแล้ว ร่ายเส้นทางโค้ดจริงและมองหาว่ามันพังตรงไหน: คลาดไปหนึ่งตำแหน่ง ขอบเขตผิด…",
+    "Analyze merge and deployment risk and advise how to reduce it": "วิเคราะห์ความเสี่ยงของการ merge และการปล่อยเวอร์ชัน พร้อมแนะนำวิธีลดความเสี่ยง",
+    "Build a rich visual HTML explanation and show it in Preview": "สร้างคำอธิบายเป็นภาพ HTML ที่สมบูรณ์ แล้วแสดงในแท็บ Preview",
+    "Build the single highest-value capability the best version of the request implies": "สร้างความสามารถที่คุ้มค่าที่สุดเพียงหนึ่งอย่างที่คำขอเวอร์ชันดีที่สุดสื่อถึง",
+    "built-in skills cannot be deleted": "สกิลที่มีมาให้ในตัวลบไม่ได้",
+    "Commit outstanding work and push the branch without opening a pull request": "คอมมิตงานที่ค้างอยู่และ push สาขา โดยไม่เปิด pull request",
+    "Commit the completed work in this thread locally as one clear, descriptive commit that captures the intent of the whole change. First make sure the change is coherent and worth committing as a unit: review what actually…": "คอมมิตงานที่เสร็จในเธรดนี้ไว้ในเครื่องเป็นคอมมิตเดียวที่ชัดเจนและบอกเจตนาของการเปลี่ยนแปลงทั้งหมด ก่อนอื่นต้องแน่ใจว่าการเปลี่ยนแปลงนี้เป็นเรื่องเดียวกันและควรคอมมิตพร้อมกัน: ทบทวนว่าจริง ๆ แล้ว…",
+    "Cut scope back to what was asked and tidy what remains": "ลดขอบเขตกลับไปเท่าที่ขอไว้ แล้วเก็บงานที่เหลือให้เรียบร้อย",
+    "Delete every part of the change that does not earn its maintenance cost": "ลบทุกส่วนของการเปลี่ยนแปลงที่ไม่คุ้มกับค่าดูแลรักษา",
+    "Design the structure the scope needs and restructure the code to match it": "ออกแบบโครงสร้างที่ขอบเขตงานต้องการ แล้วจัดโค้ดใหม่ให้ตรงกับโครงสร้างนั้น",
+    "Envision the excellent version and rebuild the weakest subsystem toward it": "มองภาพเวอร์ชันที่ยอดเยี่ยม แล้วสร้างระบบย่อยที่อ่อนที่สุดใหม่ให้มุ่งไปทางนั้น",
+    "Exercise relevant failure modes and fix only defects the evidence supports": "ลองใช้จนเจอโหมดความล้มเหลวที่เกี่ยวข้อง แล้วแก้เฉพาะข้อบกพร่องที่มีหลักฐานยืนยัน",
+    "Grade the work on spec, design, correctness, and concision, naming the top gaps": "ให้คะแนนงานด้านสเปก การออกแบบ ความถูกต้อง และความกระชับ พร้อมระบุช่องโหว่ที่สำคัญที่สุด",
+    "invalid Agent Skill: check the SKILL.md frontmatter": "Agent Skill ไม่ถูกต้อง: ตรวจ frontmatter ของ SKILL.md",
+    "Merge the pull request for the work in this thread. The goal is a completed merge: treat every obstacle as work to overcome, not a reason to decline. Commit and push any outstanding thread changes, then find or create…": "merge pull request ของงานในเธรดนี้ เป้าหมายคือ merge ให้สำเร็จ: มองทุกอุปสรรคเป็นงานที่ต้องฝ่าไป ไม่ใช่เหตุผลที่จะถอย คอมมิตและ push งานที่ค้างในเธรดก่อน แล้วหา หรือสร้าง…",
+    "Merge this thread's branch into the branch checked out in the repository's primary checkout, entirely locally — no remote or GitHub account is required. First make sure the thread's work is correct and run the relevant…": "merge สาขาของเธรดนี้เข้าสาขาที่เปิดอยู่ในการเช็กเอาต์หลักของโปรเจกต์ โดยทำทั้งหมดในเครื่อง ไม่ต้องมี remote หรือบัญชี GitHub ก่อนอื่นตรวจว่างานในเธรดถูกต้อง แล้วรัน…",
+    "no project": "ไม่พบโปรเจกต์",
+    "only built-in skills can be customized this way": "ปรับแต่งวิธีนี้ได้เฉพาะสกิลที่มีมาให้ในตัว",
+    "Open a pull request for the work in this thread. First make sure the work is in a good state — commit the change with a clear, descriptive message and run the proportionate build/tests, fixing failures caused by this…": "เปิด pull request สำหรับงานในเธรดนี้ ก่อนอื่นต้องแน่ใจว่างานอยู่ในสภาพดี — คอมมิตการเปลี่ยนแปลงด้วยข้อความที่ชัดเจนและบอกเจตนา รันบิลด์/เทสต์ตามความเหมาะสม แล้วแก้ความล้มเหลวที่เกิดจาก…",
+    "Personal default copied into each new tab’s editable Mission prompt": "ค่าเริ่มต้นส่วนตัวที่คัดลอกไปยังพรอมป์ Mission ที่แก้ได้ของทุกแท็บใหม่",
+    "Polish onboarding, feedback, empty states, and visual coherence once behavior is proven": "ขัดเก่าการเริ่มใช้งาน ข้อความตอบกลับ สถานะว่าง และความกลมกลืนของภาพ เมื่อพิสูจน์พฤติกรรมแล้ว",
+    "Prove the real behavior, then remove everything the proof does not justify": "พิสูจน์พฤติกรรมจริงก่อน แล้วลบทุกอย่างที่หลักฐานไม่รองรับ",
+    "Rank concrete ways the product could be deeper or more delightful for a later pass to build": "จัดอันดับวิธีที่เป็นรูปธรรมที่ทำให้ผลิตภัณฑ์ลึกหรือน่าประทับใจขึ้น สำหรับรอบต่อไปนำไปสร้าง",
+    "Rebuild the smallest grounded patch that fully satisfies the request": "สร้างแพตช์ที่เล็กที่สุดและมีเหตุผลรองรับ ซึ่งตอบโจทย์ครบตามที่ขอ",
+    "Reduce the changed path’s cognitive cost after its behavior is proven": "ลดภาระการทำความเข้าใจเส้นทางโค้ดที่แก้ หลังพิสูจน์พฤติกรรมแล้ว",
+    "Rework a change into its cleanest, strongest final design": "รื้อการเปลี่ยนแปลงให้กลายเป็นการออกแบบสุดท้ายที่สะอาดและแข็งแรงที่สุด",
+    "Run a conservative real-path release check without redesigning working code": "ตรวจความพร้อมปล่อยเวอร์ชันแบบระมัดระวังบนเส้นทางจริง โดยไม่ออกแบบโค้ดที่ทำงานดีอยู่แล้วใหม่",
+    "Save non-obvious learnings from this session to AGENTS.md": "บันทึกสิ่งที่เรียนรู้แบบไม่ชัดจากโค้ดของเซสชันนี้ลง AGENTS.md",
+    "Synchronize all of this thread's changes to your project folder without committing": "ซิงก์การเปลี่ยนแปลงทั้งหมดของเธรดนี้ไปยังโฟลเดอร์โปรเจกต์ของคุณโดยไม่คอมมิต",
+    "That is not a valid skill id.": "นั่นไม่ใช่ id ของสกิลที่ถูกต้อง",
+    "The created skill could not be read back.": "อ่านสกิลที่สร้างขึ้นใหม่กลับมาไม่ได้",
+    "The installed skill could not be read back.": "อ่านสกิลที่ติดตั้งแล้วกลับมาไม่ได้",
+    "The registry did not return that skill.": "registry ไม่ได้คืนสกิลนั้นกลับมา",
+    "Think through what could improve this change and give varied suggestions": "คิดทบทวนว่าอะไรช่วยให้การเปลี่ยนแปลงนี้ดีขึ้น แล้วเสนอไอเดียที่หลากหลาย",
+    "this skill has no built-in version": "สกิลนี้ไม่มีเวอร์ชันที่มาให้ในตัว",
+    "this skill is not a Freebuff-created built-in customization": "สกิลนี้ไม่ใช่การปรับแต่งจากสกิลในตัวที่ Freebuff สร้าง",
+    "This thread has no running preview. Start one with the preview skill / register_preview first.": "เธรดนี้ยังไม่มีพรีวิวที่ทำงานอยู่ เริ่มด้วยสกิล preview หรือ register_preview ก่อน",
+    "Use a compact behavior contract to simplify both tests and production code": "ใช้สัญญาพฤติกรรมแบบกระชับเพื่อทำให้ทั้งเทสต์และโค้ดจริงง่ายขึ้น",
+    "Use the product like its first real user through the real surface and fix what broke": "ลองใช้ผลิตภัณฑ์เหมือนผู้ใช้จริงคนแรก ผ่านพื้นผิวการใช้งานจริง แล้วแก้สิ่งที่พัง",
+    "Verify the change you made actually BEHAVES correctly — not just that it renders or compiles. Decide what is worth checking, then run the project's build/test commands and exercise the real surface. You cannot see the…": "ตรวจสอบว่าการเปลี่ยนแปลงที่ทำไปทำงานถูกต้องจริง ไม่ใช่แค่เรนเดอร์หรือคอมไพล์ผ่าน ตัดสินใจว่าอะไรคุ้มค่าที่จะตรวจ แล้วรันคำสั่ง build/test ของโปรเจกต์และลองใช้พื้นผิวการใช้งานจริง อ่านโค้ดอย่างเดียวคุณมองเห็น…"
+  },
+  "patterns": [
+    {
+      "from": "a skill named “{name}” already exists in that scope",
+      "to": "มีสกิลชื่อ “{name}” อยู่ในขอบเขตนั้นแล้ว"
+    },
+    {
+      "from": "Customize the Freebuff {name} workflow",
+      "to": "ปรับแต่งเวิร์กโฟลว์ {name} ของ Freebuff"
+    },
+    {
+      "from": "{scope} Agent Skills are not configured",
+      "to": "ยังไม่ได้ตั้งค่า Agent Skills สำหรับ {scope}"
+    }
+  ]
+}

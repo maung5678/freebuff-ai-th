@@ -1,0 +1,311 @@
+{
+  "meta": {
+    "locale": "th",
+    "name": "ไทย (ข้อความในแอพ ชุดที่ 2)",
+    "runtime": 1,
+    "note": "ข้อความที่อยู่ในรูปข้อมูล (ไม่ใช่ JSX): คำอธิบายคอนเน็กเตอร์/สกิล คำอธิบายโมเดล ข้อความสถานะ-ข้อผิดพลาด ข้อความอัปเดต และป้าย/ทูลทิป — ชื่อแบรนด์และชื่อภาษาโปรแกรมคงไว้เป็นภาษาอังกฤษ"
+  },
+  "strings": {
+    "Installing…": "กำลังติดตั้ง…",
+    "Retry download": "ดาวน์โหลดใหม่",
+    "Download for Freebuff": "ดาวน์โหลดสำหรับ Freebuff",
+    "You have the latest available version. Freebuff will keep checking in the background.": "คุณใช้เวอร์ชันล่าสุดอยู่แล้ว Freebuff จะตรวจหาอัปเดตให้ต่อในเบื้องหลัง",
+    "Your current version is untouched. Try the update again, or download the installer.": "เวอร์ชันปัจจุบันของคุณยังไม่ถูกแก้ไข ลองอัปเดตอีกครั้ง หรือดาวน์โหลดตัวติดตั้งเอง",
+    "Freebuff could not reach the update service. Try again, or download the latest installer.": "Freebuff เชื่อมต่อบริการอัปเดตไม่ได้ ลองอีกครั้ง หรือดาวน์โหลดตัวติดตั้งล่าสุด",
+    "Install now for the quickest update, or let Freebuff wait until your active work is finished.": "ติดตั้งตอนนี้เพื่ออัปเดตให้เร็วที่สุด หรือปล่อยให้ Freebuff รอจนงานที่ทำอยู่เสร็จ",
+    "Install a packaged Freebuff build to test automatic updates.": "ติดตั้ง Freebuff เวอร์ชันแพ็กเกจเพื่อทดสอบการอัปเดตอัตโนมัติ",
+    "Preview failed — open to relaunch": "ตัวอย่างล้มเหลว — เปิดเพื่อเริ่มใหม่",
+    "Could not run the update.": "รันการอัปเดตไม่สำเร็จ",
+    "Could not export thread": "ส่งออกเธรดไม่สำเร็จ",
+    "Could not list files": "แสดงรายการไฟล์ไม่สำเร็จ",
+    "Could not open that folder.": "เปิดโฟลเดอร์นั้นไม่สำเร็จ",
+    "Could not read this file": "อ่านไฟล์นี้ไม่สำเร็จ",
+    "Could not save this file": "บันทึกไฟล์นี้ไม่สำเร็จ",
+    "Could not send answers": "ส่งคำตอบไม่สำเร็จ",
+    "Could not skip the questions": "ข้ามคำถามไม่สำเร็จ",
+    "Could not start sign-in.": "เริ่มการเข้าสู่ระบบไม่สำเร็จ",
+    "Could not install Claude Code.": "ติดตั้ง Claude Code ไม่สำเร็จ",
+    "Could not queue that suggestion": "เข้าคิวข้อเสนอนั้นไม่สำเร็จ",
+    "Unknown error": "ข้อผิดพลาดที่ไม่ทราบสาเหตุ",
+    "Response failed": "การตอบกลับล้มเหลว",
+    "not implemented": "ยังไม่รองรับ",
+    "not supported": "ไม่รองรับ",
+    "not found": "ไม่พบ",
+    "Sign-in could not be completed": "เข้าสู่ระบบไม่สำเร็จ",
+    "Run cancelled by user": "ผู้ใช้ยกเลิกการทำงาน",
+    "Code search cancelled: the run was aborted by the user.": "ยกเลิกการค้นหาโค้ด: ผู้ใช้ยกเลิกการทำงานนี้",
+    "Terminal must be opened first": "ต้องเปิดเทอร์มินัลก่อน",
+    "Diff too large to display.": "ส่วนต่างใหญ่เกินกว่าจะแสดง",
+    "Approve and build": "อนุมัติแล้วสร้างเลย",
+    "Connector was added. Refresh your connectors to continue setup.": "เพิ่มคอนเน็กเตอร์แล้ว รีเฟรชคอนเน็กเตอร์ของคุณเพื่อตั้งค่าต่อ",
+    "Key replaced. Select this updated connection in a new task.": "เปลี่ยนคีย์แล้ว เลือกการเชื่อมต่อที่อัปเดตนี้ในงานใหม่",
+    "Provider added. Select it in the model picker of a new or existing Freebuff task.": "เพิ่มผู้ให้บริการแล้ว เลือกมันได้ในตัวเลือกโมเดลของงาน Freebuff ใหม่หรือที่มีอยู่",
+    "This thread's branch is created on its first turn — changes will show up here.": "แบรนช์ของเธรดนี้จะถูกสร้างเมื่อเริ่มรอบแรก — การเปลี่ยนแปลงจะแสดงที่นี่",
+    "Unlock by referring friends": "ปลดล็อกด้วยการชวนเพื่อน",
+    "Choose tools for": "เลือกเครื่องมือสำหรับ",
+    "the preview returned an invalid element": "ตัวอย่างส่งข้อมูลที่ใช้งานไม่ได้กลับมา",
+    "Terminal requires a parent element.": "เทอร์มินัลต้องมีอิลิเมนต์แม่",
+    "Images": "รูปภาพ",
+    "All Images": "รูปภาพทั้งหมด",
+    "New space": "พื้นที่ใหม่",
+    "Recommended": "แนะนำ",
+    "Set up": "ตั้งค่า",
+    "Review": "ตรวจทาน",
+    "Move": "ย้าย",
+    "Desktop": "เดสก์ท็อป",
+    "Diff": "ส่วนต่าง",
+    "Log file": "ไฟล์บันทึก",
+    "Emoji": "อีโมจิ",
+    "Table": "ตาราง",
+    "Strikethrough": "ขีดฆ่า",
+    "Current branch": "แบรนช์ปัจจุบัน",
+    "Anonymous provider retains prompts": "ผู้ให้บริการแบบไม่ระบุตัวตนจะเก็บพรอมป์ต์ไว้",
+    "Do the work and commit locally, but never push": "ทำงานให้เสร็จและคอมมิตในเครื่อง แต่ห้าม push",
+    "Investigate and report back, changing nothing": "ตรวจสอบแล้วรายงานกลับ โดยไม่แก้ไขอะไรเลย",
+    "Take it all the way to a merged pull request": "ทำไปจนถึงขั้นเปิด pull request ที่ merge แล้ว",
+    "The agent missed or broke something": "เอเจนต์ทำงานพลาดหรือทำอะไรเสียหาย",
+    "A crash, error, or UI problem": "แอพพัง เกิดข้อผิดพลาด หรือปัญหาหน้าจอ",
+    "An idea, question, or anything else": "ไอเดีย คำถาม หรือเรื่องอื่น ๆ",
+    "Something worked especially well": "มีอะไรที่ทำงานได้ดีเป็นพิเศษ",
+    "1M context": "บริบท 1M",
+    "Limited-time trial": "ทดลองใช้ชั่วคราว",
+    "Peak pricing": "ราคาช่วงพีค",
+    "Caching": "แคช",
+    "Balanced": "สมดุล",
+    "Fastest": "เร็วที่สุด",
+    "Smart & Fast": "ฉลาดและเร็ว",
+    "Strong all-around": "รอบด้านและแข็งแกร่ง",
+    "Custom OpenAI-compatible": "OpenAI-compatible แบบกำหนดเอง",
+    "Via CrofAI": "ผ่าน CrofAI",
+    "Novita route — evaluation only": "เส้นทาง Novita — สำหรับทดสอบเท่านั้น",
+    "Queues, then falls back": "เข้าคิวก่อน แล้วค่อยถอยไปใช้ตัวอื่น",
+    "1 tab only": "แท็บเดียวเท่านั้น",
+    "1C (Enterprise)": "1C (องค์กร)",
+    "1C (Query)": "1C (คิวรี)",
+    "Anthropic's most intelligent model": "โมเดลที่ฉลาดที่สุดของ Anthropic",
+    "Powerful all-round coding model": "โมเดลเขียนโค้ดรอบด้านที่ทรงพลัง",
+    "Balanced agentic coding model for everyday work": "โมเดลเอเจนต์เขียนโค้ดที่สมดุลสำหรับงานประจำวัน",
+    "Fast and affordable agentic coding model": "โมเดลเอเจนต์เขียนโค้ดที่เร็วและคุ้มราคา",
+    "Fast, capable everyday model": "โมเดลประจำวันที่เร็วและทำได้หลากหลาย",
+    "Most capable model for complex, demanding work": "โมเดลที่เก่งที่สุดสำหรับงานซับซ้อนและงานหิน",
+    "Reliable agentic workhorse for everyday tasks": "ม้าใช้งานเอเจนต์ที่เชื่อถือได้สำหรับงานทั่วไป",
+    "Every model shows its price per hour. Pick the cheap one all day, or save up for the expensive one.": "ทุกโมเดลแสดงราคาต่อชั่วโมง เลือกตัวถูกใช้ได้ทั้งวัน หรือเก็บแต้มไว้ใช้ตัวแพง",
+    "The only thing that counts is what you spend. An hour of any model is one price, charged once when the session starts.": "คิดตามที่คุณใช้จริงเท่านั้น หนึ่งชั่วโมงของโมเดลใดก็ราคาเดียว และเก็บเงินครั้งเดียวตอนเริ่มเซสชัน",
+    "Your daily Freebucks refill at midnight Pacific. Nothing to earn, nothing to wait for.": "Freebucks รายวันจะเติมใหม่เที่ยงคืนเวลาแปซิฟิก ไม่ต้องหาอะไร ไม่ต้องรอ",
+    "0 Freebucks · Labor Day weekend (through Sep 7 PT)": "0 Freebucks · ช่วงวันแรงงาน (ถึง 7 ก.ย. เวลาแปซิฟิก)",
+    "Access Discord servers and messages through a community server.": "เข้าถึงเซิร์ฟเวอร์และข้อความ Discord ผ่านเซิร์ฟเวอร์ของชุมชน",
+    "Access payment and merchant resources with a community server.": "เข้าถึงข้อมูลการชำระเงินและร้านค้าด้วยเซิร์ฟเวอร์ของชุมชน",
+    "Access pipelines, jobs, and workflow status through MCP.": "เข้าถึงไปป์ไลน์ งาน และสถานะเวิร์กโฟลว์ผ่าน MCP",
+    "Access pipelines, jobs, logs, and test data through MCP.": "เข้าถึงไปป์ไลน์ งาน บันทึก และข้อมูลทดสอบผ่าน MCP",
+    "Access projects, issues, merge requests, and GitLab workflows.": "เข้าถึงโปรเจกต์ ปัญหา merge request และเวิร์กโฟลว์ของ GitLab",
+    "Analyze product events, insights, feature flags, and errors.": "วิเคราะห์อีเวนต์ สถิติ ฟีเจอร์แฟล็ก และข้อผิดพลาดของผลิตภัณฑ์",
+    "Bring Figma design context and supported canvas actions to an agent.": "นำบริบทงานออกแบบ Figma และคำสั่งบนแคนวาสที่รองรับมาให้เอเจนต์",
+    "Browse live model data, rankings, pricing, docs, and test inference.": "ดูข้อมูลโมเดลแบบสด อันดับ ราคา เอกสาร และทดลองเรียกใช้",
+    "Choose approved actions from connected apps and automate workflows.": "เลือกคำสั่งที่อนุมัติแล้วจากแอพที่เชื่อมต่อ และทำเวิร์กโฟลว์ให้อัตโนมัติ",
+    "Connect agents to governed Unity Catalog data and SQL tools.": "เชื่อมเอเจนต์กับข้อมูล Unity Catalog ที่มีการควบคุมและเครื่องมือ SQL",
+    "Connect agents to real-time product catalog and commerce capabilities.": "เชื่อมเอเจนต์กับแค็ตตาล็อกสินค้าแบบเรียลไทม์และความสามารถด้านพาณิชย์",
+    "Connect an agent to a local Turso database using the Turso CLI MCP mode.": "เชื่อมเอเจนต์กับฐานข้อมูล Turso ในเครื่องผ่านโหมด MCP ของ Turso CLI",
+    "Connect an agent to your Mistral Studio workspace.": "เชื่อมเอเจนต์กับพื้นที่ทำงาน Mistral Studio ของคุณ",
+    "Connect maps, geospatial services, or documentation through MCP.": "เชื่อมแผนที่ บริการภูมิสารสนเทศ หรือเอกสารผ่าน MCP",
+    "Connect Microsoft Graph data and work tools through an MCP server.": "เชื่อมข้อมูล Microsoft Graph และเครื่องมือทำงานผ่านเซิร์ฟเวอร์ MCP",
+    "Connect to Snowflake-managed MCP servers for governed data access.": "เชื่อมต่อเซิร์ฟเวอร์ MCP ที่จัดการโดย Snowflake เพื่อเข้าถึงข้อมูลแบบมีการควบคุม",
+    "Create forms and analyze responses through Typeform’s MCP server.": "สร้างฟอร์มและวิเคราะห์คำตอบผ่านเซิร์ฟเวอร์ MCP ของ Typeform",
+    "Explore data, query collections, and manage database deployments.": "สำรวจข้อมูล คิวรีคอลเลกชัน และจัดการการดีพลอยฐานข้อมูล",
+    "Expose a local Convex project to tools for code, data, logs, and functions.": "เปิดโปรเจกต์ Convex ในเครื่องให้เครื่องมือเข้าถึงโค้ด ข้อมูล บันทึก และฟังก์ชัน",
+    "Expose and secure a self-hosted MCP endpoint through an ngrok gateway.": "เปิดให้เข้าถึงและป้องกันปลายทาง MCP ที่โฮสต์เองผ่านเกตเวย์ ngrok",
+    "Find and manage customer-support tickets with an MCP server.": "ค้นหาและจัดการตั๋วสนับสนุนลูกค้าด้วยเซิร์ฟเวอร์ MCP",
+    "Find and manage workspaces, projects, tasks, and reports.": "ค้นหาและจัดการพื้นที่ทำงาน โปรเจกต์ งาน และรายงาน",
+    "Find and use Dropbox files from an MCP-compatible workspace.": "ค้นหาและใช้งานไฟล์ Dropbox จากพื้นที่ทำงานที่รองรับ MCP",
+    "Find, create, and update issues, projects, and comments.": "ค้นหา สร้าง และอัปเดตปัญหา โปรเจกต์ และคอมเมนต์",
+    "Give an agent current Netlify context and deployment capabilities.": "ให้เอเจนต์ได้รับบริบท Netlify ล่าสุดและความสามารถด้านการดีพลอย",
+    "Ground agents with Google Maps places and geospatial context.": "ป้อนบริบทสถานที่และภูมิสารสนเทศจาก Google Maps ให้เอเจนต์",
+    "Inspect application errors through Honeybadger’s MCP server.": "ตรวจดูข้อผิดพลาดของแอพผ่านเซิร์ฟเวอร์ MCP ของ Honeybadger",
+    "Inspect databases, schema, branches, and query performance.": "ตรวจดูฐานข้อมูล สคีมา แบรนช์ และประสิทธิภาพการคิวรี",
+    "Inspect datasets and run governed queries against BigQuery.": "ตรวจดูชุดข้อมูลและรันคิวรีแบบมีการควบคุมกับ BigQuery",
+    "Inspect production errors, deploys, and session replay data.": "ตรวจดูข้อผิดพลาดบนโปรดักชัน การดีพลอย และข้อมูลเล่นซ้ำเซสชัน",
+    "Inspect projects, databases, logs, and development resources.": "ตรวจดูโปรเจกต์ ฐานข้อมูล บันทึก และทรัพยากรสำหรับพัฒนา",
+    "Inspect store, product, order, and subscription data with a community server.": "ตรวจดูข้อมูลร้านค้า สินค้า คำสั่งซื้อ และการสมัครสมาชิกด้วยเซิร์ฟเวอร์ของชุมชน",
+    "Inspect Weights & Biases experiment data through its MCP server.": "ตรวจดูข้อมูลการทดลองของ Weights & Biases ผ่านเซิร์ฟเวอร์ MCP",
+    "Investigate errors, performance issues, releases, and projects.": "สืบหาข้อผิดพลาด ปัญหาประสิทธิภาพ รีลีส และโปรเจกต์",
+    "Investigate incidents and on-call work through a setup guide.": "สืบหาเหตุการณ์ผิดปกติและงานเข้าเวรผ่านคู่มือตั้งค่า",
+    "Investigate logs, metrics, traces, dashboards, monitors, and incidents.": "สืบหาบันทึก เมตริก เทรซ แดชบอร์ด ตัวเฝ้าสังเกต และเหตุการณ์ผิดปกติ",
+    "Manage App Platform, Droplets, Kubernetes clusters, and cloud resources.": "จัดการ App Platform, Droplets, คลัสเตอร์ Kubernetes และทรัพยากรคลาวด์",
+    "Manage campaigns and contacts through a community MCP server.": "จัดการแคมเปญและรายชื่อผู้ติดต่อผ่านเซิร์ฟเวอร์ MCP ของชุมชน",
+    "Manage Cloudflare services and inspect account configuration.": "จัดการบริการ Cloudflare และตรวจดูการตั้งค่าบัญชี",
+    "Manage content, schemas, datasets, and GROQ queries.": "จัดการคอนเทนต์ สคีมา ชุดข้อมูล และคิวรี GROQ",
+    "Manage projects and branches, inspect databases, and run SQL.": "จัดการโปรเจกต์และแบรนช์ ตรวจดูฐานข้อมูล และรัน SQL",
+    "Manage projects, APIs, and documentation through Appwrite.": "จัดการโปรเจกต์ API และเอกสารผ่าน Appwrite",
+    "Manage Redis, QStash, Workflow, Vector, and Search resources.": "จัดการทรัพยากร Redis, QStash, Workflow, Vector และ Search",
+    "Manage self-hosted Coolify resources with its documented MCP server.": "จัดการทรัพยากร Coolify ที่โฮสต์เองด้วยเซิร์ฟเวอร์ MCP ตามเอกสาร",
+    "Manage services, deploys, databases, logs, and metrics.": "จัดการบริการ การดีพลอย ฐานข้อมูล บันทึก และเมตริก",
+    "Manage structured content operations in Contentful.": "จัดการงานคอนเทนต์แบบมีโครงสร้างใน Contentful",
+    "Manage voice agents and generate audio through its hosted MCP.": "จัดการเอเจนต์เสียงและสร้างเสียงผ่าน MCP ที่โฮสต์ไว้",
+    "Query and manage SingleStore data from an MCP-compatible client.": "คิวรีและจัดการข้อมูล SingleStore จากไคลเอนต์ที่รองรับ MCP",
+    "Query bases and create or update records within your permissions.": "คิวรีฐานข้อมูล และสร้างหรืออัปเดตเรกคอร์ดตามสิทธิ์ของคุณ",
+    "Query docs, tables, rows, and pages with a community server.": "คิวรีเอกสาร ตาราง แถว และเพจด้วยเซิร์ฟเวอร์ของชุมชน",
+    "Query experiments, production logs, and evaluation results.": "คิวรีการทดลอง บันทึกบนโปรดักชัน และผลการประเมิน",
+    "Query product analytics through Mixpanel’s MCP server.": "คิวรีสถิติผลิตภัณฑ์ผ่านเซิร์ฟเวอร์ MCP ของ Mixpanel",
+    "Read and manage Google Calendar events with a local server.": "อ่านและจัดการอีเวนต์ Google Calendar ด้วยเซิร์ฟเวอร์ในเครื่อง",
+    "Read, write, query, and manage data in a Redis database.": "อ่าน เขียน คิวรี และจัดการข้อมูลในฐานข้อมูล Redis",
+    "Run local code and dependency security checks through the Snyk CLI.": "ตรวจความปลอดภัยของโค้ดและไลบรารีในเครื่องผ่าน Snyk CLI",
+    "Schedule events and manage availability through Calendly’s MCP server.": "จัดตารางอีเวนต์และจัดการช่วงเวลาว่างผ่านเซิร์ฟเวอร์ MCP ของ Calendly",
+    "Search and analyze Elasticsearch data with Elastic MCP tools.": "ค้นหาและวิเคราะห์ข้อมูล Elasticsearch ด้วยเครื่องมือ MCP ของ Elastic",
+    "Search and manage tasks, Docs, workspace members, and Chat.": "ค้นหาและจัดการงาน เอกสาร สมาชิกพื้นที่ทำงาน และแชท",
+    "Search and manage vector collections for semantic retrieval.": "ค้นหาและจัดการคอลเลกชันเวกเตอร์สำหรับการค้นคืนเชิงความหมาย",
+    "Search and update Jira, Confluence, Bitbucket, and other Atlassian work.": "ค้นหาและอัปเดตงานใน Jira, Confluence, Bitbucket และ Atlassian อื่น ๆ",
+    "Search, compare, and run Replicate models from an MCP client.": "ค้นหา เปรียบเทียบ และรันโมเดล Replicate จากไคลเอนต์ MCP",
+    "Search, crawl, and extract web content for AI workflows.": "ค้นหา รวบรวม และดึงเนื้อหาจากเว็บสำหรับเวิร์กโฟลว์ AI",
+    "Search, create, edit, and export Canva designs and assets.": "ค้นหา สร้าง แก้ไข และส่งออกงานออกแบบและไฟล์ของ Canva",
+    "Search documentation and manage projects, deployments, and logs.": "ค้นหาเอกสาร และจัดการโปรเจกต์ การดีพลอย และบันทึก",
+    "Search, explore, and analyze the indices available to your account.": "ค้นหา สำรวจ และวิเคราะห์อินเด็กซ์ที่บัญชีของคุณเข้าถึงได้",
+    "Search Hub models, datasets, Spaces, and documentation.": "ค้นหาโมเดล ชุดข้อมูล Spaces และเอกสารบน Hub",
+    "Search LiveKit docs, public code, examples, and changelogs.": "ค้นหาเอกสาร LiveKit โค้ดสาธารณะ ตัวอย่าง และบันทึกการเปลี่ยนแปลง",
+    "Search logs, alerts, dashboards, and Cloud SIEM through MCP.": "ค้นหาบันทึก การแจ้งเตือน แดชบอร์ด และ Cloud SIEM ผ่าน MCP",
+    "Search mail and work with messages through Google Workspace.": "ค้นหาอีเมลและจัดการข้อความผ่าน Google Workspace",
+    "Search, read, and create Drive files within Google permissions.": "ค้นหา อ่าน และสร้างไฟล์ Drive ตามสิทธิ์ใน Google",
+    "Search support conversations and contacts, and manage Help Center content.": "ค้นหาบทสนทนาสนับสนุนและผู้ติดต่อ และจัดการคอนเทนต์ Help Center",
+    "Search the web and retrieve research context for AI agents.": "ค้นหาเว็บและดึงบริบทงานวิจัยมาให้เอเจนต์ AI",
+    "Search the web for AI agents through Tavily’s MCP server.": "ค้นหาเว็บให้เอเจนต์ AI ผ่านเซิร์ฟเวอร์ MCP ของ Tavily",
+    "Search the web through Perplexity’s official MCP server.": "ค้นหาเว็บผ่านเซิร์ฟเวอร์ MCP อย่างเป็นทางการของ Perplexity",
+    "Search, update, publish, and manage Storyblok content.": "ค้นหา อัปเดต เผยแพร่ และจัดการคอนเทนต์ Storyblok",
+    "Search workspace content, send messages, and manage canvases.": "ค้นหาคอนเทนต์ในพื้นที่ทำงาน ส่งข้อความ และจัดการแคนวาส",
+    "Search your workspace and create or update connected pages.": "ค้นหาในพื้นที่ทำงาน และสร้างหรืออัปเดตเพจที่เชื่อมต่อ",
+    "Send and manage transactional email through Resend’s MCP server.": "ส่งและจัดการอีเมลธุรกรรมผ่านเซิร์ฟเวอร์ MCP ของ Resend",
+    "Set up a DatoCMS content-management MCP workflow.": "ตั้งค่าเวิร์กโฟลว์ MCP สำหรับจัดการคอนเทนต์ DatoCMS",
+    "Set up the Prismic MCP server for repository and content context.": "ตั้งค่าเซิร์ฟเวอร์ MCP ของ Prismic เพื่อใช้บริบทรีโปและคอนเทนต์",
+    "Upload, organize, transform, and analyze media assets.": "อัปโหลด จัดระเบียบ แปลง และวิเคราะห์ไฟล์มีเดีย",
+    "Use a community MCP server to inspect privacy-friendly analytics.": "ใช้เซิร์ฟเวอร์ MCP ของชุมชนเพื่อตรวจดูสถิติที่ไม่รุกล้ำความเป็นส่วนตัว",
+    "Use a Directus project’s API and data model through an MCP setup.": "ใช้ API และโมเดลข้อมูลของโปรเจกต์ Directus ผ่านการตั้งค่า MCP",
+    "Use Better Auth’s MCP guidance for authentication integrations.": "ใช้คำแนะนำ MCP ของ Better Auth สำหรับการเชื่อมต่อระบบยืนยันตัวตน",
+    "Use billing and subscription data via a community MCP server.": "ใช้ข้อมูลการเรียกเก็บเงินและการสมัครสมาชิกผ่านเซิร์ฟเวอร์ MCP ของชุมชน",
+    "Use browser automation and inspection from an MCP client.": "ใช้ระบบอัตโนมัติและการตรวจสอบเบราว์เซอร์จากไคลเอนต์ MCP",
+    "Use CRM data for reports, workflows, and account-aware automation.": "ใช้ข้อมูล CRM สำหรับรายงาน เวิร์กโฟลว์ และระบบอัตโนมัติที่รู้จักลูกค้า",
+    "Use current Clerk SDK patterns and authentication implementation guidance.": "ใช้รูปแบบ Clerk SDK ล่าสุดและคำแนะนำการทำระบบยืนยันตัวตน",
+    "Use Mailgun sending and domain data through a community server.": "ใช้ข้อมูลการส่งอีเมลและโดเมนของ Mailgun ผ่านเซิร์ฟเวอร์ของชุมชน",
+    "Use New Relic observability through its hosted MCP server.": "ใช้ความสามารถเฝ้าสังเกตระบบของ New Relic ผ่านเซิร์ฟเวอร์ MCP ที่โฮสต์ไว้",
+    "Use orders, payments, customers, catalog, and invoice data.": "ใช้ข้อมูลคำสั่งซื้อ การชำระเงิน ลูกค้า แค็ตตาล็อก และใบแจ้งหนี้",
+    "Use PayPal merchant tools through its local or remote MCP server.": "ใช้เครื่องมือสำหรับร้านค้าของ PayPal ผ่านเซิร์ฟเวอร์ MCP ในเครื่องหรือระยะไกล",
+    "Use Stripe’s API and developer documentation from your agent.": "ใช้ API และเอกสารนักพัฒนาของ Stripe จากเอเจนต์ของคุณ",
+    "Use Timescale’s Tiger CLI MCP server for database context.": "ใช้เซิร์ฟเวอร์ MCP ของ Tiger CLI จาก Timescale เพื่อดูบริบทฐานข้อมูล",
+    "Work with audiences, campaigns, and marketing data via a community server.": "ทำงานกับกลุ่มเป้าหมาย แคมเปญ และข้อมูลการตลาดผ่านเซิร์ฟเวอร์ของชุมชน",
+    "Work with Auth0 tenant configuration and Management API resources.": "ทำงานกับการตั้งค่าเทนแนนต์ของ Auth0 และทรัพยากรของ Management API",
+    "Work with boards, lists, cards, checklists, and workspace data.": "ทำงานกับบอร์ด ลิสต์ การ์ด เช็กลิสต์ และข้อมูลพื้นที่ทำงาน",
+    "Work with products, customers, payments, and subscriptions.": "ทำงานกับสินค้า ลูกค้า การชำระเงิน และการสมัครสมาชิก",
+    "Work with repositories, issues, pull requests, and GitHub projects.": "ทำงานกับรีโป ปัญหา pull request และโปรเจกต์บน GitHub",
+    "Work with support mailboxes and conversations using a community server.": "ทำงานกับกล่องอีเมลสนับสนุนและบทสนทนาผ่านเซิร์ฟเวอร์ของชุมชน"
+  },
+  "patterns": [
+    {
+      "from": "Open in {n}",
+      "to": "เปิดใน {n}"
+    },
+    {
+      "from": "Insert {n} skill",
+      "to": "แทรกสกิล {n}"
+    },
+    {
+      "from": "Looking for a newer version than Freebuff {n}.",
+      "to": "กำลังหาอัปเดตที่ใหม่กว่า Freebuff {n}"
+    },
+    {
+      "from": "Freebuff {n} is current",
+      "to": "Freebuff {n} เป็นเวอร์ชันล่าสุดแล้ว"
+    },
+    {
+      "from": "Freebuff {n} could not be installed",
+      "to": "ติดตั้ง Freebuff {n} ไม่สำเร็จ"
+    },
+    {
+      "from": "Freebuff {n} is available",
+      "to": "มี Freebuff {n} ให้อัปเดตแล้ว"
+    },
+    {
+      "from": "{n} queued",
+      "to": "เข้าคิวแล้ว {n} รายการ"
+    },
+    {
+      "from": "{n} comment{n2}",
+      "to": "คอมเมนต์ {n} รายการ"
+    },
+    {
+      "from": "More actions for {n}",
+      "to": "คำสั่งเพิ่มเติมสำหรับ {n}"
+    },
+    {
+      "from": "Name {n}",
+      "to": "ตั้งชื่อ {n}"
+    },
+    {
+      "from": "{n} has merge conflicts{n2}",
+      "to": "{n} มีความขัดแย้งตอน merge{n2}"
+    },
+    {
+      "from": "{n} closed without merge",
+      "to": "{n} ถูกปิดโดยไม่ได้ merge"
+    },
+    {
+      "from": "Never show {n}",
+      "to": "ไม่ต้องแสดง {n} อีก"
+    },
+    {
+      "from": "Create your {n} project",
+      "to": "สร้างโปรเจกต์ {n} ของคุณ"
+    },
+    {
+      "from": "Downloading {n}%",
+      "to": "กำลังดาวน์โหลด {n}%"
+    },
+    {
+      "from": "frees in {n}m",
+      "to": "ว่างใน {n} นาที"
+    },
+    {
+      "from": "{n} — bounties pay up to {n2} a day",
+      "to": "{n} — งานรางวัลจ่ายสูงสุด {n2} ต่อวัน"
+    },
+    {
+      "from": "Each qualified referral adds +1 session per day (up to +{n})",
+      "to": "การชวนเพื่อนที่ผ่านเกณฑ์เพิ่ม 1 เซสชันต่อวัน (สูงสุด +{n})"
+    },
+    {
+      "from": "{n} {n2} an hour, more than the {n3} you have left today plus your wallet.",
+      "to": "{n} {n2} ต่อชั่วโมง มากกว่าที่คุณเหลือวันนี้ {n3} รวมกับกระเป๋าเงินของคุณ"
+    },
+    {
+      "from": "Peak pricing: +{n} {n2} a session while DeepSeek charges double, {n3} on weekdays. Back to {n4} {n5} at {n6}.",
+      "to": "ราคาช่วงพีค: บวก {n} {n2} ต่อเซสชัน ขณะที่ DeepSeek คิดเป็นสองเท่า {n3} ในวันธรรมดา กลับมาเป็น {n4} {n5} เมื่อถึง {n6}"
+    },
+    {
+      "from": "{n} of today's {n2} {n3} left. Spent before your wallet, and they do not carry over — refills in {n4}.",
+      "to": "เหลือ {n} จาก {n2} {n3} ของวันนี้ ใช้ก่อนกระเป๋าเงินและไม่ทบไปวันถัดไป — เติมใหม่ใน {n4}"
+    },
+    {
+      "from": "{n} of {n2} premium sessions left today ({n3} free + {n4} from {n5})",
+      "to": "เหลือ {n} จาก {n2} เซสชันพรีเมียมวันนี้ ({n3} ฟรี + {n4} จาก {n5})"
+    },
+    {
+      "from": "{n} of {n2} plan sessions left this week",
+      "to": "เหลือ {n} จาก {n2} เซสชันตามแพ็กเกจในสัปดาห์นี้"
+    },
+    {
+      "from": "{n} of {n2} plan sessions left this billing period",
+      "to": "เหลือ {n} จาก {n2} เซสชันตามแพ็กเกจในรอบบิลนี้"
+    },
+    {
+      "from": "{n} of {n2} free premium sessions left today",
+      "to": "เหลือ {n} จาก {n2} เซสชันพรีเมียมฟรีวันนี้"
+    },
+    {
+      "from": "{n} of {n2} free sessions left this week",
+      "to": "เหลือ {n} จาก {n2} เซสชันฟรีในสัปดาห์นี้"
+    },
+    {
+      "from": "{n} of {n2} free sessions left this month",
+      "to": "เหลือ {n} จาก {n2} เซสชันฟรีในเดือนนี้"
+    },
+    {
+      "from": "Send now, steering the running turn ({n}Enter)",
+      "to": "ส่งเลย แล้วกำกับรอบที่กำลังทำงานอยู่ ({n}Enter)"
+    }
+  ]
+}
