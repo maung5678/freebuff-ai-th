@@ -5,6 +5,11 @@
 
 ---
 
+## Freebuff Manager 0.2.5 — แก้การติดตั้ง Thai Pack จากหน้าอัปเดต (2026-09-26)
+
+- แก้คำสั่ง PowerShell แตก ZIP ให้ส่ง path เป็น literal ที่ quote ถูกต้อง รองรับช่องว่างและอัญประกาศเดี่ยวใน path
+- ตรวจการแตก Thai Pack v6 ใน sandbox โดยใช้ path ที่มีช่องว่างและอัญประกาศเดี่ยว; พบ payload `fbth.js` ครบ
+
 ## Freebuff Manager 0.2.4 — แก้การเชื่อมต่อ GitHub ผ่าน Proxy (2026-09-26)
 
 - ให้ตัวตรวจอัปเดตและตัวดาวน์โหลดใช้ Proxy จาก `HTTPS_PROXY` / `HTTP_PROXY` / `ALL_PROXY` เมื่อเครื่องตั้งค่าไว้

@@ -99,6 +99,7 @@ function nodeRunner() {
   try { return require('node:child_process').execFileSync('where.exe', ['node.exe'], { encoding: 'utf8', windowsHide: true }).split(/\r?\n/)[0].trim() } catch {}
   throw new Error('ไม่พบ Node.js หรือ Bun สำหรับเรียกตัวแปลภาษาไทย')
 }
+function powershellLiteral(value) { return `'${String(value).replace(/'/g, "''")}'` }
 async function runFbth(command) {
   return runFile(nodeRunner(), [fbth, command])
 }
@@ -301,7 +302,8 @@ ipcMain.handle('install-update', async (_e, kind) => {
     const zip = path.join(temp, found.language?.name || 'language.zip')
     await downloadVerified(found.language, zip)
     const unpacked = path.join(temp, 'language')
-    await runFile('powershell.exe', ['-NoProfile', '-Command', 'Expand-Archive -LiteralPath $args[0] -DestinationPath $args[1] -Force', zip, unpacked])
+    const expandCommand = `Expand-Archive -LiteralPath ${powershellLiteral(zip)} -DestinationPath ${powershellLiteral(unpacked)} -Force`
+    await runFile('powershell.exe', ['-NoProfile', '-Command', expandCommand])
     const candidates = [path.join(unpacked, 'payload', 'fbth', 'fbth.js'), path.join(unpacked, 'Freebuff-Thai-Pack', 'payload', 'fbth', 'fbth.js')]
     const updater = candidates.find(p => fs.existsSync(p))
     if (!updater) throw new Error('ไม่พบ payload/fbth/fbth.js ใน Language Pack')
