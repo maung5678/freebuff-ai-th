@@ -1,6 +1,6 @@
 {
   "name": "freebuff-manager",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Modern manager for Freebuff Desktop, Thai language pack and isolated clones",
   "main": "src/main.cjs",
   "author": "Freebuff AI TH",
@@ -57,5 +57,8 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true
     }
+  },
+  "dependencies": {
+    "undici": "7.30.0"
   }
 }

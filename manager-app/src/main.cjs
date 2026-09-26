@@ -3,6 +3,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { spawn, execFile } = require('node:child_process')
 const crypto = require('node:crypto')
+const { ProxyAgent } = require('undici')
 const local = process.env.LOCALAPPDATA || app.getPath('userData')
 const cloneRoot = path.join(local, 'Freebuff-Clones')
 const cloneConfig = path.join(cloneRoot, 'clones.json')
@@ -17,6 +18,11 @@ const cloneEngine = path.join(resourcesRoot, 'clone-engine', 'Manage-Freebuff-Cl
 const UPDATE_REPO = 'maung5678/freebuff-ai-th'
 const LANGUAGE_VERSION = '5.0.0'
 let cachedRelease = null
+const updateProxy = process.env.HTTPS_PROXY || process.env.https_proxy || process.env.HTTP_PROXY || process.env.http_proxy || process.env.ALL_PROXY || process.env.all_proxy
+let updateDispatcher = null
+if (updateProxy) {
+  try { updateDispatcher = new ProxyAgent(updateProxy) } catch (error) { console.warn('Freebuff Manager: ใช้ proxy สำหรับ GitHub ไม่ได้:', error.message) }
+}
 const activityLog = []
 const activityFile = path.join(app.getPath('userData'), 'manager-activity.log')
 try {
@@ -240,8 +246,16 @@ ipcMain.handle('run', async (_e, action, payload = {}) => {
   }
   throw new Error('คำสั่งไม่รองรับ')
 })
+async function updateFetch(url, options = {}) {
+  try { return await fetch(url, { ...options, ...(updateDispatcher ? { dispatcher: updateDispatcher } : {}) }) }
+  catch (error) {
+    const causeCode = error?.cause?.code || error?.cause?.cause?.code
+    const detail = causeCode ? ` (${causeCode})` : ''
+    throw new Error(`เชื่อมต่อ GitHub ไม่สำเร็จ${detail}: ตรวจสอบอินเทอร์เน็ตหรือ Proxy แล้วลองใหม่`, { cause: error })
+  }
+}
 async function latestRelease() {
-  const response = await fetch(`https://api.github.com/repos/${UPDATE_REPO}/releases/latest`, { headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'Freebuff-Manager' } })
+  const response = await updateFetch(`https://api.github.com/repos/${UPDATE_REPO}/releases/latest`, { headers: { Accept: 'application/vnd.github+json', 'User-Agent': 'Freebuff-Manager' } })
   if (!response.ok) throw new Error(`GitHub ตอบกลับ ${response.status}`)
   const release = await response.json()
   cachedRelease = release
@@ -262,7 +276,7 @@ function classifyAssets(release) {
 }
 async function downloadVerified(asset, destination) {
   if (!asset?.browser_download_url) throw new Error('Release ไม่มีไฟล์อัปเดตที่ต้องการ')
-  const response = await fetch(asset.browser_download_url, { headers: { 'User-Agent': 'Freebuff-Manager' }, redirect: 'follow' })
+  const response = await updateFetch(asset.browser_download_url, { headers: { 'User-Agent': 'Freebuff-Manager' }, redirect: 'follow' })
   if (!response.ok) throw new Error(`ดาวน์โหลดไม่สำเร็จ (${response.status})`)
   const data = Buffer.from(await response.arrayBuffer())
   const actual = crypto.createHash('sha256').update(data).digest('hex').toLowerCase()
