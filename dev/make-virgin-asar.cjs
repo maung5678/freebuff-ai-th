@@ -9,7 +9,7 @@
 
 const fs = require('node:fs')
 const crypto = require('node:crypto')
-const { openAsar } = require('../fbth/lib/asar.js')
+const { openAsar } = require('../Freebuff Thai/lib/asar.js')
 
 const [target, stateFile] = process.argv.slice(2)
 if (!target || !stateFile) {

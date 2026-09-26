@@ -21,7 +21,7 @@ if not exist "%APP%" (
 )
 
 echo กำลังตรวจและซิงค์การแปลไทย...
-node "%DIR%fbth\fbth.js" ensure
+node "%DIR%Freebuff Thai\fbth.js" ensure
 
 echo กำลังเปิด Freebuff...
 start "" "%APP%"

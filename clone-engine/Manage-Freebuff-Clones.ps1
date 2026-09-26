@@ -1,31 +1,69 @@
-﻿Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
 $rebuildAll = $args -contains '--rebuild-all'
+$listOnly = $args -contains '--list-json'
+$cloneRootOverride = $null
+for ($i = 0; $i -lt $args.Count; $i++) { if ($args[$i] -eq '--clone-root' -and $i + 1 -lt $args.Count) { $cloneRootOverride = $args[$i + 1] } }
 
-$cloneRoot = Join-Path $env:LOCALAPPDATA 'Freebuff-Clones'
-$configFile = Join-Path $cloneRoot 'clones.json'
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+$sourceRoot = Split-Path -Parent $scriptDir
+$cloneRoot = if ($cloneRootOverride) { [IO.Path]::GetFullPath($cloneRootOverride) } else { Join-Path $env:LOCALAPPDATA 'Freebuff-Clones' }
+$configFile = Join-Path $cloneRoot 'clones.json'
+$legacyConfigFile = Join-Path (Split-Path -Parent $scriptDir) 'clones.json'
+$cloneEngineOnly = $args -contains '--clone-only'
 
 $availableLetters = @([char]'A'..[char]'Z' | ForEach-Object { [string][char]$_ })
 
 function Get-CloneConfig {
     if (Test-Path $configFile) {
-        return Get-Content -LiteralPath $configFile -Raw | ConvertFrom-Json
+        $parsed = Get-Content -LiteralPath $configFile -Raw | ConvertFrom-Json
+        return [pscustomobject]@{ clones=@($parsed.clones); Storage='local' }
     }
-    return @{ clones = @() }
+    if (Test-Path -LiteralPath $legacyConfigFile) {
+        $parsed = Get-Content -LiteralPath $legacyConfigFile -Raw | ConvertFrom-Json
+        return [pscustomobject]@{ clones=@($parsed.clones); Storage='legacy' }
+    }
+    return [pscustomobject]@{ clones = @(); Storage='local' }
+}
+
+function Get-DiscoveredCloneConfig {
+    $config = Get-CloneConfig
+    $known = @{}; foreach ($c in @($config.clones)) { if ($c.Name) { $known[$c.Name.ToLowerInvariant()] = $true } }
+    $scanRoots = @($cloneRoot, (Join-Path $env:LOCALAPPDATA 'Freebuff-Clones'), 'D:\This PC\Ai\clone Freebuff') | Select-Object -Unique
+    foreach ($scanRoot in $scanRoots) {
+    if (Test-Path -LiteralPath $scanRoot) {
+        foreach ($dir in Get-ChildItem -LiteralPath $scanRoot -Directory) {
+            if ($dir.Name -match ' Profile$' -or $dir.Name -notmatch '^Freebuff(?:\s|$)' -or $known.ContainsKey($dir.Name.ToLowerInvariant())) { continue }
+            $hasApp = (Test-Path -LiteralPath (Join-Path $dir.FullName 'resources\app.asar')) -or (Test-Path -LiteralPath (Join-Path $dir.FullName 'Freebuff.exe'))
+            if (-not $hasApp) { continue }
+            $letter = $null
+            if ($dir.Name -match '^Freebuff\s+([A-Z])$') { $letter = $Matches[1] }
+            elseif ($dir.Name -match '(?i)191') { $letter = 'Z' }
+            else { $letter = Get-NextCloneLetter $config }
+            $slug = ([string]$letter).ToLowerInvariant()
+            $profilePath = Join-Path $scanRoot "$($dir.Name) Profile"
+            if (-not (Test-Path -LiteralPath $profilePath)) { $profilePath = Join-Path $cloneRoot "$($dir.Name) Profile" }
+            $profileRoot = Split-Path -Parent $profilePath
+            $config.clones += [pscustomobject]@{ Name=$dir.Name; Profile="$($dir.Name) Profile"; ProfileRoot=$profileRoot; AppRoot=$scanRoot; Partition="persist:clone-$slug"; Id="freebuff-clone-$slug"; IconLetter=$letter; Discovered=$true }
+            $known[$dir.Name.ToLowerInvariant()] = $true
+        }
+    }
+    }
+    return $config
 }
 
 function Save-CloneConfig {
     param($config)
     if (-not (Test-Path $cloneRoot)) { New-Item -ItemType Directory -Path $cloneRoot -Force | Out-Null }
-    $config | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath $configFile -Encoding UTF8
+    $snapshot = $config | ConvertTo-Json -Depth 8
+    Set-Content -LiteralPath $configFile -Value $snapshot -Encoding UTF8
 }
 
 function Refresh-List {
     param($listBox)
     $listBox.Items.Clear()
-    $config = Get-CloneConfig
+    $config = Get-DiscoveredCloneConfig
     foreach ($c in $config.clones) {
         $letter = Get-CloneLetter $c
         $listBox.Items.Add("[$letter] $($c.Name)")
@@ -83,8 +121,10 @@ function Build-SingleClone {
     $bun = "$src\resources\bun\bun.exe"
     $chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 
-    $cloneDir = Join-Path $cloneRoot $clone.Name
-    $profileDir = Join-Path $cloneRoot $clone.Profile
+    $appRoot = if ($clone.AppRoot) { $clone.AppRoot } else { $cloneRoot }
+    $profileRoot = if ($clone.ProfileRoot) { $clone.ProfileRoot } else { $cloneRoot }
+    $cloneDir = Join-Path $appRoot $clone.Name
+    $profileDir = Join-Path $profileRoot $clone.Profile
     $asarPath = Join-Path $cloneDir 'resources\app.asar'
     $appDir = Join-Path $cloneDir 'resources\app'
     $letter = Get-CloneLetter $clone
@@ -96,30 +136,31 @@ function Build-SingleClone {
     Copy-Item -Path "$src\*" -Destination $cloneDir -Recurse -Force
 
     # Install the update-friendly Thai UI layer into the copied web interface.
-    $thaiSource = Join-Path $scriptDir 'freebuff-th.js'
     $uiDir = Join-Path $cloneDir 'resources\orchestrator\ui'
     $uiIndex = Join-Path $uiDir 'index.html'
-    if ((Test-Path $thaiSource) -and (Test-Path $uiIndex)) {
-        Copy-Item -LiteralPath $thaiSource -Destination (Join-Path $uiDir 'freebuff-th.js') -Force
-        $extendedUi = Join-Path $cloneRoot 'Freebuff A\resources\orchestrator\ui'
-        $extendedRuntime = Join-Path $extendedUi 'fbth-th.js'
-        $extendedDictionary = Join-Path $extendedUi 'fbth-dict.json'
+    if (-not $cloneEngineOnly -and (Test-Path $uiIndex)) {
+        $extendedUi = Join-Path $sourceRoot 'fbth'
+        $extendedRuntime = Join-Path $extendedUi 'runtime\fbth-th.js'
+        $extendedDictionary = Join-Path $extendedUi 'dict\th.json'
         $runtimeTarget = Join-Path $uiDir 'fbth-th.js'
         $dictionaryTarget = Join-Path $uiDir 'fbth-dict.json'
         if ((Test-Path -LiteralPath $extendedRuntime) -and
             ([IO.Path]::GetFullPath($extendedRuntime) -ne [IO.Path]::GetFullPath($runtimeTarget))) {
             Copy-Item -LiteralPath $extendedRuntime -Destination $runtimeTarget -Force
         }
-        if ((Test-Path -LiteralPath $extendedDictionary) -and
-            ([IO.Path]::GetFullPath($extendedDictionary) -ne [IO.Path]::GetFullPath($dictionaryTarget))) {
-            Copy-Item -LiteralPath $extendedDictionary -Destination $dictionaryTarget -Force
+        if (Test-Path -LiteralPath $extendedDictionary) {
+            $dictionaryData = [ordered]@{ strings=[ordered]@{}; patterns=@(); phrases=[ordered]@{} }
+            Get-ChildItem -LiteralPath (Join-Path $extendedUi 'dict') -Filter 'th*.json' | ForEach-Object {
+                $part = Get-Content -LiteralPath $_.FullName -Raw -Encoding UTF8 | ConvertFrom-Json
+                foreach ($key in $part.strings.PSObject.Properties.Name) { $dictionaryData.strings[$key] = $part.strings.$key }
+                foreach ($key in $part.phrases.PSObject.Properties.Name) { $dictionaryData.phrases[$key] = $part.phrases.$key }
+                foreach ($pattern in $part.patterns) { $dictionaryData.patterns += $pattern }
+            }
+            $dictionaryData | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $dictionaryTarget -Encoding UTF8
         }
         $uiHtml = Get-Content -LiteralPath $uiIndex -Raw -Encoding UTF8
         if ((Test-Path -LiteralPath $runtimeTarget) -and $uiHtml -notmatch 'fbth-th\.js') {
             $uiHtml = $uiHtml -replace '(</head>)', "    <script src=`"./fbth-th.js`"></script>`r`n  `$1"
-        }
-        if ($uiHtml -notmatch 'freebuff-th\.js') {
-            $uiHtml = $uiHtml -replace '(</head>)', "    <script src=`"./freebuff-th.js`"></script>`r`n  `$1"
         }
         $brandScript = Join-Path $uiDir 'freebuff-clone-brand.js'
         $brandNameJson = $clone.Name | ConvertTo-Json -Compress
@@ -157,6 +198,28 @@ function Build-SingleClone {
 
     $mainCjs = Join-Path $appDir 'electron\main.cjs'
     $content = Get-Content -LiteralPath $mainCjs -Raw
+    if ($cloneEngineOnly) {
+        $buildDir = Join-Path $appDir 'build'
+        if (-not (Test-Path $buildDir)) { New-Item -ItemType Directory -Path $buildDir -Force | Out-Null }
+        $iconPng = Join-Path $buildDir 'clone-icon.png'; $iconIco = Join-Path $buildDir 'clone-icon.ico'
+        New-LetterIcon -Letter $letter -PngPath $iconPng -IcoPath $iconIco
+        $jsCloneName = ($clone.Name -replace '\\', '\\\\' -replace "'", "\\'")
+        $content = $content -replace "app\.setName\('Freebuff'\)", "app.setName('$jsCloneName')"
+        $content = $content -replace "app\.setAppUserModelId\('com\.freebuff\.desktop'\)", "app.setAppUserModelId('com.freebuff.desktop.$($clone.Id)')"
+        $content = $content -replace "title: 'Freebuff',", "title: '$jsCloneName',"
+        $content = $content -replace "const APP_ICON_PATH = path\.join\(PKG_DIR, 'build', 'icon\.png'\)", "const APP_ICON_PATH = path.join(PKG_DIR, 'build', 'clone-icon.png')"
+        Set-Content -LiteralPath $mainCjs -Value $content -Encoding UTF8
+        Remove-Item -LiteralPath $asarPath -Force -ErrorAction SilentlyContinue
+        & $bun x '@electron/asar' pack $appDir $asarPath
+        if ($LASTEXITCODE -ne 0) { return $false }
+        $launchCmd = Join-Path $cloneDir "Launch $($clone.Name).cmd"
+        $cmd = "@echo off`ntitle $($clone.Name)`nset `"FREEBUFF_CLONE_DISABLE_UPDATER=1`"`nset `"FREEBUFF_DESKTOP_STATE_PATH=$profileDir\desktop-state.json`"`nstart `"`" `"$cloneDir\Freebuff.exe`" --user-data-dir=`"$profileDir`""
+        Set-Content -LiteralPath $launchCmd -Value $cmd -Encoding ASCII
+        $shell = New-Object -ComObject WScript.Shell
+        $sc = $shell.CreateShortcut((Join-Path $cloneRoot "$($clone.Name).lnk"))
+        $sc.TargetPath=$launchCmd; $sc.WorkingDirectory=$cloneDir; $sc.Description="Launch $($clone.Name)"; $sc.IconLocation="$iconIco,0"; $sc.Save()
+        return $true
+    }
 
     # Render a simple local letter icon; no downloaded or generated artwork is needed.
     $buildDir = Join-Path $appDir 'build'
@@ -258,7 +321,7 @@ async function openExternal(url) {
     Set-Content -LiteralPath $launchCmd -Value $cmd -Encoding ASCII
 
     $shell = New-Object -ComObject WScript.Shell
-    $sc = $shell.CreateShortcut("$scriptDir\$($clone.Name).lnk")
+    $sc = $shell.CreateShortcut("$cloneRoot\$($clone.Name).lnk")
     $sc.TargetPath = $launchCmd
     $sc.WorkingDirectory = $cloneDir
     $sc.Description = "Launch $($clone.Name)"
@@ -269,11 +332,16 @@ async function openExternal(url) {
 }
 
 if ($rebuildAll) {
-    $config = Get-CloneConfig
+    $config = Get-DiscoveredCloneConfig
     $ok = 0
     foreach ($clone in $config.clones) {
         $letter = Get-CloneLetter $clone
         if (-not $letter) { $letter = Get-NextCloneLetter $config }
+        if ($clone.Discovered) {
+            $clone.AppRoot = $cloneRoot
+            $clone.ProfileRoot = if (Test-Path (Join-Path $cloneRoot $clone.Profile)) { $cloneRoot } else { 'D:\This PC\Ai\clone Freebuff' }
+        }
+        $clone.PSObject.Properties.Remove('Discovered')
         $clone | Add-Member -NotePropertyName IconLetter -NotePropertyValue $letter -Force
         $clone.Id = "freebuff-clone-$($letter.ToLowerInvariant())"
         Write-Host "Building $($clone.Name) [$letter]..."
@@ -282,6 +350,11 @@ if ($rebuildAll) {
     Save-CloneConfig $config
     Write-Host "Built $ok/$($config.clones.Count) clones."
     exit $(if ($ok -eq $config.clones.Count) { 0 } else { 1 })
+}
+
+if ($listOnly) {
+    Get-DiscoveredCloneConfig | ConvertTo-Json -Depth 8 -Compress
+    exit 0
 }
 
 # ==================== GUI ====================
@@ -421,7 +494,7 @@ $btnAdd.Add_Click({
     $cmbLetter.Size = New-Object System.Drawing.Size(260, 25)
     $cmbLetter.Location = New-Object System.Drawing.Point(80, 53)
     $cmbLetter.DropDownStyle = "DropDownList"
-    $currentConfig = Get-CloneConfig
+    $currentConfig = Get-DiscoveredCloneConfig
     $usedLetters = @($currentConfig.clones | ForEach-Object { Get-CloneLetter $_ } | Where-Object { $_ })
     foreach ($letter in $availableLetters) {
         if ($usedLetters -notcontains $letter) { $cmbLetter.Items.Add($letter) | Out-Null }
@@ -459,7 +532,7 @@ $btnAdd.Add_Click({
             [System.Windows.Forms.MessageBox]::Show("ชื่อมีอักขระที่ Windows ใช้เป็นชื่อไฟล์ไม่ได้", "Error", "OK", "Error")
             return
         }
-        $config = Get-CloneConfig
+        $config = Get-DiscoveredCloneConfig
         if ($config.clones | Where-Object { $_.Name -eq $name }) {
             [System.Windows.Forms.MessageBox]::Show("มี '$name' อยู่แล้ว!", "Error", "OK", "Error")
             return
@@ -475,6 +548,8 @@ $btnAdd.Add_Click({
         $newClone = @{
             Name = $name
             Profile = "$name Profile"
+            AppRoot = $cloneRoot
+            ProfileRoot = $cloneRoot
             Partition = "persist:clone-$($label.ToLower())"
             Id = $id
             IconLetter = $label
@@ -506,8 +581,9 @@ $btnRename.Add_Click({
         return
     }
 
-    $config = Get-CloneConfig
+    $config = Get-DiscoveredCloneConfig
     $old = $config.clones[$listBox.SelectedIndex]
+    if ($old.Discovered) { [System.Windows.Forms.MessageBox]::Show("โคลนนี้อยู่ในแฟ้มเดิม กรุณากดอัปเดตโคลนก่อนเปลี่ยนชื่อ", "แจ้งเตือน", "OK", "Information"); return }
     $oldName = $old.Name
 
     $renameForm = New-Object System.Windows.Forms.Form
@@ -566,7 +642,7 @@ $btnRename.Add_Click({
             $renameForm.Close()
             return
         }
-        $config2 = Get-CloneConfig
+        $config2 = Get-DiscoveredCloneConfig
         if ($config2.clones | Where-Object { $_.Name -eq $newName }) {
             [System.Windows.Forms.MessageBox]::Show("มี '$newName' อยู่แล้ว!", "Error", "OK", "Error")
             return
@@ -578,13 +654,15 @@ $btnRename.Add_Click({
         } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
 
         # Rename directory
-        $oldDir = Join-Path $cloneRoot $oldName
-        $newDir = Join-Path $cloneRoot $newName
+        $appRoot = if ($old.AppRoot) { $old.AppRoot } else { $cloneRoot }
+        $oldDir = Join-Path $appRoot $oldName
+        $newDir = Join-Path $appRoot $newName
         if (Test-Path $oldDir) { Rename-Item -Path $oldDir -NewName $newName }
 
         # Rename profile
-        $oldProfile = Join-Path $cloneRoot $old.Profile
-        $newProfileDir = Join-Path $cloneRoot "$newName Profile"
+        $profileRoot = if ($old.ProfileRoot) { $old.ProfileRoot } else { $cloneRoot }
+        $oldProfile = Join-Path $profileRoot $old.Profile
+        $newProfileDir = Join-Path $profileRoot "$newName Profile"
         if (Test-Path $oldProfile) { Rename-Item -Path $oldProfile -NewName "$newName Profile" }
 
         # Remove old shortcut
@@ -596,6 +674,8 @@ $btnRename.Add_Click({
             if ($c.Name -eq $oldName) {
                 $c.Name = $newName
                 $c.Profile = "$newName Profile"
+                $c.AppRoot = $appRoot
+                $c.ProfileRoot = $profileRoot
             }
         }
         Save-CloneConfig $config2
@@ -620,21 +700,27 @@ $btnRemove.Add_Click({
         return
     }
 
-    $config = Get-CloneConfig
+    $config = Get-DiscoveredCloneConfig
     $selected = $config.clones[$listBox.SelectedIndex]
     $result = [System.Windows.Forms.MessageBox]::Show("ลบ '$($selected.Name)' ทั้งหมด?", "ยืนยัน", "YesNo", "Question")
 
     if ($result -eq "Yes") {
+        if ($selected.Discovered) {
+            [System.Windows.Forms.MessageBox]::Show("ยังไม่ได้อัปเดตโคลนนี้เข้าระบบ จึงยกเลิกการลบเพื่อป้องกันโปรไฟล์หาย", "ลบไม่ได้", "OK", "Warning")
+            return
+        }
         Get-CimInstance Win32_Process -Filter "Name='Freebuff.exe'" | Where-Object {
             $_.ExecutablePath -like "*Freebuff-Clones\$($selected.Name)*"
         } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
 
-        $cloneDir = Join-Path $cloneRoot $selected.Name
-        $profileDir = Join-Path $cloneRoot $selected.Profile
-        if (Test-Path $cloneDir) { Remove-Item -Recurse -Force $cloneDir }
-        if (Test-Path $profileDir) { Remove-Item -Recurse -Force $profileDir }
+        $appRoot = if ($selected.AppRoot) { $selected.AppRoot } else { $cloneRoot }
+        $profileRoot = if ($selected.ProfileRoot) { $selected.ProfileRoot } else { $cloneRoot }
+        $cloneDir = Join-Path $appRoot $selected.Name
+        $profileDir = Join-Path $profileRoot $selected.Profile
+        if (Test-Path $cloneDir) { Remove-Item -LiteralPath $cloneDir -Recurse -Force }
+        if (Test-Path $profileDir) { Remove-Item -LiteralPath $profileDir -Recurse -Force }
 
-        $shortcutPath = Join-Path $scriptDir "$($selected.Name).lnk"
+        $shortcutPath = Join-Path $appRoot "$($selected.Name).lnk"
         if (Test-Path $shortcutPath) { Remove-Item -Force $shortcutPath }
 
         $config.clones = $config.clones | Where-Object { $_.Name -ne $selected.Name }
@@ -655,7 +741,7 @@ $btnBuild.Add_Click({
         $lblStatus.Text = "กำลังสร้าง/อัพเดท ทั้งหมด... รอสักครู่"
         $form.Refresh()
 
-        $config = Get-CloneConfig
+        $config = Get-DiscoveredCloneConfig
         $success = 0
         $fail = 0
         foreach ($c in $config.clones) {
@@ -678,9 +764,10 @@ $btnLaunch.Add_Click({
         return
     }
 
-    $config = Get-CloneConfig
+    $config = Get-DiscoveredCloneConfig
     $selected = $config.clones[$listBox.SelectedIndex]
-    $launchCmd = Join-Path (Join-Path $cloneRoot $selected.Name) "Launch $($selected.Name).cmd"
+    $appRoot = if ($selected.AppRoot) { $selected.AppRoot } else { $cloneRoot }
+    $launchCmd = Join-Path (Join-Path $appRoot $selected.Name) "Launch $($selected.Name).cmd"
 
     if (Test-Path $launchCmd) {
         Start-Process cmd.exe -ArgumentList "/c `"$launchCmd`""

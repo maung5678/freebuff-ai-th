@@ -2,7 +2,7 @@
 /**
  * selftest-pack.cjs — ทดสอบ "ชุดติดตั้งภาษาไทย" แบบครบวงจรในแซนด์บ็อกซ์
  *
- *   node dev/selftest-pack.cjs                        # ทดสอบ payload ในรีโป (fbth/)
+ *   node dev/selftest-pack.cjs                        # ทดสอบ payload ในรีโป (Freebuff Thai/)
  *   node dev/selftest-pack.cjs --payload build/Freebuff-Thai-Pack/payload/fbth
  *   node dev/selftest-pack.cjs --keep                 # เก็บแซนด์บ็อกซ์ไว้ดู
  *
@@ -34,7 +34,7 @@ const opt = (name, def) => {
   const i = argv.indexOf(name)
   return i !== -1 && argv[i + 1] ? argv[i + 1] : def
 }
-const PAYLOAD = path.resolve(ROOT, opt('--payload', path.join('fbth')))
+const PAYLOAD = path.resolve(ROOT, opt('--payload', path.join('Freebuff Thai')))
 const PACK_DIR = opt('--pack', path.join(ROOT, 'build', 'Freebuff-Thai-Pack'))
 const KEEP = argv.includes('--keep')
 const SANDBOX_ROOT = path.join(ROOT, 'dev', '.selftest')
@@ -70,7 +70,7 @@ const MAIN_SRC = `/**
 console.log('sandbox boot')
 `
 
-/** เขียน app.asar ขนาดเล็กที่ตัวอ่านของเรา (fbth/lib/asar.js) อ่านได้ */
+/** เขียน app.asar ขนาดเล็กที่ตัวอ่านของเรา (Freebuff Thai/lib/asar.js) อ่านได้ */
 function writeAsar(file, files) {
   const names = Object.keys(files)
   const header = { files: {} }

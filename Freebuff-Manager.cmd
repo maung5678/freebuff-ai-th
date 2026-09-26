@@ -1,10 +1,11 @@
 @echo off
 setlocal
-if exist "%~dp0manager-app\node_modules\.bin\electron.cmd" (
-  call "%~dp0manager-app\node_modules\.bin\electron.cmd" "%~dp0manager-app"
+set "MANAGER=%~dp0Freebuff Manager 0.2.3\Freebuff Manager 0.2.3.exe"
+if exist "%MANAGER%" (
+  start "" "%MANAGER%"
 ) else (
-  echo Freebuff Manager has not been built yet.
-  echo Run: cd manager-app ^&^& npm install ^&^& npm start
+  echo Freebuff Manager 0.2.3 was not found:
+  echo "%MANAGER%"
   pause
 )
 endlocal

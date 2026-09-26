@@ -1,6 +1,6 @@
 {
   "name": "freebuff-manager",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "description": "Modern manager for Freebuff Desktop, Thai language pack and isolated clones",
   "main": "src/main.cjs",
   "author": "Freebuff AI TH",
@@ -16,13 +16,46 @@
   "build": {
     "appId": "th.freebuff.manager",
     "productName": "Freebuff Manager",
-    "directories": { "output": "dist" },
-    "files": ["src/**/*", "package.json"],
-    "extraResources": [
-      { "from": "../fbth", "to": "fbth", "filter": ["**/*", "!dict/candidates*.json", "!dict/gap*.json", "!dict/TODO.md"] },
-      { "from": "../clone-engine", "to": "clone-engine", "filter": ["**/*"] }
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
     ],
-    "win": { "target": ["nsis", "portable"] },
-    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true, "createDesktopShortcut": true, "createStartMenuShortcut": true }
+    "extraResources": [
+      {
+        "from": "../Freebuff Thai",
+        "to": "fbth",
+        "filter": [
+          "**/*",
+          "!dict/candidates*.json",
+          "!dict/gap*.json",
+          "!dict/removed.json",
+          "!dict/TODO.md"
+        ]
+      },
+      {
+        "from": "../clone-engine",
+        "to": "clone-engine",
+        "filter": [
+          "Manage-Freebuff-Clones.ps1",
+          "README.md",
+          "clones.json"
+        ]
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
   }
 }
