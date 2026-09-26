@@ -3,6 +3,8 @@ const fs = require('node:fs')
 const path = require('node:path')
 const { spawn, execFile } = require('node:child_process')
 const crypto = require('node:crypto')
+const { Readable, Transform } = require('node:stream')
+const { pipeline } = require('node:stream/promises')
 const { ProxyAgent } = require('undici')
 const local = process.env.LOCALAPPDATA || app.getPath('userData')
 const cloneRoot = path.join(local, 'Freebuff-Clones')
@@ -13,11 +15,15 @@ const mainApp = path.join(local, 'Programs', '@codebufffreebuff-desktop')
 const devRoot = path.resolve(__dirname, '..', '..')
 const resourcesRoot = app.isPackaged ? process.resourcesPath : devRoot
 const cloneProjectConfig = path.join(resourcesRoot, 'clone-engine', 'clones.json')
-const fbth = path.join(resourcesRoot, 'fbth', 'fbth.js')
+const fbth = path.join(resourcesRoot, app.isPackaged ? 'fbth' : 'Freebuff Thai', 'fbth.js')
 const cloneEngine = path.join(resourcesRoot, 'clone-engine', 'Manage-Freebuff-Clones.ps1')
 const UPDATE_REPO = 'maung5678/freebuff-ai-th'
+const DESKTOP_UPDATE_URL = 'https://freebuff.com/api/desktop/updates/win-x64/latest.yml'
+const DESKTOP_PUBLISHER = 'James Grugett'
 const LANGUAGE_VERSION = '6'
 let cachedRelease = null
+let cachedDesktopUpdate = null
+let operationActive = false
 const updateProxy = process.env.HTTPS_PROXY || process.env.https_proxy || process.env.HTTP_PROXY || process.env.http_proxy || process.env.ALL_PROXY || process.env.all_proxy
 let updateDispatcher = null
 if (updateProxy) {
@@ -30,7 +36,7 @@ try {
   for (const line of saved) { try { activityLog.push(JSON.parse(line)) } catch {} }
 } catch {}
 function recordLog(message, level = 'info') {
-  const entry = { at: new Date().toLocaleString(), level, message: String(message || '').trim() }
+  const entry = { at: new Date().toLocaleTimeString(), level, message: String(message || '').trim() }
   activityLog.push(entry); if (activityLog.length > 300) activityLog.shift()
   try { fs.mkdirSync(path.dirname(activityFile), { recursive: true }); fs.appendFileSync(activityFile, JSON.stringify(entry) + '\n', 'utf8') } catch {}
   for (const win of BrowserWindow.getAllWindows()) win.webContents.send('activity-log', entry)
@@ -82,15 +88,18 @@ function listClones() {
       }
     }
   } catch {}
-  return [...clones.values()].map(c => ({ ...c, installed: fs.existsSync(path.join(c.AppRoot || cloneRoot, c.Name, 'resources', 'app.asar')) || fs.existsSync(path.join(c.AppRoot || cloneRoot, c.Name, 'Freebuff.exe')), usage: latestSnapshot(c.Profile || `${c.Name} Profile`) }))
+  return [...clones.values()]
+    .map(c => ({ ...c, installed: fs.existsSync(path.join(c.AppRoot || cloneRoot, c.Name, 'resources', 'app.asar')) || fs.existsSync(path.join(c.AppRoot || cloneRoot, c.Name, 'Freebuff.exe')), usage: latestSnapshot(c.Profile || `${c.Name} Profile`) }))
+    .sort((a, b) => a.Name.localeCompare(b.Name, undefined, { numeric: true, sensitivity: 'base' }))
 }
 function runFile(file, args = [], options = {}) {
   const label = `${path.basename(file)} ${args.join(' ')}`
-  recordLog(`เริ่ม: ${label}`)
-  return new Promise((resolve, reject) => execFile(file, args, { windowsHide: true, maxBuffer: 8 * 1024 * 1024, ...options }, (error, stdout, stderr) => {
+  const { quietOutput = false, ...execOptions } = options
+  recordLog(`กำลังทำงาน: ${label}`, 'running')
+  return new Promise((resolve, reject) => execFile(file, args, { windowsHide: true, maxBuffer: 8 * 1024 * 1024, ...execOptions }, (error, stdout, stderr) => {
     const output = (stdout + stderr).trim()
     if (error) { const reason = (stderr || stdout || error.message).trim(); recordLog(`ผิดพลาด: ${label}\n${reason}`, 'error'); reject(new Error(reason)) }
-    else { recordLog(`สำเร็จ: ${label}${output ? `\n${output}` : ''}`); resolve(output) }
+    else { recordLog(`สำเร็จ: ${label}${output && !quietOutput ? `\n${output}` : ''}`, 'success'); resolve(output) }
   }))
 }
 function nodeRunner() {
@@ -100,8 +109,37 @@ function nodeRunner() {
   throw new Error('ไม่พบ Node.js หรือ Bun สำหรับเรียกตัวแปลภาษาไทย')
 }
 function powershellLiteral(value) { return `'${String(value).replace(/'/g, "''")}'` }
+function progress(message, level = 'running') { recordLog(message, level) }
+function cleanupAbandonedUpdateFolders() {
+  const tempRoot = path.resolve(app.getPath('temp'))
+  const cutoff = Date.now() - 24 * 60 * 60 * 1000
+  let removed = 0
+  try {
+    for (const entry of fs.readdirSync(tempRoot, { withFileTypes: true })) {
+      if (!entry.isDirectory() || !entry.name.startsWith('freebuff-manager-update-')) continue
+      const target = path.resolve(tempRoot, entry.name)
+      if (path.dirname(target) !== tempRoot || fs.statSync(target).mtimeMs > cutoff) continue
+      fs.rmSync(target, { recursive: true, force: true })
+      removed++
+    }
+  } catch (error) { recordLog(`ลบไฟล์อัปเดตเก่าที่ค้างไม่สำเร็จ: ${error.message}`, 'error'); return }
+  if (removed) recordLog(`ล้างโฟลเดอร์อัปเดตเก่าที่ค้าง ${removed} รายการแล้ว`, 'success')
+}
+async function ensureFreebuffClosed() {
+  const checkProcesses = String.raw`$roots = @((Join-Path $env:LOCALAPPDATA 'Programs\@codebufffreebuff-desktop'), (Join-Path $env:LOCALAPPDATA 'Freebuff-Clones'), 'D:\This PC\Ai\clone Freebuff'); Get-CimInstance Win32_Process -Filter "Name='Freebuff.exe'" | Where-Object { $p=$_.ExecutablePath; $p -and ($roots | Where-Object { $p.StartsWith($_, [StringComparison]::OrdinalIgnoreCase) }) } | ForEach-Object { $_.ExecutablePath } | ConvertTo-Json -Compress`
+  const raw = await runFile('powershell.exe', ['-NoProfile', '-Command', checkProcesses])
+  let paths = []
+  try { const parsed = JSON.parse(raw || '[]'); paths = Array.isArray(parsed) ? parsed : parsed ? [parsed] : [] } catch { if (raw) paths = [raw] }
+  if (paths.length) throw new Error(`กรุณาปิดแอป Freebuff ก่อนเริ่มอัปเดต: ${[...new Set(paths.map(p => path.basename(path.dirname(p))))].join(', ')}`)
+}
 async function runFbth(command) {
   return runFile(nodeRunner(), [fbth, command])
+}
+async function currentLanguageState() {
+  const output = await runFile(nodeRunner(), [fbth, 'status'], { quietOutput: true })
+  const clean = output.replace(/\x1B\[[0-9;]*m/g, '')
+  const stale = /fbth-th\.js:\s*เก่า\/ไม่มี|fbth-dict\.json:\s*เก่า\/ไม่มี|→ รัน "fbth install"/.test(clean)
+  return { stale, current: stale ? 'ต้องซิงก์' : LANGUAGE_VERSION }
 }
 function createWindow() {
   const win = new BrowserWindow({ width: 1180, height: 760, minWidth: 960, minHeight: 620, backgroundColor: '#090d14', titleBarStyle: 'hiddenInset', webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false } })
@@ -136,20 +174,25 @@ ipcMain.handle('run', async (_e, action, payload = {}) => {
     const match = listClones().find(c => c?.Name === payload.name)
     if (!match) throw new Error('ไม่พบรายการโคลนในทะเบียน')
     const base = match.AppRoot || cloneRoot, profileRoot = match.ProfileRoot || (base === legacyCloneRoot ? legacyCloneRoot : cloneRoot)
-    const appRootPath = path.resolve(base) + path.sep, profileRootPath = path.resolve(profileRoot) + path.sep
+    const allowedRoots = [cloneRoot, legacyCloneRoot].map(p => path.resolve(p).toLocaleLowerCase())
+    const resolvedBase = path.resolve(base), resolvedProfileRoot = path.resolve(profileRoot)
+    if (!allowedRoots.includes(resolvedBase.toLocaleLowerCase()) || !allowedRoots.includes(resolvedProfileRoot.toLocaleLowerCase())) throw new Error('ตำแหน่งโคลนไม่อยู่ในโฟลเดอร์ที่ Manager ดูแล จึงยกเลิกการลบ')
+    if (!/^Freebuff(?:\s|$)/i.test(match.Name)) throw new Error('ชื่อโคลนไม่ถูกต้อง จึงยกเลิกการลบ')
+    const appRootPath = resolvedBase + path.sep, profileRootPath = resolvedProfileRoot + path.sep
     const targets = [path.resolve(base, match.Name), path.resolve(profileRoot, match.Profile || `${match.Name} Profile`)]
     if (!targets[0].startsWith(appRootPath) || targets[0] === path.resolve(base) || !targets[1].startsWith(profileRootPath) || targets[1] === path.resolve(profileRoot)) throw new Error('เส้นทางไม่ปลอดภัย จึงยกเลิกการลบ')
     const appExe = path.join(targets[0], 'Freebuff.exe')
-    const profileState = path.join(targets[1], 'desktop-state.json')
     const confirmedApp = fs.existsSync(path.join(targets[0], 'resources', 'app.asar')) || fs.existsSync(appExe)
-    const confirmedProfile = fs.existsSync(profileState) || fs.existsSync(path.join(targets[1], 'browser'))
-    if (!confirmedApp || !confirmedProfile) throw new Error('ตรวจไม่พบคู่แอปและโปรไฟล์ที่คาดไว้ จึงไม่ลบไฟล์')
-    await runFile('powershell.exe', ['-NoProfile', '-Command', "Get-CimInstance Win32_Process -Filter \"Name='Freebuff.exe'\" | Where-Object { $_.ExecutablePath -like '*Freebuff-Clones*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"])
-    if (match.AppRoot === legacyCloneRoot) throw new Error('ลบไฟล์จากโครงการเดิมไม่ได้จาก Manager รุ่นนี้ กรุณาจัดการผ่านตัวเดิม')
+    if (!confirmedApp) throw new Error('ไม่พบไฟล์แอปของโคลน จึงไม่ลบโฟลเดอร์ที่ไม่ยืนยัน')
+    await ensureFreebuffClosed()
+    progress(`กำลังลบแอปและโปรไฟล์ ${match.Name}`)
     fs.rmSync(targets[0], { recursive: true, force: true })
     fs.rmSync(targets[1], { recursive: true, force: true })
     cfg.clones = (cfg.clones || []).filter(c => c?.Name !== payload.name)
-    fs.writeFileSync(cloneConfig, JSON.stringify(cfg, null, 2) + '\n', 'utf8')
+    fs.rmSync(path.join(cloneRoot, `${match.Name}.lnk`), { force: true })
+    fs.rmSync(path.join(resolvedBase, `${match.Name}.lnk`), { force: true })
+    persistCloneConfig(cfg)
+    progress(`ลบแอปและโปรไฟล์ ${match.Name} สำเร็จ`, 'success')
     return { message: `ลบไฟล์แอปและโปรไฟล์ ${match.Name} แล้ว` }
   }
   if (action === 'open-clone') {
@@ -164,8 +207,7 @@ ipcMain.handle('run', async (_e, action, payload = {}) => {
     const profileRoot = clone.ProfileRoot || (cloneBase === legacyCloneRoot ? legacyCloneRoot : cloneRoot)
     const profileDir = path.join(profileRoot, clone.Profile || `${clone.Name} Profile`)
     const cloneExe = path.join(cloneDir, 'Freebuff.exe')
-    const exe = fs.existsSync(cloneExe) ? cloneExe : path.join(mainApp, 'Freebuff.exe')
-    if (!fs.existsSync(exe)) throw new Error(`ไม่พบไฟล์แอปโคลนหรือแอปหลักที่ใช้เปิดได้: ${cloneExe}`)
+    if (!fs.existsSync(cloneExe) || !fs.existsSync(path.join(cloneDir, 'resources', 'app.asar'))) throw new Error(`ไม่พบไฟล์แอปของ ${clone.Name} จึงไม่เปิดแอปหลักแทน โปรดกดอัปเดตทั้งหมดเพื่อซ่อมโคลน`)
     const env = {
       ...process.env,
       FREEBUFF_CLONE_DISABLE_UPDATER: '1',
@@ -173,14 +215,15 @@ ipcMain.handle('run', async (_e, action, payload = {}) => {
     }
     // ต้องตรงกับ Launch <clone>.cmd ของ clone engine ทุกค่า มิฉะนั้น Electron อาจใช้บัญชีหลัก
     fs.mkdirSync(profileDir, { recursive: true })
-    const child = spawn(exe, [`--user-data-dir=${profileDir}`], { cwd: fs.existsSync(cloneDir) ? cloneDir : mainApp, env, detached: true, stdio: 'ignore', windowsHide: false })
+    const child = spawn(cloneExe, [`--user-data-dir=${profileDir}`], { cwd: cloneDir, env, detached: true, stdio: 'ignore', windowsHide: false })
     child.on('error', error => recordLog(`เปิดโคลน ${clone.Name} ไม่สำเร็จ: ${error.message}`, 'error')); child.unref()
     recordLog(`เปิดโคลน ${clone.Name} ด้วยโปรไฟล์ ${profileDir}`)
     return { message: `เปิด ${clone.Name} แล้ว`, silent: true }
   }
   if (action === 'rebuild-clones') {
     if (!fs.existsSync(cloneEngine)) throw new Error('ไม่พบ clone engine ในแพ็กเกจ')
-    await runFile('powershell.exe', ['-NoProfile', '-Command', "Get-CimInstance Win32_Process -Filter \"Name='Freebuff.exe'\" | Where-Object { $_.ExecutablePath -like '*Freebuff-Clones*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"])
+    await ensureFreebuffClosed()
+    progress('กำลังซิงก์ไฟล์แอปหลักไปยังโคลน')
     let message
     try { message = await runFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', cloneEngine, '--rebuild-all', '--clone-only', '--clone-root', cloneRoot]) }
     catch (error) {
@@ -196,12 +239,16 @@ ipcMain.handle('run', async (_e, action, payload = {}) => {
   }
   if (action === 'add-clone') {
     if (!fs.existsSync(cloneEngine)) throw new Error('ไม่พบ clone engine ในแพ็กเกจ')
+    await ensureFreebuffClosed()
     const name = String(payload.name || '').trim()
     if (!/^Freebuff\s+[A-Za-z0-9][A-Za-z0-9 _-]{0,30}$/.test(name)) throw new Error('ชื่อควรขึ้นต้นด้วย Freebuff และใช้ตัวอักษร/ตัวเลขเท่านั้น')
     if (listClones().some(c => c.Name.toLocaleLowerCase() === name.toLocaleLowerCase())) throw new Error('มีชื่อนี้อยู่แล้ว')
+    const newAppDir = path.join(cloneRoot, name), newProfileDir = path.join(cloneRoot, `${name} Profile`)
+    if (fs.existsSync(newAppDir) || fs.existsSync(newProfileDir)) throw new Error('มีโฟลเดอร์แอปหรือโปรไฟล์ชื่อนี้อยู่แล้ว กรุณาตรวจรายการโคลนก่อน')
     const used = new Set(listClones().map(c => c.IconLetter).filter(Boolean))
     const letter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').find(x => !used.has(x))
     if (!letter) throw new Error('ไม่มีตัวอักษรไอคอนว่าง')
+    progress(`กำลังสร้างโคลน ${name}`)
     const cfg = readJson(cloneConfig, null) || readJson(cloneProjectConfig, null) || readJson(legacyCloneConfig, { clones: [] })
     const clone = { Name: name, Id: `freebuff-clone-${letter.toLowerCase()}`, Profile: `${name} Profile`, Partition: `persist:clone-${letter.toLowerCase()}`, IconLetter: letter }
     cfg.clones = [...(cfg.clones || []), clone]
@@ -210,8 +257,12 @@ ipcMain.handle('run', async (_e, action, payload = {}) => {
     persistCloneConfig(cfg)
     try {
       const message = await runFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', cloneEngine, '--rebuild-all', '--clone-only', '--clone-root', cloneRoot])
+      if (!fs.existsSync(path.join(newAppDir, 'Freebuff.exe')) || !fs.existsSync(path.join(newAppDir, 'resources', 'app.asar'))) throw new Error('clone engine จบการทำงานแต่ไม่พบไฟล์แอปโคลนที่สร้าง')
+      progress(`สร้างโคลน ${name} สำเร็จ`, 'success')
       return { message }
     } catch (error) {
+      try { fs.rmSync(newAppDir, { recursive: true, force: true }); fs.rmSync(newProfileDir, { recursive: true, force: true }); fs.rmSync(path.join(cloneRoot, `${name}.lnk`), { force: true }) }
+      catch (cleanupError) { recordLog(`เก็บไฟล์โคลนที่สร้างไม่สำเร็จไม่หมด: ${cleanupError.message}`, 'error') }
       cfg.clones = cfg.clones.filter(c => c.Name !== name); persistCloneConfig(cfg); throw error
     }
   }
@@ -219,29 +270,44 @@ ipcMain.handle('run', async (_e, action, payload = {}) => {
     const oldName = String(payload.oldName || ''), name = String(payload.name || '').trim()
     if (!/^Freebuff\s+[A-Za-z0-9][A-Za-z0-9 _-]{0,30}$/.test(name)) throw new Error('ชื่อควรขึ้นต้นด้วย Freebuff และใช้ตัวอักษร/ตัวเลขเท่านั้น')
     if (listClones().some(c => c.Name.toLocaleLowerCase() === name.toLocaleLowerCase() && c.Name !== oldName)) throw new Error('มีชื่อนี้อยู่แล้ว')
-    const cfg = readJson(cloneConfig, null) || readJson(cloneProjectConfig, null) || readJson(legacyCloneConfig, { clones: [] }), c = (cfg.clones || []).find(x => x.Name === oldName)
-    if (!c) {
-      const found = listClones().find(x => x.Name === oldName)
-      if (!found) throw new Error('ไม่พบรายการโคลนที่ต้องการเปลี่ยนชื่อ')
-      throw new Error('โคลนจากตำแหน่งเดิมยังเปลี่ยนชื่อไม่ได้อย่างปลอดภัย ให้กดอัปเดตโคลนก่อน')
-    }
-    if (c.Discovered) throw new Error('โคลนนี้เพิ่งค้นพบจากโฟลเดอร์ ให้กดอัปเดตโคลนทั้งหมดก่อน แล้วค่อยเปลี่ยนชื่อ')
-    if (c.AppRoot === legacyCloneRoot) throw new Error('โคลนจากตำแหน่งเดิมยังเปลี่ยนชื่อไม่ได้อย่างปลอดภัย กรุณาอัปเดตโคลนก่อน')
-    await runFile('powershell.exe', ['-NoProfile', '-Command', "Get-CimInstance Win32_Process -Filter \"Name='Freebuff.exe'\" | Where-Object { $_.ExecutablePath -like '*Freebuff-Clones*' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }"])
-    const root = c.AppRoot || cloneRoot
-    const oldProfile = path.join(c.ProfileRoot || root, c.Profile || `${oldName} Profile`), newProfileName = `${name} Profile`, newProfile = path.join(c.ProfileRoot || root, newProfileName)
-    if (fs.existsSync(newProfile)) throw new Error('มีโฟลเดอร์โปรไฟล์ปลายทางอยู่แล้ว จึงไม่เปลี่ยนชื่อเพื่อป้องกันข้อมูลทับกัน')
-    const oldDir = path.join(root, c.Name), newDir = path.join(root, name)
-    if (fs.existsSync(newDir)) throw new Error('มีโฟลเดอร์แอปปลายทางอยู่แล้ว จึงไม่เปลี่ยนชื่อเพื่อป้องกันข้อมูลทับกัน')
-    c.Name = name; c.Profile = newProfileName
-    persistCloneConfig(cfg)
+    const discovered = listClones().find(x => x.Name.toLocaleLowerCase() === oldName.toLocaleLowerCase())
+    if (!discovered) throw new Error('ไม่พบรายการโคลนที่ต้องการเปลี่ยนชื่อ')
+    const cfg = readJson(cloneConfig, null) || readJson(cloneProjectConfig, null) || readJson(legacyCloneConfig, { clones: [] })
+    const roots = [cloneRoot, legacyCloneRoot].map(p => path.resolve(p).toLocaleLowerCase())
+    const root = path.resolve(discovered.AppRoot || cloneRoot)
+    const profileRoot = path.resolve(discovered.ProfileRoot || (root.toLocaleLowerCase() === path.resolve(legacyCloneRoot).toLocaleLowerCase() ? legacyCloneRoot : cloneRoot))
+    if (!roots.includes(root.toLocaleLowerCase()) || !roots.includes(profileRoot.toLocaleLowerCase())) throw new Error('ตำแหน่งโคลนไม่อยู่ในโฟลเดอร์ที่ Manager ดูแล จึงยกเลิกการเปลี่ยนชื่อ')
+    await ensureFreebuffClosed()
+    progress(`กำลังเปลี่ยนชื่อ ${oldName} เป็น ${name}`)
+    const oldProfileName = discovered.Profile || `${oldName} Profile`, newProfileName = `${name} Profile`
+    const oldProfile = path.resolve(profileRoot, oldProfileName), newProfile = path.resolve(profileRoot, newProfileName)
+    const oldDir = path.resolve(root, discovered.Name), newDir = path.resolve(root, name)
+    const isChild = (parent, target) => { const rel = path.relative(parent, target); return !!rel && rel !== '..' && !rel.startsWith(`..${path.sep}`) && !path.isAbsolute(rel) }
+    if (!isChild(root, oldDir) || !isChild(root, newDir) || !isChild(profileRoot, oldProfile) || !isChild(profileRoot, newProfile)) throw new Error('เส้นทางเปลี่ยนชื่อไม่ปลอดภัย จึงยกเลิก')
+    if (!fs.existsSync(path.join(oldDir, 'Freebuff.exe')) || !fs.existsSync(path.join(oldDir, 'resources', 'app.asar'))) throw new Error('ไฟล์แอปโคลนหายไป กรุณากดอัปเดตทั้งหมดเพื่อซ่อมก่อนเปลี่ยนชื่อ')
+    if (fs.existsSync(newDir) || fs.existsSync(newProfile)) throw new Error('มีโฟลเดอร์แอปหรือโปรไฟล์ปลายทางอยู่แล้ว จึงไม่เปลี่ยนชื่อเพื่อป้องกันข้อมูลทับกัน')
+    const oldShortcut = path.join(cloneRoot, `${oldName}.lnk`), newShortcut = path.join(cloneRoot, `${name}.lnk`)
+    const oldClones = Array.isArray(cfg.clones) ? cfg.clones : []
+    const targetConfig = oldClones.find(c => c.Name?.toLocaleLowerCase() === oldName.toLocaleLowerCase()) || discovered
+    const updatedConfig = { ...targetConfig, Name: name, Profile: newProfileName, AppRoot: root, ProfileRoot: profileRoot, Discovered: false }
+    const nextClones = oldClones.filter(c => c.Name?.toLocaleLowerCase() !== oldName.toLocaleLowerCase())
+    nextClones.push(updatedConfig)
+    const nextCfg = { ...cfg, clones: nextClones }
+    let movedApp = false, movedProfile = false, movedShortcut = false
     try {
-      if (fs.existsSync(oldProfile)) fs.renameSync(oldProfile, newProfile)
-      if (fs.existsSync(oldDir)) fs.renameSync(oldDir, newDir)
+      fs.renameSync(oldDir, newDir); movedApp = true
+      if (fs.existsSync(oldProfile)) { fs.renameSync(oldProfile, newProfile); movedProfile = true }
+      if (fs.existsSync(oldShortcut) && !fs.existsSync(newShortcut)) { fs.renameSync(oldShortcut, newShortcut); movedShortcut = true }
+      persistCloneConfig(nextCfg)
+      if (!fs.existsSync(cloneEngine)) throw new Error('ไม่พบ clone engine สำหรับสร้างแอปด้วยชื่อใหม่')
+      await runFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', cloneEngine, '--rebuild-all', '--clone-only', '--clone-root', cloneRoot])
+      progress(`เปลี่ยนชื่อโคลนเป็น ${name} สำเร็จ`, 'success')
       return { message: `เปลี่ยนชื่อเป็น ${name} แล้ว โปรไฟล์เดิมถูกเก็บไว้` }
     } catch (error) {
-      c.Name = oldName; c.Profile = path.basename(oldProfile)
-      try { persistCloneConfig(cfg) } catch {}
+      try { if (movedShortcut && fs.existsSync(newShortcut)) fs.renameSync(newShortcut, oldShortcut) } catch {}
+      try { if (movedProfile && fs.existsSync(newProfile)) fs.renameSync(newProfile, oldProfile) } catch {}
+      try { if (movedApp && fs.existsSync(newDir)) fs.renameSync(newDir, oldDir) } catch {}
+      try { persistCloneConfig(cfg) } catch (rollbackError) { recordLog(`คืนทะเบียนโคลนหลังเปลี่ยนชื่อไม่สำเร็จ: ${rollbackError.message}`, 'error') }
       throw error
     }
   }
@@ -252,7 +318,7 @@ async function updateFetch(url, options = {}) {
   catch (error) {
     const causeCode = error?.cause?.code || error?.cause?.cause?.code
     const detail = causeCode ? ` (${causeCode})` : ''
-    throw new Error(`เชื่อมต่อ GitHub ไม่สำเร็จ${detail}: ตรวจสอบอินเทอร์เน็ตหรือ Proxy แล้วลองใหม่`, { cause: error })
+    throw new Error(`เชื่อมต่อเซิร์ฟเวอร์อัปเดตไม่สำเร็จ${detail}: ตรวจสอบอินเทอร์เน็ตหรือ Proxy แล้วลองใหม่`, { cause: error })
   }
 }
 async function latestRelease() {
@@ -261,6 +327,19 @@ async function latestRelease() {
   const release = await response.json()
   cachedRelease = release
   return release
+}
+async function latestDesktopUpdate() {
+  const response = await updateFetch(DESKTOP_UPDATE_URL, { headers: { 'User-Agent': 'Freebuff-Manager' }, redirect: 'follow' })
+  if (!response.ok) throw new Error(`เซิร์ฟเวอร์อัปเดต Freebuff ตอบกลับ ${response.status}`)
+  const text = await response.text()
+  const value = key => text.match(new RegExp(`^${key}:\\s*(.+)$`, 'm'))?.[1]?.trim().replace(/^['"]|['"]$/g, '')
+  const version = value('version'), file = value('path')
+  const digest = value('sha512') || text.match(/^\s+sha512:\s*(.+)$/m)?.[1]?.trim()
+  const size = Number(value('size') || text.match(/^\s+size:\s*(\d+)$/m)?.[1] || 0)
+  if (!version || !file || !digest || !/^[\w.-]+\.exe$/i.test(file)) throw new Error('ข้อมูล latest.yml ของ Freebuff ไม่ครบหรือไม่ถูกต้อง')
+  const update = { version: normalizedVersion(version), file, digest, size, url: new URL(file, response.url).href }
+  cachedDesktopUpdate = update
+  return update
 }
 function normalizedVersion(value) { return String(value || '').replace(/^[^\d]*/, '').replace(/[^\d.].*$/, '') || '0.0.0' }
 function newer(a, b) {
@@ -286,38 +365,126 @@ async function downloadVerified(asset, destination) {
   if (actual !== expected) throw new Error('SHA-256 ไม่ตรงกับ GitHub Release จึงยกเลิกการติดตั้ง')
   fs.writeFileSync(destination, data)
 }
+async function downloadDesktopVerified(update, destination) {
+  progress(`กำลังดาวน์โหลด Freebuff ${update.version}${update.size ? ` (${Math.round(update.size / 1024 / 1024)} MB)` : ''}`)
+  const response = await updateFetch(update.url, { headers: { 'User-Agent': 'Freebuff-Manager' }, redirect: 'follow' })
+  if (!response.ok) throw new Error(`ดาวน์โหลด Freebuff ไม่สำเร็จ (${response.status})`)
+  const hash = crypto.createHash('sha512')
+  await pipeline(Readable.fromWeb(response.body), new Transform({ transform(chunk, _encoding, callback) { hash.update(chunk); callback(null, chunk) } }), fs.createWriteStream(destination))
+  const actual = hash.digest('base64')
+  const actualSize = fs.statSync(destination).size
+  if (update.size && actualSize !== update.size) throw new Error('ขนาดไฟล์ Freebuff ไม่ตรงกับ latest.yml')
+  if (actual !== update.digest) throw new Error('SHA-512 ของ Freebuff ไม่ตรงกับ latest.yml จึงยกเลิกการติดตั้ง')
+  progress(`ดาวน์โหลด Freebuff ${Math.round(actualSize / 1024 / 1024)} MB และตรวจ SHA-512 ผ่านแล้ว`, 'success')
+}
+async function verifyDesktopSignature(installer) {
+  progress('กำลังตรวจลายเซ็นผู้เผยแพร่ Freebuff')
+  const script = `$sig = Get-AuthenticodeSignature -LiteralPath ${powershellLiteral(installer)}; [pscustomobject]@{ Status=$sig.Status.ToString(); Subject=$sig.SignerCertificate.Subject } | ConvertTo-Json -Compress`
+  const raw = await runFile('powershell.exe', ['-NoProfile', '-Command', script])
+  let signature
+  try { signature = JSON.parse(raw) } catch { throw new Error('อ่านผลตรวจลายเซ็น Freebuff ไม่สำเร็จ') }
+  if (signature.Status !== 'Valid' || !String(signature.Subject).includes(DESKTOP_PUBLISHER)) throw new Error('ลายเซ็น Freebuff ไม่ถูกต้องหรือผู้เผยแพร่ไม่ตรง จึงยกเลิกการติดตั้ง')
+  progress(`ลายเซ็นถูกต้อง: ${DESKTOP_PUBLISHER}`, 'success')
+}
+async function installDesktopUpdate(update, temp) {
+  await ensureFreebuffClosed()
+  const installer = path.join(temp, update.file)
+  await downloadDesktopVerified(update, installer)
+  await verifyDesktopSignature(installer)
+  progress(`กำลังอัปเดตแอปหลัก Freebuff → ${update.version}`)
+  await runFile(installer, ['--updated', '/S', `/D=${mainApp}`], { timeout: 30 * 60 * 1000, maxBuffer: 8 * 1024 * 1024 })
+  const installed = fileVersion(path.join(mainApp, 'Freebuff.exe'))
+  if (normalizedVersion(installed) !== normalizedVersion(update.version)) throw new Error(`ตัวติดตั้งจบแล้ว แต่เวอร์ชันแอปหลักเป็น ${installed} (คาด ${update.version})`)
+  progress(`อัปเดตแอปหลักสำเร็จ · Freebuff ${installed}`, 'success')
+}
 ipcMain.handle('check-updates', async () => {
-  recordLog('กำลังตรวจสอบเวอร์ชันและอัปเดต')
+  progress('กำลังตรวจสอบเวอร์ชัน Freebuff, Mod ภาษาไทย และ Manager')
   const release = await latestRelease(), found = classifyAssets(release)
-  recordLog(`ตรวจเวอร์ชันแล้ว: Manager ${found.managerVersion}, ภาษาไทย ${found.languageVersion}`)
-  return { repository: UPDATE_REPO, notes: release.body || '',
+  const desktopUpdate = await latestDesktopUpdate()
+  const languageState = await currentLanguageState()
+  const currentDesktop = fileVersion(path.join(mainApp, 'Freebuff.exe'))
+  const clones = listClones()
+  const managerAvailable = !!found.manager && newer(found.managerVersion, app.getVersion())
+  const languageAvailable = !!found.language && (newer(found.languageVersion, LANGUAGE_VERSION) || languageState.stale)
+  const desktopAvailable = fs.existsSync(path.join(mainApp, 'Freebuff.exe')) && newer(desktopUpdate.version, currentDesktop)
+  progress(`ตรวจเสร็จ · Freebuff ${currentDesktop}${desktopAvailable ? ` → ${desktopUpdate.version}` : ''} · ภาษาไทย ${languageState.current}${languageAvailable ? ` → ${found.languageVersion}` : ''} · Manager ${app.getVersion()}${managerAvailable ? ` → ${found.managerVersion}` : ''}`, 'success')
+  return { repository: UPDATE_REPO, notes: release.body || '', syncClones: clones.length > 0 && (desktopAvailable || clones.some(c => c.installed && fileVersion(path.join(c.AppRoot || cloneRoot, c.Name, 'Freebuff.exe')) !== currentDesktop)),
+    desktop: { current: currentDesktop, latest: desktopUpdate.version, available: desktopAvailable },
     manager: { current: app.getVersion(), latest: found.managerVersion, available: !!found.manager && newer(found.managerVersion, app.getVersion()) },
-    language: { current: LANGUAGE_VERSION, latest: found.languageVersion, available: !!found.language && newer(found.languageVersion, LANGUAGE_VERSION) } }
+    language: { current: languageState.current, latest: found.languageVersion, available: languageAvailable } }
 })
-ipcMain.handle('install-update', async (_e, kind) => {
-  recordLog(`เริ่มอัปเดต ${kind === 'language' ? 'ภาษาไทย' : 'Manager'}`)
-  const release = cachedRelease || await latestRelease(), found = classifyAssets(release)
-  const temp = fs.mkdtempSync(path.join(app.getPath('temp'), 'freebuff-manager-update-'))
-  if (kind === 'language') {
-    const zip = path.join(temp, found.language?.name || 'language.zip')
-    await downloadVerified(found.language, zip)
-    const unpacked = path.join(temp, 'language')
-    const expandCommand = `Expand-Archive -LiteralPath ${powershellLiteral(zip)} -DestinationPath ${powershellLiteral(unpacked)} -Force`
-    await runFile('powershell.exe', ['-NoProfile', '-Command', expandCommand])
-    const candidates = [path.join(unpacked, 'payload', 'fbth', 'fbth.js'), path.join(unpacked, 'Freebuff-Thai-Pack', 'payload', 'fbth', 'fbth.js')]
-    const updater = candidates.find(p => fs.existsSync(p))
-    if (!updater) throw new Error('ไม่พบ payload/fbth/fbth.js ใน Language Pack')
-    const message = await runFile(nodeRunner(), [updater, 'install'])
-    return { message: 'อัปเดต Mod ภาษาไทยสำเร็จ\n\n' + message, restart: false }
+ipcMain.handle('update-all', async () => {
+  if (operationActive) throw new Error('มีงานกำลังทำอยู่ กรุณารอให้เสร็จก่อน')
+  operationActive = true
+  let temp = null, preserveTemp = false
+  progress('เริ่มกระบวนการอัปเดตทั้งหมด')
+  try {
+    await ensureFreebuffClosed()
+    const release = cachedRelease || await latestRelease(), found = classifyAssets(release)
+    const desktopUpdate = cachedDesktopUpdate || await latestDesktopUpdate()
+    temp = fs.mkdtempSync(path.join(app.getPath('temp'), 'freebuff-manager-update-'))
+    const currentDesktop = fileVersion(path.join(mainApp, 'Freebuff.exe'))
+    if (newer(desktopUpdate.version, currentDesktop)) await installDesktopUpdate(desktopUpdate, temp)
+    else progress(`แอปหลักเป็นเวอร์ชันล่าสุด (${currentDesktop})`, 'success')
+
+    progress('กำลังซิงก์แอปหลักเวอร์ชันปัจจุบันไปยังโคลน')
+    if (listClones().length) {
+      if (!fs.existsSync(cloneEngine)) throw new Error('ไม่พบ clone engine ในแพ็กเกจ')
+      try { await runFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', cloneEngine, '--rebuild-all', '--clone-only', '--clone-root', cloneRoot]) }
+      catch (error) {
+        const raw = await runFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', cloneEngine, '--list-json', '--clone-only', '--clone-root', cloneRoot])
+        const parsed = JSON.parse(raw || '{}'), foundClones = Array.isArray(parsed.clones) ? parsed.clones : parsed.clones ? [parsed.clones] : []
+        if (!foundClones.length) throw error
+        const previous = readJson(cloneConfig, null)
+        const merged = new Map([...(previous?.clones || []), ...foundClones.map(c => ({ ...c, AppRoot: c.AppRoot || cloneRoot, ProfileRoot: c.ProfileRoot || cloneRoot }))].map(c => [c.Name.toLocaleLowerCase(), c]))
+        persistCloneConfig({ clones: [...merged.values()] })
+        await runFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', cloneEngine, '--rebuild-all', '--clone-only', '--clone-root', cloneRoot])
+      }
+      progress(`ซิงก์โคลน ${listClones().length} รายการสำเร็จ`, 'success')
+    } else progress('ยังไม่มีโคลนให้ซิงก์', 'info')
+
+    if (found.language) {
+      progress(`กำลังดาวน์โหลด Mod ภาษาไทย ${found.languageVersion}`)
+      const zip = path.join(temp, found.language.name)
+      await downloadVerified(found.language, zip)
+      progress('ตรวจ SHA-256 ของ Language Pack ผ่านแล้ว', 'success')
+      progress('กำลังแตกและติดตั้งภาษาไทยให้แอปหลักและโคลน')
+      const unpacked = path.join(temp, 'language')
+      await runFile('powershell.exe', ['-NoProfile', '-Command', `Expand-Archive -LiteralPath ${powershellLiteral(zip)} -DestinationPath ${powershellLiteral(unpacked)} -Force`])
+      const candidates = [path.join(unpacked, 'payload', 'fbth', 'fbth.js'), path.join(unpacked, 'Freebuff-Thai-Pack', 'payload', 'fbth', 'fbth.js')]
+      const updater = candidates.find(p => fs.existsSync(p))
+      if (!updater) throw new Error('ไม่พบ payload/fbth/fbth.js ใน Language Pack')
+      await runFile(nodeRunner(), [updater, 'install'])
+      progress('ติดตั้ง Mod ภาษาไทยให้แอปหลักและโคลนสำเร็จ', 'success')
+    } else {
+      progress('Release ไม่มี Language Pack จึงใช้ Mod ภาษาไทยที่มากับ Manager', 'info')
+      await runFbth('install')
+      progress('ซิงก์ Mod ภาษาไทยที่มากับ Manager สำเร็จ', 'success')
+    }
+
+    if (found.manager && newer(found.managerVersion, app.getVersion())) {
+      progress(`กำลังดาวน์โหลดและตรวจ SHA-256 ของ Manager ${found.managerVersion}`)
+      const installer = path.join(temp, found.manager.name)
+      await downloadVerified(found.manager, installer)
+      progress('กำลังเปิดตัวติดตั้ง Manager รุ่นใหม่')
+      const child = spawn(installer, [], { detached: true, stdio: 'ignore', windowsHide: true })
+      await new Promise((resolve, reject) => { child.once('error', reject); child.once('spawn', resolve) })
+      child.once('close', () => { try { fs.rmSync(temp, { recursive: true, force: true }) } catch {} })
+      child.unref()
+      preserveTemp = true
+      progress('เปิดตัวติดตั้ง Manager แล้ว', 'success')
+      setTimeout(() => app.quit(), 800)
+      return { message: `เริ่มติดตั้ง Manager ${found.managerVersion} แล้ว`, restart: true }
+    }
+    progress('อัปเดตครบทุกส่วนแล้ว', 'success')
+    return { message: 'อัปเดตแอปหลัก โคลน และภาษาไทยครบแล้ว', restart: false }
+  } catch (error) {
+    progress(`อัปเดตไม่สำเร็จ: ${error.message}`, 'error')
+    throw error
+  } finally {
+    if (temp && !preserveTemp) { try { fs.rmSync(temp, { recursive: true, force: true }) } catch (error) { recordLog(`ลบไฟล์อัปเดตชั่วคราวไม่สำเร็จ: ${error.message}`, 'error') } }
+    operationActive = false
   }
-  if (kind === 'manager') {
-    const installer = path.join(temp, found.manager?.name || 'Freebuff-Manager-Setup.exe')
-    await downloadVerified(found.manager, installer)
-    spawn(installer, [], { detached: true, stdio: 'ignore' }).unref()
-    setTimeout(() => app.quit(), 800)
-    return { message: 'กำลังเปิดตัวติดตั้ง Manager รุ่นใหม่…', restart: true }
-  }
-  throw new Error('ประเภทอัปเดตไม่ถูกต้อง')
 })
-app.whenReady().then(() => { createWindow(); app.on('activate', () => { if (!BrowserWindow.getAllWindows().length) createWindow() }) })
+app.whenReady().then(() => { cleanupAbandonedUpdateFolders(); createWindow(); app.on('activate', () => { if (!BrowserWindow.getAllWindows().length) createWindow() }) })
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit() })

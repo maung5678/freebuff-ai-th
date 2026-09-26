@@ -3,6 +3,7 @@ Add-Type -AssemblyName System.Drawing
 
 $rebuildAll = $args -contains '--rebuild-all'
 $listOnly = $args -contains '--list-json'
+$isolated = $args -contains '--isolated'
 $cloneRootOverride = $null
 for ($i = 0; $i -lt $args.Count; $i++) { if ($args[$i] -eq '--clone-root' -and $i + 1 -lt $args.Count) { $cloneRootOverride = $args[$i + 1] } }
 
@@ -30,7 +31,7 @@ function Get-CloneConfig {
 function Get-DiscoveredCloneConfig {
     $config = Get-CloneConfig
     $known = @{}; foreach ($c in @($config.clones)) { if ($c.Name) { $known[$c.Name.ToLowerInvariant()] = $true } }
-    $scanRoots = @($cloneRoot, (Join-Path $env:LOCALAPPDATA 'Freebuff-Clones'), 'D:\This PC\Ai\clone Freebuff') | Select-Object -Unique
+    $scanRoots = if ($isolated) { @($cloneRoot) } else { @($cloneRoot, (Join-Path $env:LOCALAPPDATA 'Freebuff-Clones'), 'D:\This PC\Ai\clone Freebuff') | Select-Object -Unique }
     foreach ($scanRoot in $scanRoots) {
     if (Test-Path -LiteralPath $scanRoot) {
         foreach ($dir in Get-ChildItem -LiteralPath $scanRoot -Directory) {
@@ -119,7 +120,16 @@ function Build-SingleClone {
     param($clone)
     $src = "$env:LOCALAPPDATA\Programs\@codebufffreebuff-desktop"
     $bun = "$src\resources\bun\bun.exe"
-    $chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+    $browserPaths = @(
+        "$env:ProgramFiles\Google\Chrome\Application\chrome.exe",
+        "${env:ProgramFiles(x86)}\Google\Chrome\Application\chrome.exe",
+        "$env:LOCALAPPDATA\Google\Chrome\Application\chrome.exe",
+        "$env:ProgramFiles\Microsoft\Edge\Application\msedge.exe",
+        "${env:ProgramFiles(x86)}\Microsoft\Edge\Application\msedge.exe",
+        "$env:LOCALAPPDATA\Microsoft\Edge\Application\msedge.exe"
+    )
+    $chromePath = $browserPaths | Where-Object { $_ -and (Test-Path -LiteralPath $_) } | Select-Object -First 1
+    if (-not $chromePath) { throw 'ไม่พบ Chrome หรือ Edge สำหรับเปิดลิงก์ของโคลนด้วยโปรไฟล์แยก' }
 
     $appRoot = if ($clone.AppRoot) { $clone.AppRoot } else { $cloneRoot }
     $profileRoot = if ($clone.ProfileRoot) { $clone.ProfileRoot } else { $cloneRoot }
@@ -198,29 +208,6 @@ function Build-SingleClone {
 
     $mainCjs = Join-Path $appDir 'electron\main.cjs'
     $content = Get-Content -LiteralPath $mainCjs -Raw
-    if ($cloneEngineOnly) {
-        $buildDir = Join-Path $appDir 'build'
-        if (-not (Test-Path $buildDir)) { New-Item -ItemType Directory -Path $buildDir -Force | Out-Null }
-        $iconPng = Join-Path $buildDir 'clone-icon.png'; $iconIco = Join-Path $buildDir 'clone-icon.ico'
-        New-LetterIcon -Letter $letter -PngPath $iconPng -IcoPath $iconIco
-        $jsCloneName = ($clone.Name -replace '\\', '\\\\' -replace "'", "\\'")
-        $content = $content -replace "app\.setName\('Freebuff'\)", "app.setName('$jsCloneName')"
-        $content = $content -replace "app\.setAppUserModelId\('com\.freebuff\.desktop'\)", "app.setAppUserModelId('com.freebuff.desktop.$($clone.Id)')"
-        $content = $content -replace "title: 'Freebuff',", "title: '$jsCloneName',"
-        $content = $content -replace "const APP_ICON_PATH = path\.join\(PKG_DIR, 'build', 'icon\.png'\)", "const APP_ICON_PATH = path.join(PKG_DIR, 'build', 'clone-icon.png')"
-        Set-Content -LiteralPath $mainCjs -Value $content -Encoding UTF8
-        Remove-Item -LiteralPath $asarPath -Force -ErrorAction SilentlyContinue
-        & $bun x '@electron/asar' pack $appDir $asarPath
-        if ($LASTEXITCODE -ne 0) { return $false }
-        $launchCmd = Join-Path $cloneDir "Launch $($clone.Name).cmd"
-        $cmd = "@echo off`ntitle $($clone.Name)`nset `"FREEBUFF_CLONE_DISABLE_UPDATER=1`"`nset `"FREEBUFF_DESKTOP_STATE_PATH=$profileDir\desktop-state.json`"`nstart `"`" `"$cloneDir\Freebuff.exe`" --user-data-dir=`"$profileDir`""
-        Set-Content -LiteralPath $launchCmd -Value $cmd -Encoding ASCII
-        $shell = New-Object -ComObject WScript.Shell
-        $sc = $shell.CreateShortcut((Join-Path $cloneRoot "$($clone.Name).lnk"))
-        $sc.TargetPath=$launchCmd; $sc.WorkingDirectory=$cloneDir; $sc.Description="Launch $($clone.Name)"; $sc.IconLocation="$iconIco,0"; $sc.Save()
-        return $true
-    }
-
     # Render a simple local letter icon; no downloaded or generated artwork is needed.
     $buildDir = Join-Path $appDir 'build'
     if (-not (Test-Path $buildDir)) { New-Item -ItemType Directory -Path $buildDir -Force | Out-Null }
@@ -239,6 +226,9 @@ function Build-SingleClone {
     $constantsJS += "const FREEBUFF_CLONE_BROWSER_PROFILE = '$jsProfile'`n"
     $constantsJS += "// === END FREEBUFF CLONE CONSTANTS ===`n"
     $content = $content -replace "(const \{[\s\S]*?NO_SANDBOX,[\s\S]*?\} = require\('./linux-launch\.cjs'\))", "`$1$constantsJS"
+    if ($content -notmatch 'const FREEBUFF_CLONE_NAME' -or $content -notmatch 'const FREEBUFF_CLONE_BROWSER_PROFILE') {
+        throw 'แทรกค่าชื่อโคลนและโปรไฟล์เบราว์เซอร์ไม่สำเร็จ; แอปต้นทางอาจเปลี่ยนโครงสร้าง'
+    }
 
     $newOE = @'
 
@@ -276,6 +266,9 @@ async function openExternal(url) {
 // === END FREEBUFF CLONE PATCH: openExternal ===
 '@
     $content = $content -replace '(?s)/\*\* Hand an off-origin link.*?async function openExternal\(url\) \{.*?\n\}', $newOE
+    if ($content -notmatch 'const FREEBUFF_CLONE_BROWSER_PROFILE' -or $content -notmatch 'FREEBUFF CLONE PATCH: openExternal') {
+        throw 'ปรับ openExternal สำหรับเบราว์เซอร์และโปรไฟล์แยกไม่สำเร็จ; แอปต้นทางอาจเปลี่ยนโครงสร้าง'
+    }
 
     $newHandlers = @'
   // === FREEBUFF CLONE PATCH: navigation interceptors ===
@@ -300,6 +293,10 @@ async function openExternal(url) {
 
     $content = $content -replace "ipcMain\.handle\('shell:openExternal', \(_event, url\) => openExternal\(url\)\)",
         "`n// === FREEBUFF CLONE PATCH: IPC ===`nipcMain.handle('shell:openExternal', (_event, url) => { cloneLog('IPC: ' + url); return openExternal(url) })`n// === END ==="
+
+    if ($content -notmatch 'FREEBUFF CLONE PATCH: navigation interceptors' -or $content -notmatch 'FREEBUFF CLONE PATCH: IPC') {
+        throw 'ติดตั้งตัวดักลิงก์ของโคลนไม่สำเร็จ; แอปต้นทางอาจเปลี่ยนโครงสร้าง'
+    }
 
     $content = $content -replace "app\.setName\('Freebuff'\)", "app.setName('$jsCloneName')"
     $content = $content -replace "app\.setAppUserModelId\('com\.freebuff\.desktop'\)", "app.setAppUserModelId('com.freebuff.desktop.$($clone.Id)')"

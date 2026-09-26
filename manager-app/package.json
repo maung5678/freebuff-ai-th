@@ -1,6 +1,6 @@
 {
   "name": "freebuff-manager",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Modern manager for Freebuff Desktop, Thai language pack and isolated clones",
   "main": "src/main.cjs",
   "author": "Freebuff AI TH",
