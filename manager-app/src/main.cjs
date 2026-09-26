@@ -125,6 +125,12 @@ function cleanupAbandonedUpdateFolders() {
   } catch (error) { recordLog(`ลบไฟล์อัปเดตเก่าที่ค้างไม่สำเร็จ: ${error.message}`, 'error'); return }
   if (removed) recordLog(`ล้างโฟลเดอร์อัปเดตเก่าที่ค้าง ${removed} รายการแล้ว`, 'success')
 }
+async function ensureCloneClosed(appDir, profileDir) {
+  const script = String.raw`$ErrorActionPreference='Stop'; $root=$env:FBTH_TARGET_APP.TrimEnd('\')+'\'; $profile=$env:FBTH_TARGET_PROFILE; @(Get-CimInstance Win32_Process | Where-Object { ($_.ExecutablePath -and $_.ExecutablePath.StartsWith($root,[StringComparison]::OrdinalIgnoreCase)) -or ($_.Name -match '^(chrome|msedge|bun|node)\.exe$' -and $_.CommandLine -and $_.CommandLine.IndexOf($profile,[StringComparison]::OrdinalIgnoreCase) -ge 0) } | ForEach-Object { $_.Name }) | ConvertTo-Json -Compress`
+  const raw = await runFile('powershell.exe', ['-NoProfile', '-Command', script], { quietOutput: true, env: { ...process.env, FBTH_TARGET_APP: appDir, FBTH_TARGET_PROFILE: profileDir } })
+  const parsed = JSON.parse(raw || '[]'), running = Array.isArray(parsed) ? parsed : parsed ? [parsed] : []
+  if (running.length) throw new Error(`กรุณาปิด ${path.basename(appDir)} และหน้าต่างเบราว์เซอร์ของโคลนนี้ก่อน แล้วลองอีกครั้ง (${[...new Set(running)].join(', ')})`)
+}
 async function ensureFreebuffClosed() {
   const checkProcesses = String.raw`$roots = @((Join-Path $env:LOCALAPPDATA 'Programs\@codebufffreebuff-desktop'), (Join-Path $env:LOCALAPPDATA 'Freebuff-Clones'), 'D:\This PC\Ai\clone Freebuff'); Get-CimInstance Win32_Process -Filter "Name='Freebuff.exe'" | Where-Object { $p=$_.ExecutablePath; $p -and ($roots | Where-Object { $p.StartsWith($_, [StringComparison]::OrdinalIgnoreCase) }) } | ForEach-Object { $_.ExecutablePath } | ConvertTo-Json -Compress`
   const raw = await runFile('powershell.exe', ['-NoProfile', '-Command', checkProcesses])
@@ -149,6 +155,9 @@ ipcMain.handle('overview', async () => ({ clones: listClones(), mainInstalled: f
 ipcMain.handle('activity-log', async () => activityLog)
 ipcMain.handle('record-error', async (_e, message) => { recordLog(message, 'error'); return true })
 ipcMain.handle('run', async (_e, action, payload = {}) => {
+  if (operationActive) throw new Error('กำลังทำงานอยู่ กรุณารอให้เสร็จก่อน')
+  operationActive = true
+  try {
   recordLog(`รับคำสั่ง: ${action}${payload?.name ? ` · ${payload.name}` : ''}`)
   if (action === 'language-install') return { message: await runFbth('install') }
   if (action === 'language-status') return { message: await runFbth('status') }
@@ -183,11 +192,14 @@ ipcMain.handle('run', async (_e, action, payload = {}) => {
     if (!targets[0].startsWith(appRootPath) || targets[0] === path.resolve(base) || !targets[1].startsWith(profileRootPath) || targets[1] === path.resolve(profileRoot)) throw new Error('เส้นทางไม่ปลอดภัย จึงยกเลิกการลบ')
     const appExe = path.join(targets[0], 'Freebuff.exe')
     const confirmedApp = fs.existsSync(path.join(targets[0], 'resources', 'app.asar')) || fs.existsSync(appExe)
-    if (!confirmedApp) throw new Error('ไม่พบไฟล์แอปของโคลน จึงไม่ลบโฟลเดอร์ที่ไม่ยืนยัน')
-    await ensureFreebuffClosed()
+    const registered = (cfg.clones || []).some(c => c.Name === match.Name)
+    if (!confirmedApp && !registered) throw new Error('ไม่พบไฟล์แอปของโคลน จึงไม่ลบโฟลเดอร์ที่ไม่ยืนยัน')
+    await ensureCloneClosed(targets[0], targets[1])
     progress(`กำลังลบแอปและโปรไฟล์ ${match.Name}`)
-    fs.rmSync(targets[0], { recursive: true, force: true })
-    fs.rmSync(targets[1], { recursive: true, force: true })
+    try {
+      await fs.promises.rm(targets[0], { recursive: true, force: true, maxRetries: 4, retryDelay: 250 })
+      await fs.promises.rm(targets[1], { recursive: true, force: true, maxRetries: 4, retryDelay: 250 })
+    } catch (error) { throw new Error(`ลบ ${match.Name} ไม่ครบ: กรุณาปิดแอป/เบราว์เซอร์และหน้าต่างที่ใช้โฟลเดอร์ของโคลนนี้ แล้วลองอีกครั้ง (${error.code || error.message})`) }
     cfg.clones = (cfg.clones || []).filter(c => c?.Name !== payload.name)
     fs.rmSync(path.join(cloneRoot, `${match.Name}.lnk`), { force: true })
     fs.rmSync(path.join(resolvedBase, `${match.Name}.lnk`), { force: true })
@@ -239,7 +251,6 @@ ipcMain.handle('run', async (_e, action, payload = {}) => {
   }
   if (action === 'add-clone') {
     if (!fs.existsSync(cloneEngine)) throw new Error('ไม่พบ clone engine ในแพ็กเกจ')
-    await ensureFreebuffClosed()
     const name = String(payload.name || '').trim()
     if (!/^Freebuff\s+[A-Za-z0-9][A-Za-z0-9 _-]{0,30}$/.test(name)) throw new Error('ชื่อควรขึ้นต้นด้วย Freebuff และใช้ตัวอักษร/ตัวเลขเท่านั้น')
     if (listClones().some(c => c.Name.toLocaleLowerCase() === name.toLocaleLowerCase())) throw new Error('มีชื่อนี้อยู่แล้ว')
@@ -256,7 +267,7 @@ ipcMain.handle('run', async (_e, action, payload = {}) => {
     cfg.clones = [...cfg.clones, ...listClones().filter(c => c.AppRoot === legacyCloneRoot && !existing.has(c.Name.toLocaleLowerCase())).map(c => ({ ...c, AppRoot: legacyCloneRoot, ProfileRoot: legacyCloneRoot }))]
     persistCloneConfig(cfg)
     try {
-      const message = await runFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', cloneEngine, '--rebuild-all', '--clone-only', '--clone-root', cloneRoot])
+      const message = await runFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', cloneEngine, '--rebuild-all', '--clone-only', '--clone-root', cloneRoot, '--clone-name', name])
       if (!fs.existsSync(path.join(newAppDir, 'Freebuff.exe')) || !fs.existsSync(path.join(newAppDir, 'resources', 'app.asar'))) throw new Error('clone engine จบการทำงานแต่ไม่พบไฟล์แอปโคลนที่สร้าง')
       progress(`สร้างโคลน ${name} สำเร็จ`, 'success')
       return { message }
@@ -277,13 +288,13 @@ ipcMain.handle('run', async (_e, action, payload = {}) => {
     const root = path.resolve(discovered.AppRoot || cloneRoot)
     const profileRoot = path.resolve(discovered.ProfileRoot || (root.toLocaleLowerCase() === path.resolve(legacyCloneRoot).toLocaleLowerCase() ? legacyCloneRoot : cloneRoot))
     if (!roots.includes(root.toLocaleLowerCase()) || !roots.includes(profileRoot.toLocaleLowerCase())) throw new Error('ตำแหน่งโคลนไม่อยู่ในโฟลเดอร์ที่ Manager ดูแล จึงยกเลิกการเปลี่ยนชื่อ')
-    await ensureFreebuffClosed()
     progress(`กำลังเปลี่ยนชื่อ ${oldName} เป็น ${name}`)
     const oldProfileName = discovered.Profile || `${oldName} Profile`, newProfileName = `${name} Profile`
     const oldProfile = path.resolve(profileRoot, oldProfileName), newProfile = path.resolve(profileRoot, newProfileName)
     const oldDir = path.resolve(root, discovered.Name), newDir = path.resolve(root, name)
     const isChild = (parent, target) => { const rel = path.relative(parent, target); return !!rel && rel !== '..' && !rel.startsWith(`..${path.sep}`) && !path.isAbsolute(rel) }
     if (!isChild(root, oldDir) || !isChild(root, newDir) || !isChild(profileRoot, oldProfile) || !isChild(profileRoot, newProfile)) throw new Error('เส้นทางเปลี่ยนชื่อไม่ปลอดภัย จึงยกเลิก')
+    await ensureCloneClosed(oldDir, oldProfile)
     if (!fs.existsSync(path.join(oldDir, 'Freebuff.exe')) || !fs.existsSync(path.join(oldDir, 'resources', 'app.asar'))) throw new Error('ไฟล์แอปโคลนหายไป กรุณากดอัปเดตทั้งหมดเพื่อซ่อมก่อนเปลี่ยนชื่อ')
     if (fs.existsSync(newDir) || fs.existsSync(newProfile)) throw new Error('มีโฟลเดอร์แอปหรือโปรไฟล์ปลายทางอยู่แล้ว จึงไม่เปลี่ยนชื่อเพื่อป้องกันข้อมูลทับกัน')
     const oldShortcut = path.join(cloneRoot, `${oldName}.lnk`), newShortcut = path.join(cloneRoot, `${name}.lnk`)
@@ -293,25 +304,38 @@ ipcMain.handle('run', async (_e, action, payload = {}) => {
     const nextClones = oldClones.filter(c => c.Name?.toLocaleLowerCase() !== oldName.toLocaleLowerCase())
     nextClones.push(updatedConfig)
     const nextCfg = { ...cfg, clones: nextClones }
-    let movedApp = false, movedProfile = false, movedShortcut = false
+    const backupDir = path.join(root, `.manager-rename-${crypto.randomUUID()}`)
+    const backupShortcut = `${backupDir}.lnk`
+    let movedApp = false, movedProfile = false, movedShortcut = false, committed = false
     try {
-      fs.renameSync(oldDir, newDir); movedApp = true
+      fs.renameSync(oldDir, backupDir); movedApp = true
       if (fs.existsSync(oldProfile)) { fs.renameSync(oldProfile, newProfile); movedProfile = true }
-      if (fs.existsSync(oldShortcut) && !fs.existsSync(newShortcut)) { fs.renameSync(oldShortcut, newShortcut); movedShortcut = true }
+      if (fs.existsSync(oldShortcut)) { fs.renameSync(oldShortcut, backupShortcut); movedShortcut = true }
       persistCloneConfig(nextCfg)
       if (!fs.existsSync(cloneEngine)) throw new Error('ไม่พบ clone engine สำหรับสร้างแอปด้วยชื่อใหม่')
-      await runFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', cloneEngine, '--rebuild-all', '--clone-only', '--clone-root', cloneRoot])
+      await runFile('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', cloneEngine, '--rebuild-all', '--clone-only', '--clone-root', cloneRoot, '--clone-name', name])
+      if (!fs.existsSync(path.join(newDir, 'Freebuff.exe')) || !fs.existsSync(path.join(newDir, 'resources', 'app.asar'))) throw new Error('สร้างโคลนชื่อใหม่ไม่ครบ จึงคืนชื่อเดิม')
+      committed = true
       progress(`เปลี่ยนชื่อโคลนเป็น ${name} สำเร็จ`, 'success')
       return { message: `เปลี่ยนชื่อเป็น ${name} แล้ว โปรไฟล์เดิมถูกเก็บไว้` }
     } catch (error) {
-      try { if (movedShortcut && fs.existsSync(newShortcut)) fs.renameSync(newShortcut, oldShortcut) } catch {}
+      try { fs.rmSync(newShortcut, { force: true }); if (movedShortcut) fs.renameSync(backupShortcut, oldShortcut) }
+      catch (rollbackError) { recordLog(`คืนทางลัดไม่สำเร็จ: ${rollbackError.message}`, 'error') }
       try { if (movedProfile && fs.existsSync(newProfile)) fs.renameSync(newProfile, oldProfile) } catch {}
-      try { if (movedApp && fs.existsSync(newDir)) fs.renameSync(newDir, oldDir) } catch {}
+      try { if (movedApp) { fs.rmSync(newDir, { recursive: true, force: true }); fs.renameSync(backupDir, oldDir) } }
+      catch (rollbackError) { recordLog(`คืนโฟลเดอร์ไม่สำเร็จ เก็บแอปเดิมไว้ที่ ${backupDir}: ${rollbackError.message}`, 'error') }
       try { persistCloneConfig(cfg) } catch (rollbackError) { recordLog(`คืนทะเบียนโคลนหลังเปลี่ยนชื่อไม่สำเร็จ: ${rollbackError.message}`, 'error') }
       throw error
+    } finally {
+      if (committed && fs.existsSync(backupDir)) {
+        try { await fs.promises.rm(backupDir, { recursive: true, force: true, maxRetries: 4, retryDelay: 250 }); fs.rmSync(backupShortcut, { force: true }) }
+        catch (error) { recordLog(`เปลี่ยนชื่อแล้ว แต่ยังเก็บสำเนาแอปเก่าไว้ที่ ${backupDir}: ${error.message}`, 'error') }
+      }
     }
   }
   throw new Error('คำสั่งไม่รองรับ')
+  } catch (error) { recordLog(error.message, 'error'); throw error }
+  finally { operationActive = false }
 })
 async function updateFetch(url, options = {}) {
   try { return await fetch(url, { ...options, ...(updateDispatcher ? { dispatcher: updateDispatcher } : {}) }) }

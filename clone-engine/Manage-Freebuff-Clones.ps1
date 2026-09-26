@@ -5,6 +5,8 @@ $rebuildAll = $args -contains '--rebuild-all'
 $listOnly = $args -contains '--list-json'
 $isolated = $args -contains '--isolated'
 $cloneRootOverride = $null
+$cloneNameFilter = $null
+for ($i = 0; $i -lt $args.Count; $i++) { if ($args[$i] -eq '--clone-name' -and $i + 1 -lt $args.Count) { $cloneNameFilter = $args[$i + 1] } }
 for ($i = 0; $i -lt $args.Count; $i++) { if ($args[$i] -eq '--clone-root' -and $i + 1 -lt $args.Count) { $cloneRootOverride = $args[$i + 1] } }
 
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -330,8 +332,10 @@ async function openExternal(url) {
 
 if ($rebuildAll) {
     $config = Get-DiscoveredCloneConfig
+    $selectedClones = @($config.clones | Where-Object { -not $cloneNameFilter -or $_.Name -eq $cloneNameFilter })
+    if ($cloneNameFilter -and $selectedClones.Count -ne 1) { Write-Error 'Requested clone was not found uniquely'; exit 1 }
     $ok = 0
-    foreach ($clone in $config.clones) {
+    foreach ($clone in $selectedClones) {
         $letter = Get-CloneLetter $clone
         if (-not $letter) { $letter = Get-NextCloneLetter $config }
         if ($clone.Discovered) {
@@ -345,8 +349,8 @@ if ($rebuildAll) {
         if (Build-SingleClone $clone) { $ok++ }
     }
     Save-CloneConfig $config
-    Write-Host "Built $ok/$($config.clones.Count) clones."
-    exit $(if ($ok -eq $config.clones.Count) { 0 } else { 1 })
+    Write-Host "Built $ok/$($selectedClones.Count) clones."
+    exit $(if ($ok -eq $selectedClones.Count) { 0 } else { 1 })
 }
 
 if ($listOnly) {
