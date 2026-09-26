@@ -5,6 +5,11 @@
 
 ---
 
+## Freebuff Manager 0.2.6 — แก้สถานะ Thai Pack v6 และ encoding ของ clone engine (2026-09-26)
+
+- ปรับเวอร์ชันภาษาไทยปัจจุบันจาก `5.0.0` เป็น `6` ให้ตรงกับ Thai Pack v6 และไม่แจ้งอัปเดตซ้ำหลังติดตั้งสำเร็จ
+- บันทึก clone engine เป็น UTF-8 พร้อม BOM เพื่อให้ Windows PowerShell 5.1 อ่านข้อความไทยได้โดยไม่กลายเป็นอักขระเพี้ยนและเกิด parse error
+
 ## Freebuff Manager 0.2.5 — แก้การติดตั้ง Thai Pack จากหน้าอัปเดต (2026-09-26)
 
 - แก้คำสั่ง PowerShell แตก ZIP ให้ส่ง path เป็น literal ที่ quote ถูกต้อง รองรับช่องว่างและอัญประกาศเดี่ยวใน path
